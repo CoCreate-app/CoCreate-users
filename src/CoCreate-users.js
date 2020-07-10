@@ -1,5 +1,10 @@
 var permissionClass = 'checkPermission';
 var usersCollection = 'users';
+var orgCollection = "organizations";
+var createdUserId = "";
+var createdOrgId = "";
+
+
 var redirectClass = 'redirectLink';
 
 checkSession();
@@ -28,10 +33,8 @@ function initSocketsForUsers() {
   })
   
   CoCreateSocket.listen('usersCurrentOrg', function(data) {
-    console.log(data);
-    
+
     updatedCurrentOrg = true;
-    
     getOrg = true;
     
     localStorage.setItem('apiKey', data['apiKey']);
@@ -40,7 +43,14 @@ function initSocketsForUsers() {
     
     localStorage.setItem('adminUI_id', data['adminUI_id']);
     localStorage.setItem('builderUI_id', data['builderUI_id']);
-    
+
+    //. fire fetchedUsersCurrentOrg
+    var event = new CustomEvent('fetchedUsersCurrentOrg');
+    document.dispatchEvent(event);
+
+    if (data.href) {
+      window.location.href = data.href;
+    }
   })
 }
 
@@ -112,57 +122,44 @@ function initLoginForms() {
   var forms = document.querySelectorAll('form');
   
   for (var i=0; i < forms.length; i++) {
-    if (isLoginForm(forms[i])) initLoginForm(forms[i]);  
+    initLoginForm(forms[i]);
   }
 }
 
 function initLoginForm(form) {
-  console.log(form);
-  
-  var form_id = form.getAttribute('data-form_id');
-  
+
   var loginBtn = form.querySelector('.loginBtn');
+  
+  if (!loginBtn) return;
   
   loginBtn.addEventListener('click', function(e) {
     e.preventDefault();
+    e.stopPropagation();
+
+    let collection = form.getAttribute('data-collection') || 'module_activity';
+    let loginData = {};
     
-    console.log(this);
-    
-    var collection = form.getAttribute('data-search_collection') ? form.getAttribute('data-search_collection') : 'module_activity';
-    var search_module = form.getAttribute('data-search_module');
-    
-    console.log(collection, search_module);
-    
-    var loginData = new Object();
-    
-    var inputs = form.querySelectorAll('input, textarea');
-    console.log(inputs);
-    
-    for (var i=0; i<inputs.length; i++) {
-      var input = inputs[i];
-      var name = input.getAttribute('name');
-      var value = input.value;
-      
+    const inputs = form.querySelectorAll('input, textarea');
+
+    inputs.forEach((input) => {
+      const name = input.getAttribute('name');
+      let value = input.value;
       if (input.type == 'password') value = CoCreateUtils.encodeBase64(value);
+      collection = input.getAttribute('data-collection') || collection;
       
       if (name) {
         loginData[name] = value;
       }
-    }
+    })
     
     var json = {
       "apiKey": config.apiKey,
       "securityKey": config.securityKey,
       "organization_id": config.organization_Id,
-      "eId": form_id,
       "data-collection": collection,
       "loginData": loginData
     }
-    
-    if (collection == 'module_activity') json['data-module'] = search_module;
-    
-    console.log(json);
-    
+
     CoCreateSocket.send('login', json);
   })
 }
@@ -170,109 +167,61 @@ function initLoginForm(form) {
 function loginResult(data) {
   if (data.success) {
     localStorage.setItem('user_id', data['id']);
+    let href = "";
+    let aTag = document.querySelector("form .loginBtn a");
+    if (aTag) {
+      href = aTag.getAttribute('href');
+    }
     
-    
-    
-    // below code for getting keys
-    
-    getCurrentOrg(data['id']);
-    
-    var form_id = data['eId'];
-    
-    var timer = setInterval(function() {
-      if (getOrg) {
-        var form = document.querySelector("form[data-form_id='" + form_id + "']");
-    
-        //console.log(form);
-        
-        if (form) {
-          var loginBtn = form.querySelector('.loginBtn');
-          if (loginBtn) {
-            var aTag = loginBtn.querySelector('a');
-            
-            if (aTag) {
-              CoCreateLogic.setLinkProcess(aTag)
-              clearInterval(timer);
-            }
-          }
-        }
-      }
-    }, 100)
-    /// end code for getting keys
-    
-    
-    
-    //// login without keys
-    // var form_id = data['eId'];
-    
-    // var form = document.querySelector("form[data-form_id='" + form_id + "']");
-    
-    // console.log(form);
-    
-    // if (form) {
-    //   var loginBtn = form.querySelector('.loginBtn');
-    //   if (loginBtn) {
-    //     var aTag = loginBtn.querySelector('a');
-        
-    //     if (aTag) {
-    //       clickATaginButton(aTag);
-    //     }
-    //   }
-    // }
-    // end
-    
-    
+    getCurrentOrg(data['id'], data['collection'], href);
+
   } else {
     console.log("can't login");
   }
 }
 
-function getCurrentOrg(user_id) {
+function getCurrentOrg(user_id, collection, href) {
   var json = {
-    "data-collection": 'users',
-    "user_id": user_id
+    "data-collection": collection || usersCollection,
+    "user_id": user_id,
+    "href": href
   }
   
   CoCreateSocket.send('usersCurrentOrg', json);
 }
 
-function isLoginForm(form) {
-  var loginBtn= form.querySelector('.loginBtn');
-  
-  if (loginBtn) return true;
-  
-  return false;
-}
-
 function registerResult(data) {
 
-  var form_id = data['element'];
-  const document_id = data['document_id'];
-  
-  var form = document.querySelector("form[data-form_id='" + form_id + "']");
-  
-  if (form && isRegisterForm(form)) {
-    localStorage.setItem('user_id', document_id);
-    
-    var button = form.querySelector('.registerBtn');
-    
-    if (button) {
-      var aTag = button.querySelector('a');
-      
-      if (aTag) {
-        aTag.setAttribute('data-pass_document_id', document_id);
-        CoCreateLogic.setLinkProcess(aTag)
-      }
-    }
+  if (data['collection'] === orgCollection) {
+    createdOrgId = data['document_id'];
   }
-}
-
-function isRegisterForm(form) {
-  var registerBtn = form.querySelector('.registerBtn');
   
-  if (registerBtn) return true;
+  if (data['collection'] === usersCollection) {
+    createdUserId = data['document_id'];
+  }
   
-  return false;
+  if (createdOrgId && createdUserId) {
+    CoCreate.updateDocument({
+      broadcast: false,
+      collection: usersCollection,
+      document_id: createdUserId,
+      data: {
+        current_org: createdOrgId,
+        connected_orgs: [createdOrgId]
+      }
+    })
+    
+    return
+    
+    localStorage.setItem('user_id', createdUserId)
+    let aTag = document.querySelector(".registerBtn > a");
+    let href = "";
+    if (aTag) {
+      href= aTag.getAttribute("href");
+    }
+    
+    getCurrentOrg(createdUserId, usersCollection, href);
+  }
 }
 
 function initCurrentOrgEles() {
