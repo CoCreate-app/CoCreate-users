@@ -45,12 +45,15 @@ function initSocketsForUsers() {
     localStorage.setItem('builderUI_id', data['builderUI_id']);
 
     //. fire fetchedUsersCurrentOrg
-    var event = new CustomEvent('fetchedUsersCurrentOrg');
-    document.dispatchEvent(event);
+    document.dispatchEvent(new CustomEvent('fetchedUsersCurrentOrg'));
 
     if (data.href) {
       window.location.href = data.href;
     }
+  })
+  
+  CoCreate.listenMessage('changedUserStatus', function(data) {
+    changedUserStatus(data)
   })
 }
 
@@ -144,7 +147,9 @@ function initLoginForm(form) {
     inputs.forEach((input) => {
       const name = input.getAttribute('name');
       let value = input.value;
-      if (input.type == 'password') value = CoCreateUtils.encodeBase64(value);
+      if (input.type == 'password') {
+        value = btoa(value);
+      }
       collection = input.getAttribute('data-collection') || collection;
       
       if (name) {
@@ -210,17 +215,15 @@ function registerResult(data) {
         connected_orgs: [createdOrgId]
       }
     })
-    
-    return
-    
+
     localStorage.setItem('user_id', createdUserId)
-    let aTag = document.querySelector(".registerBtn > a");
-    let href = "";
-    if (aTag) {
-      href= aTag.getAttribute("href");
-    }
+    // let aTag = document.querySelector(".registerBtn > a");
+    // let href = "";
+    // if (aTag) {
+    //   href= aTag.getAttribute("href");
+    // }
     
-    getCurrentOrg(createdUserId, usersCollection, href);
+    getCurrentOrg(createdUserId, usersCollection, null);
   }
 }
 
@@ -280,31 +283,36 @@ function checkSession() {
   var user_id = localStorage.getItem('user_id');
   
   if (user_id) {
-    console.log(1)
     var redirectTag = document.querySelector('.sessionTrue');
-  
+
     if (redirectTag) {
-      console.log(2);
       let redirectLink = redirectTag.getAttribute('href');
       if (redirectLink) {
-        console.log(3);
         document.location.href = redirectLink
       } 
     }
   } else {
-    console.log(4);
     var redirectTag = document.querySelector('.sessionFalse');
   
     if (redirectTag) {
-      console.log(5);
       let redirectLink = redirectTag.getAttribute('href');
       if (redirectLink) {
-        console.log(6);
         localStorage.clear();
         document.location.href = redirectLink 
       }
     }
   }
+}
+
+function changedUserStatus(data) {
+  if (!data.user_id) {
+    return;
+  }
+  let statusEls = document.querySelectorAll(`[data-user_status][data-document_id='${data['user_id']}']`)
+  
+  statusEls.forEach((el) => {
+    el.setAttribute('data-user_status', data['status']);
+  })
 }
 
 
