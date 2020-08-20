@@ -185,6 +185,7 @@ function loginResult(data) {
   }
 }
 
+
 function getCurrentOrg(user_id, collection, href) {
   var json = {
     "data-collection": collection || usersCollection,
