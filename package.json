@@ -1,5 +1,5 @@
 {
-  "name": "CoCreate-users",
+  "name": "@CoCreate/users",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/CoCreate-app/CoCreate-users.git"
   },
-  "author": "Frank Pagan",
-  "license": "ISC",
+  "author": "CoCreate LLC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/CoCreate-app/CoCreate-users/issues"
   },

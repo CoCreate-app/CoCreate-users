@@ -170,6 +170,10 @@ function initLoginForm(form) {
 }
 
 function loginResult(data) {
+  const {success, status, message } = data;
+  
+  CoCreateRender.render("[data-template_id='afterLoginResponse']", data)
+
   if (data.success) {
     localStorage.setItem('user_id', data['id']);
     let href = "";
@@ -177,11 +181,11 @@ function loginResult(data) {
     if (aTag) {
       href = aTag.getAttribute('href');
     }
-    
     getCurrentOrg(data['id'], data['collection'], href);
 
   } else {
-    console.log("can't login");
+    //. render data
+    
   }
 }
 
@@ -194,6 +198,13 @@ function getCurrentOrg(user_id, collection, href) {
   }
   
   CoCreateSocket.send('usersCurrentOrg', json);
+}
+
+function userRegisterAction(el) {
+  if (!el) return;
+  var form = el.closest('form');
+  if (!form) return;
+  CoCreateDocument.requestDocumentIdOfForm(form);
 }
 
 function registerResult(data) {
@@ -214,7 +225,8 @@ function registerResult(data) {
       data: {
         current_org: createdOrgId,
         connected_orgs: [createdOrgId]
-      }
+      }, 
+      broadcast: false
     })
 
     localStorage.setItem('user_id', createdUserId)
@@ -243,11 +255,9 @@ function initCurrentOrgEles() {
     
     if (collection == 'users' && id == user_id) {
       orgChanger.addEventListener('selectedValue', function(e) {    
-        console.log(CoCreateSelect.getSelectValue(this));
-        
+
         setTimeout(function() {
           getCurrentOrg(user_id);
-          
           
           var timer = setInterval(function() {
             if (updatedCurrentOrg) {
@@ -315,5 +325,3 @@ function changedUserStatus(data) {
     el.setAttribute('data-user_status', data['status']);
   })
 }
-
-
