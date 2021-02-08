@@ -20,19 +20,19 @@ var updatedCurrentOrg = false;
 
 
 function initSocketsForUsers() {
-  CoCreateSocket.listen('fetchedUser', function(data) {
+  CoCreate.socket.listen('fetchedUser', function(data) {
     fetchedUser(data);
   })
   
-  CoCreateSocket.listen('login', function (data) {
+  CoCreate.socket.listen('login', function (data) {
     loginResult(data);
   })
   
-  CoCreateSocket.listen('createDocument', function(data) {
+  CoCreate.socket.listen('createDocument', function(data) {
     registerResult(data);
   })
   
-  CoCreateSocket.listen('usersCurrentOrg', function(data) {
+  CoCreate.socket.listen('usersCurrentOrg', function(data) {
 
     updatedCurrentOrg = true;
     getOrg = true;
@@ -52,7 +52,7 @@ function initSocketsForUsers() {
     }
   })
   
-  CoCreate.listenMessage('changedUserStatus', function(data) {
+  CoCreate.crud.listenMessage('changedUserStatus', function(data) {
     changedUserStatus(data)
   })
 }
@@ -70,7 +70,7 @@ function fetchUser() {
       "user_id": user_id
     }
     
-    CoCreateSocket.send('fetchUser', json);
+    CoCreate.socket.send('fetchUser', json);
   }
 }
 
@@ -165,14 +165,14 @@ function initLoginForm(form) {
       "loginData": loginData
     }
 
-    CoCreateSocket.send('login', json);
+    CoCreate.socket.send('login', json);
   })
 }
 
 function loginResult(data) {
   const {success, status, message } = data;
   
-  CoCreateRender.render("[data-template_id='afterLoginResponse']", data)
+  CoCreate.render.data("[data-template_id='afterLoginResponse']", data)
 
   if (data.success) {
     localStorage.setItem('user_id', data['id']);
@@ -197,14 +197,14 @@ function getCurrentOrg(user_id, collection, href) {
     "href": href
   }
   
-  CoCreateSocket.send('usersCurrentOrg', json);
+  CoCreate.socket.send('usersCurrentOrg', json);
 }
 
 function userRegisterAction(el) {
   if (!el) return;
   var form = el.closest('form');
   if (!form) return;
-  CoCreateDocument.requestDocumentIdOfForm(form);
+  CoCreate.document_id.request({ form });
 }
 
 function registerResult(data) {
@@ -218,7 +218,7 @@ function registerResult(data) {
   }
   
   if (createdOrgId && createdUserId) {
-    CoCreate.updateDocument({
+    CoCreate.crud.updateDocument({
       broadcast: false,
       collection: usersCollection,
       document_id: createdUserId,
@@ -325,3 +325,7 @@ function changedUserStatus(data) {
     el.setAttribute('data-user_status', data['status']);
   })
 }
+
+export default {initSocketsForUsers, fetchUser, fetchedUser, checkPermissions, initLoginForms, initLoginForm, 
+loginResult, getCurrentOrg, userRegisterAction, registerResult, initCurrentOrgEles, 
+initLogoutBtn, checkSession, changedUserStatus};
