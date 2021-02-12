@@ -172,7 +172,10 @@ function initLoginForm(form) {
 function loginResult(data) {
   const {success, status, message } = data;
   
-  CoCreate.render.data("[data-template_id='afterLoginResponse']", data)
+  CoCreate.render.data({
+    selector: "[data-template_id='afterLoginResponse']", 
+    render: data
+  })
 
   if (data.success) {
     localStorage.setItem('user_id', data['id']);
