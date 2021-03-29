@@ -207,7 +207,7 @@ function userRegisterAction(el) {
   if (!el) return;
   var form = el.closest('form');
   if (!form) return;
-  CoCreate.document_id.request({ form });
+  CoCreate.form.request({ form });
 }
 
 function registerResult(data) {
