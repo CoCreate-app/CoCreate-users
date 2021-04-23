@@ -38,7 +38,6 @@ function initSocketsForUsers() {
     getOrg = true;
     
     localStorage.setItem('apiKey', data['apiKey']);
-    localStorage.setItem('securityKey', data['securityKey']);
     localStorage.setItem('organization_id', data['current_org']);
     
     localStorage.setItem('adminUI_id', data['adminUI_id']);
@@ -64,7 +63,6 @@ function fetchUser() {
   if (user_id) {
     var json = {
       "apiKey": config.apiKey,
-      "securityKey": config.securityKey,
       "organization_id": config.organization_Id,
       "data-collection": usersCollection,
       "user_id": user_id
@@ -159,7 +157,6 @@ function initLoginForm(form) {
     
     var json = {
       "apiKey": config.apiKey,
-      "securityKey": config.securityKey,
       "organization_id": config.organization_Id,
       "data-collection": collection,
       "loginData": loginData
