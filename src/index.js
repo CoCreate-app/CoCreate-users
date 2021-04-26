@@ -1,3 +1,10 @@
+import form from '@cocreate/form'
+
+import crud from '@cocreate/crud-client';
+import input from '@cocreate/input'
+import action from '@cocreate/action'
+import render from '@cocreate/render'
+
 var permissionClass = 'checkPermission';
 var usersCollection = 'users';
 var orgCollection = "organizations";
@@ -20,19 +27,19 @@ var updatedCurrentOrg = false;
 
 
 function initSocketsForUsers() {
-  CoCreate.socket.listen('fetchedUser', function(data) {
+  crud.listen('fetchedUser', function(data) {
     fetchedUser(data);
   })
   
-  CoCreate.socket.listen('login', function (data) {
+  crud.listen('login', function (data) {
     loginResult(data);
   })
   
-  CoCreate.socket.listen('createDocument', function(data) {
+  crud.listen('createDocument', function(data) {
     registerResult(data);
   })
   
-  CoCreate.socket.listen('usersCurrentOrg', function(data) {
+  crud.listen('usersCurrentOrg', function(data) {
 
     updatedCurrentOrg = true;
     getOrg = true;
@@ -51,9 +58,9 @@ function initSocketsForUsers() {
     }
   })
   
-  CoCreate.crud.listenMessage('changedUserStatus', function(data) {
-    changedUserStatus(data)
-  })
+  // crud.listenMessage('changedUserStatus', function(data) {
+  //   changedUserStatus(data)
+  // })
 }
 
 function fetchUser() {
@@ -68,7 +75,7 @@ function fetchUser() {
       "user_id": user_id
     }
     
-    CoCreate.socket.send('fetchUser', json);
+    crud.socket.send('fetchUser', json);
   }
 }
 
@@ -162,14 +169,18 @@ function initLoginForm(form) {
       "loginData": loginData
     }
 
-    CoCreate.socket.send('login', json);
+    crud.socket.send('login', json);
   })
 }
 
 function loginResult(data) {
-  const {success, status, message } = data;
+  const {success, status, message, token } = data;
   
-  CoCreate.render.data({
+  localStorage.setItem("token", token)
+  document.cookie=`token=${token}`;
+
+  
+  render.data({
     selector: "[data-template_id='afterLoginResponse']", 
     render: data
   })
@@ -197,14 +208,14 @@ function getCurrentOrg(user_id, collection, href) {
     "href": href
   }
   
-  CoCreate.socket.send('usersCurrentOrg', json);
+  crud.socket.send('usersCurrentOrg', json);
 }
 
 function userRegisterAction(el) {
   if (!el) return;
   var form = el.closest('form');
   if (!form) return;
-  CoCreate.form.request({ form });
+  form.request({ form });
 }
 
 function registerResult(data) {
@@ -218,7 +229,7 @@ function registerResult(data) {
   }
   
   if (createdOrgId && createdUserId) {
-    CoCreate.crud.updateDocument({
+    crud.updateDocument({
       broadcast: false,
       collection: usersCollection,
       document_id: createdUserId,
