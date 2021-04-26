@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.0.3...v1.0.4) (2021-04-26)
+
+
+### Bug Fixes
+
+* add missing imports and dependancies ([03377b8](https://github.com/CoCreate-app/CoCreate-users/commit/03377b82eb5d8ff9118cd7a54c714382814aca9c))
+
 ## [1.0.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.0.2...v1.0.3) (2021-04-23)
 
 
