@@ -1,54 +1,46 @@
-import form from '@cocreate/form'
+import CoCreateForm from '@cocreate/form'
 
 import crud from '@cocreate/crud-client';
-import input from '@cocreate/input'
-import action from '@cocreate/action'
+import CoCreateInput from '@cocreate/input'
+import CoCreateAction from '@cocreate/action'
 import render from '@cocreate/render'
 
-var permissionClass = 'checkPermission';
-var usersCollection = 'users';
-var orgCollection = "organizations";
-var createdUserId = "";
-var createdOrgId = "";
+const CONST_USER_COLLECTION = 'users';
+const CONST_PERMISSION_CLASS = 'checkPermission' 
+const CONST_ORG_COLLECTION = 'organizations'
 
 
-var redirectClass = 'redirectLink';
-
-checkSession();
-initSocketsForUsers();
-fetchUser();
-initLoginForms();
-initCurrentOrgEles();
-initLogoutBtn();
-//initRegisterForms();
-
-var getOrg = false;
-var updatedCurrentOrg = false;
-
-
-function initSocketsForUsers() {
-  crud.listen('fetchedUser', function(data) {
-    fetchedUser(data);
-  })
-  
-  crud.listen('login', function (data) {
-    loginResult(data);
-  })
-  
-  crud.listen('createDocument', function(data) {
-    registerResult(data);
-  })
-  
-  crud.listen('usersCurrentOrg', function(data) {
-
-    updatedCurrentOrg = true;
-    getOrg = true;
+const CoCreateUser = {
+  init: function() {
+    this.updatedCurrentOrg = false
+    this.created_userId = "";
+    this.created_orgId = "";
     
-    localStorage.setItem('apiKey', data['apiKey']);
-    localStorage.setItem('organization_id', data['current_org']);
+    this.checkSession()
+    this.initSocket()
+    this.fetchUser()
+    this.initLoginForm()
+    this.initLoginForm()
+    this.initCurrentOrgEles()
     
-    localStorage.setItem('adminUI_id', data['adminUI_id']);
-    localStorage.setItem('builderUI_id', data['builderUI_id']);
+  },
+  
+  initSocket: () => {
+    const self = this
+    crud.listen('fetchedUser', self.checkPermissions)
+    crud.listen('login', self.loginResult)
+    crud.listen('createDocument', self.registerResult)
+    crud.listen('changedUserStatus', self.changedUserStatus)
+    crud.listen('usersCurrentOrg', self.setCurrentOrg)
+  },
+  
+  setCurrentOrg: (data) => {
+    this.updatedCurrentOrg = true;
+    window.localStorage.setItem('apiKey', data['apiKey']);
+    window.localStorage.setItem('organization_id', data['current_org']);
+    
+    window.localStorage.setItem('adminUI_id', data['adminUI_id']);
+    window.localStorage.setItem('builderUI_id', data['builderUI_id']);
 
     //. fire fetchedUsersCurrentOrg
     document.dispatchEvent(new CustomEvent('fetchedUsersCurrentOrg'));
@@ -56,95 +48,71 @@ function initSocketsForUsers() {
     if (data.href) {
       window.location.href = data.href;
     }
-  })
+  },
   
-  // crud.listenMessage('changedUserStatus', function(data) {
-  //   changedUserStatus(data)
-  // })
-}
+  checkPermissions: (data) => {
+    const tags = document.querySelectorAll('.' + CONST_PERMISSION_CLASS);
+    tags.forEach((tag) => {
+      let module_id = tag.getAttribute('data-document_id') ? tag.getAttribute('data-document_id'): tag.getAttribute('data-pass_document_id');
+      let data_permission = tag.getAttribute('data-permission');
+      let userPermission = data['permission-' + module_id];
 
-function fetchUser() {
-  
-  var user_id = localStorage.getItem('user_id');
-
-  if (user_id) {
-    var json = {
-      "apiKey": config.apiKey,
-      "organization_id": config.organization_Id,
-      "data-collection": usersCollection,
-      "user_id": user_id
-    }
-    
-    crud.socket.send('fetchUser', json);
-  }
-}
-
-function fetchedUser(data) {
-  console.log(data);
-  
-  checkPermissions(data);
-}
-
-function checkPermissions(data) {
-  var tags = document.querySelectorAll('.' + permissionClass);
-  
-  console.log(tags);
-  
-  for (var i=0; i<tags.length; i++) {
-    var tag = tags[i];
-    
-    var module_id = tag.getAttribute('data-document_id') ? tag.getAttribute('data-document_id'): tag.getAttribute('data-pass_document_id');
-    var data_permission = tag.getAttribute('data-permission');
-    
-    var userPermission = data['permission-' + module_id];
-    
-    console.log(userPermission);
-    
-    if (userPermission.indexOf(data_permission) == -1) {
-      switch (data_permission) {
-        case 'create':
-          tag.style.display = 'none';
-          break;
-        case 'read':
-          tag.style.display = 'none';
-          break;
-        case 'delete':
-          tag.style.display = 'none';
-          break;
-        case 'delete':
-          tag.readOnly = true;
-          break;
-        default:
-          // code
+      if (userPermission.indexOf(data_permission) == -1) {
+        switch (data_permission) {
+          case 'create':
+            tag.style.display = 'none';
+            break;
+          case 'read':
+            tag.style.display = 'none';
+            break;
+          case 'delete':
+            tag.style.display = 'none';
+            break;
+          case 'delete':
+            tag.readOnly = true;
+            break;
+          default:
+            // code
+        }
+      } else  {
+        switch (data_permission) {
+          
+            // code
+        }
       }
-    } else  {
-      switch (data_permission) {
-        
-          // code
+    })
+  },
+  fetchUser: (data) => {
+    const user_id = window.localStorage.getItem('user_id');
+    if (user_id) {
+      var json = {
+        "apiKey": window.config.apiKey,
+        "organization_id": window.config.organization_Id,
+        "data-collection": CONST_USER_COLLECTION,
+        "user_id": user_id
       }
+      crud.socket.send('fetchUser', json);
     }
-  }
-}
-
-function initLoginForms() {
-  var forms = document.querySelectorAll('form');
+  },
   
-  for (var i=0; i < forms.length; i++) {
-    initLoginForm(forms[i]);
-  }
-}
+  initLoginForm: (data) => {
+    const forms = document.querySelectorAll('form')
+    const self = this;
 
-function initLoginForm(form) {
-
-  var loginBtn = form.querySelector('.loginBtn');
+    forms.forEach((form) => {
+      const loginBtn = form.querySelector('.loginBtn');
+      if (!loginBtn) return;
+      
+      loginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        self.requestLogin(form)
+      })      
+    })
+  },
   
-  if (!loginBtn) return;
-  
-  loginBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    let collection = form.getAttribute('data-collection') || 'module_activity';
+  requestLogin: (form, btn) => {
+    let collection = form.getAttribute('data-collection');
     let loginData = {};
     
     const inputs = form.querySelectorAll('input, textarea');
@@ -162,181 +130,184 @@ function initLoginForm(form) {
       }
     })
     
-    var json = {
-      "apiKey": config.apiKey,
-      "organization_id": config.organization_Id,
+    crud.socket.send('login', {
+      "apiKey": window.config.apiKey,
+      "organization_id": window.config.organization_Id,
       "data-collection": collection,
       "loginData": loginData
-    }
-
-    crud.socket.send('login', json);
-  })
-}
-
-function loginResult(data) {
-  const {success, status, message, token } = data;
+    });
+  },
   
-  localStorage.setItem("token", token)
-  document.cookie=`token=${token}`;
-
-  
-  render.data({
-    selector: "[data-template_id='afterLoginResponse']", 
-    render: data
-  })
-
-  if (data.success) {
-    localStorage.setItem('user_id', data['id']);
-    let href = "";
-    let aTag = document.querySelector("form .loginBtn a");
-    if (aTag) {
-      href = aTag.getAttribute('href');
-    }
-    getCurrentOrg(data['id'], data['collection'], href);
-
-  } else {
-    //. render data
+  loginResult: (data) => {
+    const {success, status, message, token } = data;
     
-  }
-}
+    window.localStorage.setItem("token", token)
+    document.cookie=`token=${token};path=/`;
 
-
-function getCurrentOrg(user_id, collection, href) {
-  var json = {
-    "data-collection": collection || usersCollection,
-    "user_id": user_id,
-    "href": href
-  }
-  
-  crud.socket.send('usersCurrentOrg', json);
-}
-
-function userRegisterAction(el) {
-  if (!el) return;
-  var form = el.closest('form');
-  if (!form) return;
-  form.request({ form });
-}
-
-function registerResult(data) {
-
-  if (data['collection'] === orgCollection) {
-    createdOrgId = data['document_id'];
-  }
-  
-  if (data['collection'] === usersCollection) {
-    createdUserId = data['document_id'];
-  }
-  
-  if (createdOrgId && createdUserId) {
-    crud.updateDocument({
-      broadcast: false,
-      collection: usersCollection,
-      document_id: createdUserId,
-      data: {
-        current_org: createdOrgId,
-        connected_orgs: [createdOrgId]
-      }, 
-      broadcast: false
+    render.data({
+      selector: "[data-template_id='afterLoginResponse']", 
+      render: data
     })
-
-    localStorage.setItem('user_id', createdUserId)
-    // let aTag = document.querySelector(".registerBtn > a");
-    // let href = "";
-    // if (aTag) {
-    //   href= aTag.getAttribute("href");
-    // }
-    
-    getCurrentOrg(createdUserId, usersCollection, null);
-  }
-}
-
-function initCurrentOrgEles() {
-  var user_id = localStorage.getItem('user_id');
   
-  if (!user_id) return;
+    if (success) {
+      window.localStorage.setItem('user_id', data['id']);
+      let href = "";
+      let aTag = document.querySelector("form .loginBtn a");
+      if (aTag) {
+        href = aTag.getAttribute('href');
+      }
+      getCurrentOrg(data['id'], data['collection'], href);
+    } else {
+      //. render data (failure case)
+    }
+  },
   
-  let orgChangers = document.querySelectorAll('.org-changer');
-  
-  for (let i=0; i < orgChangers.length; i++) {
-    let orgChanger = orgChangers[i];
-    
-    var collection = orgChanger.getAttribute('data-collection') ? orgChanger.getAttribute('data-collection'): 'module_activity';
-    var id = orgChanger.getAttribute('data-document_id');
-    
-    if (collection == 'users' && id == user_id) {
-      orgChanger.addEventListener('selectedValue', function(e) {    
+  getCurrentOrg: (user_id, collection, href) => {
 
-        setTimeout(function() {
-          getCurrentOrg(user_id);
-          
-          var timer = setInterval(function() {
-            if (updatedCurrentOrg) {
-              location.reload();
-              
-              clearInterval(timer);
-            }
-          }, 100)
-        }, 300)
+    crud.socket.send('usersCurrentOrg', {
+      "data-collection": collection || CONST_USER_COLLECTION,
+      "user_id": user_id,
+      "href": href
+    });
+  },
+  
+  userRegisterAction : (el) => {
+    if (!el) return;
+    var form = el.closest('form');
+    if (!form) return;
+    form.request({ form });
+  },
+  
+  registerResult: (data) => {
+    if (data['collection'] === CONST_ORG_COLLECTION) {
+      this.created_orgId = data['document_id'];
+    }
+    
+    if (data['collection'] === CONST_USER_COLLECTION) {
+      this.created_userId = data['document_id'];
+    }
+    
+    if (this.created_orgId && this.created_userId) {
+      crud.updateDocument({
+        broadcast: false,
+        collection: CONST_USER_COLLECTION,
+        document_id: this.created_userId,
+        data: {
+          current_org: this.created_orgId,
+          connected_orgs: [this.created_orgId]
+        }, 
+        broadcast: false
       })
-    }
-  }
-}
-
-function initLogoutBtn() {
-  let logoutBtns = document.querySelectorAll('.logoutBtn');
   
-  for (let i=0; i<logoutBtns.length; i++) {
-    let logoutBtn = logoutBtns[i];
+      window.localStorage.setItem('user_id', this.created_userId)
+      // let aTag = document.querySelector(".registerBtn > a");
+      // let href = "";
+      // if (aTag) {
+      //   href= aTag.getAttribute("href");
+      // }
+      
+      this.getCurrentOrg(this.created_userId, CONST_USER_COLLECTION, null);
+    }
+  },
+  
+  initCurrentOrgEles: () => {
+    // const user_id = window.localStorage.getItem('user_id');
     
-    logoutBtn.addEventListener('click', function(e) {
-      e.preventDefault();
+    // if (!user_id) return;
+    
+    // let orgChangers = document.querySelectorAll('.org-changer');
+    
+    // for (let i=0; i < orgChangers.length; i++) {
+    //   let orgChanger = orgChangers[i];
       
-      localStorage.clear();
+    //   const collection = orgChanger.getAttribute('data-collection') ? orgChanger.getAttribute('data-collection'): 'module_activity';
+    //   const id = orgChanger.getAttribute('data-document_id');
       
-      let href = this.getAttribute('href');
-      if (href) document.location.href = href;
+    //   if (collection == 'users' && id == user_id) {
+    //     orgChanger.addEventListener('selectedValue', function(e) {    
+  
+    //       setTimeout(function() {
+    //         getCurrentOrg(user_id);
+            
+    //         var timer = setInterval(function() {
+    //           if (updatedCurrentOrg) {
+    //             window.location.reload();
+                
+    //             clearInterval(timer);
+    //           }
+    //         }, 100)
+    //       }, 300)
+    //     })
+    //   }
+    // }
+  },
+  
+  initLogoutBtn: () =>  {
+    let logoutBtns = document.querySelectorAll('.logoutBtn');
+    const self = this;
+    logoutBtns.forEach((btn) => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        window.localStorage.clear();
+        self.deleteCookie();
+        
+        let href = this.getAttribute('href');
+        if (href) document.location.href = href;
+      })
+      
     })
-  }
-}
-
-function checkSession() {
+  },
   
-  var user_id = localStorage.getItem('user_id');
+  deleteCookie: () => {
+    let allCookies = document.cookie.split(';');
+    
+    // The "expire" attribute of every cookie is 
+    // Set to "Thu, 01 Jan 1970 00:00:00 GMT"
+    for (var i = 0; i < allCookies.length; i++)
+        document.cookie = allCookies[i] + "=;expires="
+        + new Date(0).toUTCString();
+  },
   
-  if (user_id) {
-    var redirectTag = document.querySelector('.sessionTrue');
-
-    if (redirectTag) {
-      let redirectLink = redirectTag.getAttribute('href');
-      if (redirectLink) {
-        document.location.href = redirectLink
-      } 
-    }
-  } else {
-    var redirectTag = document.querySelector('.sessionFalse');
+  checkSession: () => {
+    let user_id = window.localStorage.getItem('user_id');
+    if (user_id) {
+      let redirectTag = document.querySelector('.sessionTrue');
   
-    if (redirectTag) {
-      let redirectLink = redirectTag.getAttribute('href');
-      if (redirectLink) {
-        localStorage.clear();
-        document.location.href = redirectLink 
+      if (redirectTag) {
+        let redirectLink = redirectTag.getAttribute('href');
+        if (redirectLink) {
+          document.location.href = redirectLink
+        } 
+      }
+    } else {
+      let redirectTag = document.querySelector('.sessionFalse');
+    
+      if (redirectTag) {
+        let redirectLink = redirectTag.getAttribute('href');
+        if (redirectLink) {
+          window.localStorage.clear();
+          this.deleteCookie();
+          document.location.href = redirectLink 
+        }
       }
     }
-  }
-}
-
-function changedUserStatus(data) {
-  if (!data.user_id) {
-    return;
-  }
-  let statusEls = document.querySelectorAll(`[data-user_status][data-document_id='${data['user_id']}']`)
+  },
   
-  statusEls.forEach((el) => {
-    el.setAttribute('data-user_status', data['status']);
-  })
+  changedUserStatus: (data) => {
+    if (!data.user_id) {
+      return;
+    }
+    let statusEls = document.querySelectorAll(`[data-user_status][data-document_id='${data['user_id']}']`)
+    
+    statusEls.forEach((el) => {
+      el.setAttribute('data-user_status', data['status']);
+    })
+  }
 }
 
-export default {initSocketsForUsers, fetchUser, fetchedUser, checkPermissions, initLoginForms, initLoginForm, 
-loginResult, getCurrentOrg, userRegisterAction, registerResult, initCurrentOrgEles, 
-initLogoutBtn, checkSession, changedUserStatus};
+
+export default CoCreateUser;
+// {initSocketsForUsers, fetchUser, fetchedUser, checkPermissions, initLoginForms, initLoginForm, 
+// loginResult, getCurrentOrg, userRegisterAction, registerResult, initCurrentOrgEles, 
+// initLogoutBtn, checkSession, changedUserStatus};
