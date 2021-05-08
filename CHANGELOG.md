@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.0.6...v1.0.7) (2021-05-08)
+
+
+### Bug Fixes
+
+* add css auto parse and save to docs. ([7bc34bf](https://github.com/CoCreate-app/CoCreate-users/commit/7bc34bf3d18b23c7cddf47b41002990a892a9947))
+
 ## [1.0.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.0.5...v1.0.6) (2021-04-27)
 
 
