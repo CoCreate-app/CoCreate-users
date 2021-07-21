@@ -20,7 +20,7 @@ const CoCreateUser = {
     this.initSocket()
     this.fetchUser()
     this.initLoginForm()
-    this.initLoginForm()
+    // this.checkPermissions()
     this.initCurrentOrgEles()
     
   },
@@ -100,7 +100,7 @@ const CoCreateUser = {
     const self = this;
 
     forms.forEach((form) => {
-      const loginBtn = form.querySelector('.loginBtn');
+      const loginBtn = form.querySelector('[data-actions*="loginBtn"]');
       if (!loginBtn) return;
       
       loginBtn.addEventListener('click', function(e) {
@@ -306,6 +306,7 @@ const CoCreateUser = {
   }
 }
 
+CoCreateUser.init();
 
 export default CoCreateUser;
 // {initSocketsForUsers, fetchUser, fetchedUser, checkPermissions, initLoginForms, initLoginForm, 
