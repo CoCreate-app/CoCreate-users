@@ -1,29 +1,29 @@
 import crud from '@cocreate/crud-client';
+import input from '@cocreate/input'
 import action from '@cocreate/action'
 import render from '@cocreate/render'
 
-const CONST_USER_COLLECTION = 'users';
 const CONST_PERMISSION_CLASS = 'checkPermission' 
-const CONST_ORG_COLLECTION = 'organizations'
-
 
 const CoCreateUser = {
   
   init: function() {
     this.updatedCurrentOrg = false
-    this.created_userId = "";
-    this.created_orgId = "";
-    
-    this.checkSession()
     this.initSocket()
     this.initChangeOrg()
+    this.checkSession()
   },
   
   initSocket: function() {
     const self = this
+		crud.listen('createUser', function(data) {
+			self.setDocumentId('users', data.document_id);
+			document.dispatchEvent(new CustomEvent('createdUser', {
+				detail: data
+			}))
+		})
     crud.listen('fetchedUser', this.checkPermissions)
     crud.listen('login', (instance)=> self.loginResult(instance))
-    // crud.listen('createDocument', this.registerResult)
     crud.listen('changedUserStatus', this.changedUserStatus)
     crud.listen('usersCurrentOrg', (instance)=> self.setCurrentOrg(instance))
   },
@@ -38,11 +38,6 @@ const CoCreateUser = {
     window.localStorage.setItem('builderUI_id', data['builderUI_id']);
 
   	document.dispatchEvent(new CustomEvent('loggedIn'));
-		
-    if (data.href) {
-      window.location.href = data.href;
-    }
-
   },
   
   requestLogin: function(btn) {
@@ -76,34 +71,25 @@ const CoCreateUser = {
   loginResult: function(data) {
     const {success, status, message, token } = data;
     
-    window.localStorage.setItem("token", token)
-    document.cookie=`token=${token};path=/`;
-
-    render.data({
-      selector: "[data-template_id='afterLoginResponse']", 
-      render: data
-    })
-  
     if (success) {
       window.localStorage.setItem('user_id', data['id']);
-      let href = "";
-      let aTag = document.querySelector('form [data-actions*="login"]');
-      if (aTag) {
-        href = aTag.getAttribute('href');
-      }
-      this.getCurrentOrg(data['id'], data['collection'], href);
-    } else {
-      //. render data (failure case)
-    }
+      window.localStorage.setItem("token", token)
+      document.cookie=`token=${token};path=/`;
+      this.getCurrentOrg(data['id'], data['collection']);
+    } 
+    render.data({
+      selector: "[data-template_id='login']", 
+      render: data
+    })
+
   },
   
-  getCurrentOrg: function(user_id, collection, href) {
+  getCurrentOrg: function(user_id, collection) {
     crud.socket.send('usersCurrentOrg', {
       "apiKey": window.config.apiKey,
       "organization_id": window.config.organization_Id,
-      "data-collection": collection || CONST_USER_COLLECTION,
+      "data-collection": collection || 'users',
       "user_id": user_id,
-      "href": href
     });
   },
   
@@ -121,58 +107,6 @@ const CoCreateUser = {
   	document.dispatchEvent(new CustomEvent('loggedOut'))
   },
  
-  // fetchUser: (data) => {
-  //   const user_id = window.localStorage.getItem('user_id');
-  //   if (user_id) {
-  //     var json = {
-  //       "apiKey": window.config.apiKey,
-  //       "organization_id": window.config.organization_Id,
-  //       "data-collection": CONST_USER_COLLECTION,
-  //       "user_id": user_id
-  //     }
-  //     crud.socket.send('fetchUser', json);
-  //   }
-  // },
-  
-  // userRegisterAction : (el) => {
-  //   if (!el) return;
-  //   var form = el.closest('form');
-  //   if (!form) return;
-  //   form.request({ form });
-  // },
-  
-  // registerResult: (data) => {
-  //   if (data['collection'] === CONST_ORG_COLLECTION) {
-  //     this.created_orgId = data['document_id'];
-  //   }
-    
-  //   if (data['collection'] === CONST_USER_COLLECTION) {
-  //     this.created_userId = data['document_id'];
-  //   }
-    
-  //   if (this.created_orgId && this.created_userId) {
-  //     crud.updateDocument({
-  //       broadcast: false,
-  //       collection: CONST_USER_COLLECTION,
-  //       document_id: this.created_userId,
-  //       data: {
-  //         current_org: this.created_orgId,
-  //         connected_orgs: [this.created_orgId]
-  //       }, 
-  //       broadcast: false
-  //     })
-  
-  //     window.localStorage.setItem('user_id', this.created_userId)
-  //     // let aTag = document.querySelector(".registerBtn > a");
-  //     // let href = "";
-  //     // if (aTag) {
-  //     //   href= aTag.getAttribute("href");
-  //     // }
-      
-  //     this.getCurrentOrg(this.created_userId, CONST_USER_COLLECTION, null);
-  //   }
-  // },
-  
   initChangeOrg: () => {
     const user_id = window.localStorage.getItem('user_id');
     
@@ -272,12 +206,72 @@ const CoCreateUser = {
     statusEls.forEach((el) => {
       el.setAttribute('data-user_status', data['status']);
     })
-  }
+  },
+  
+	setDocumentId: function(collection, id) {
+		let orgIdElements = document.querySelectorAll(`[data-collection='${collection}']`);
+		if (orgIdElements && orgIdElements.length > 0) {
+			orgIdElements.forEach((el) => {
+				if (!el.getAttribute('data-document_id')) {
+					el.setAttribute('data-document_id', id);
+				}
+				if (el.getAttribute('name') == "_id") {
+					el.value = id;
+				}
+			})
+		}
+	},
+
+	createUser: function(btn, reqData) {
+		let form = btn.closest("form");
+		if (!form) return;
+		let org_id = "";
+		let elements = form.querySelectorAll("[data-collection='users'][name]");
+		let orgIdElement = form.querySelector("input[data-collection='organizations'][name='_id']");
+		
+		if (orgIdElement) {
+			org_id = orgIdElement.value;
+		}
+		let data = {};
+		//. get form data
+		elements.forEach(el => {
+			let name = el.getAttribute('name')
+			let value = input.getValue(el) || el.getAttribute('value')
+			if (!name || !value) return;
+			
+			if (el.getAttribute('data-type') == 'array') {
+				value = [value];
+			}
+			data[name] = value;
+		})
+		data['current_org'] = org_id;
+		data['connected_orgs'] = [org_id];
+		data['organization_id'] = org_id || config.organization_Id;
+		
+		const room = config.organization_Id;
+
+		crud.socket.send('createUser', {
+			apiKey: config.apiKey,
+			organization_id: config.organization_Id,
+			db: this.masterDB,
+			collection: 'users',
+			data: data,
+			copyDB: org_id
+		}, room);
+	},
 }
 
 CoCreateUser.init();
 
 export default CoCreateUser;
+
+action.init({
+	action: "createUser",
+	endEvent: "createdUser",
+	callback: (btn, data) => {
+		CoCreateUser.createUser(btn)
+	},
+})
 
 action.init({
 	action: "login",
