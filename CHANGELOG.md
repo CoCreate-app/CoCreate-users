@@ -1,3 +1,10 @@
+## [1.0.19](https://github.com/CoCreate-app/CoCreate-users/compare/v1.0.18...v1.0.19) (2021-07-22)
+
+
+### Bug Fixes
+
+* added data action for login and logout ([51ae49d](https://github.com/CoCreate-app/CoCreate-users/commit/51ae49df2216c1a10d5232b1baeb26d793819b8f))
+
 ## [1.0.18](https://github.com/CoCreate-app/CoCreate-users/compare/v1.0.17...v1.0.18) (2021-07-17)
 
 
