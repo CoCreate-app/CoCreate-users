@@ -6,7 +6,7 @@ import render from '@cocreate/render'
 const CONST_PERMISSION_CLASS = 'checkPermission' 
 
 const CoCreateUser = {
-  
+  // masterDB: '5ae0cfac6fb8c4e656fdaf92', // '5ae0cfac6fb8c4e656fdaf92' /** masterDB **/,
   init: function() {
     this.updatedCurrentOrg = false
     this.initSocket()
@@ -26,18 +26,6 @@ const CoCreateUser = {
     crud.listen('login', (instance)=> self.loginResult(instance))
     crud.listen('changedUserStatus', this.changedUserStatus)
     crud.listen('usersCurrentOrg', (instance)=> self.setCurrentOrg(instance))
-  },
-  
-  setCurrentOrg: function(data) {
-    this.updatedCurrentOrg = true;
-    window.localStorage.setItem('apiKey', data['apiKey']);
-    window.localStorage.setItem('organization_id', data['current_org']);
-    window.localStorage.setItem('host', window.config.host);
-
-    window.localStorage.setItem('adminUI_id', data['adminUI_id']);
-    window.localStorage.setItem('builderUI_id', data['builderUI_id']);
-
-  	document.dispatchEvent(new CustomEvent('loggedIn'));
   },
   
   requestLogin: function(btn) {
@@ -91,6 +79,18 @@ const CoCreateUser = {
       "data-collection": collection || 'users',
       "user_id": user_id,
     });
+  },
+  
+  setCurrentOrg: function(data) {
+    this.updatedCurrentOrg = true;
+    window.localStorage.setItem('apiKey', data['apiKey']);
+    window.localStorage.setItem('organization_id', data['current_org']);
+    window.localStorage.setItem('host', window.config.host);
+
+    window.localStorage.setItem('adminUI_id', data['adminUI_id']);
+    window.localStorage.setItem('builderUI_id', data['builderUI_id']);
+
+  	document.dispatchEvent(new CustomEvent('loggedIn'));
   },
   
   logout: (btn) =>  {
@@ -222,7 +222,7 @@ const CoCreateUser = {
 		}
 	},
 
-	createUser: function(btn, reqData) {
+	createUser: function(btn) {
 		let form = btn.closest("form");
 		if (!form) return;
 		let org_id = "";
@@ -246,17 +246,17 @@ const CoCreateUser = {
 		})
 		data['current_org'] = org_id;
 		data['connected_orgs'] = [org_id];
-		data['organization_id'] = org_id || config.organization_Id;
+		data['organization_id'] = config.organization_Id;
 		
 		const room = config.organization_Id;
 
 		crud.socket.send('createUser', {
 			apiKey: config.apiKey,
 			organization_id: config.organization_Id,
-			db: this.masterDB,
+		// 	db: this.masterDB,
 			collection: 'users',
 			data: data,
-			copyDB: org_id
+			orgDB: org_id
 		}, room);
 	},
 }
