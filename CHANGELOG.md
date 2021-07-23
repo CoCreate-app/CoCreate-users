@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.0.19...v1.1.0) (2021-07-23)
+
+
+### Bug Fixes
+
+* reorder functions for more readabilty ([585015b](https://github.com/CoCreate-app/CoCreate-users/commit/585015b66b2fbc4a9cf62fb729a1bc1883d9ded0))
+
+
+### Features
+
+* added createUser function ([8659688](https://github.com/CoCreate-app/CoCreate-users/commit/8659688d0261e73ac3139b843d8780264a4ac78b))
+
 ## [1.0.19](https://github.com/CoCreate-app/CoCreate-users/compare/v1.0.18...v1.0.19) (2021-07-22)
 
 
