@@ -22,6 +22,11 @@ const CoCreateUser = {
 				detail: data
 			}))
 		})
+		crud.listen('createUserNew', function(data) {
+			document.dispatchEvent(new CustomEvent('createdUser', {
+				detail: data
+			}))
+		})
     crud.listen('fetchedUser', this.checkPermissions)
     crud.listen('login', (instance)=> self.loginResult(instance))
     crud.listen('changedUserStatus', this.changedUserStatus)
@@ -222,6 +227,24 @@ const CoCreateUser = {
 		}
 	},
 
+	createUserNew: function(btn) {
+		let form = btn.closest("form");
+		if (!form) return;
+		let newOrg_id = form.querySelector("input[data-collection='organizations'][name='_id']");
+		let user_id = form.querySelector("input[data-collection='users'][name='_id']");
+		
+		const room = config.organization_Id;
+
+		crud.socket.send('createUserNew', {
+			apiKey: config.apiKey,
+			organization_id: config.organization_Id,
+			collection: 'users',
+			newOrg_id: org_id,
+			user_id: user_id,
+		}, room);
+
+	},
+	
 	createUser: function(btn) {
 		let form = btn.closest("form");
 		if (!form) return;
@@ -253,7 +276,7 @@ const CoCreateUser = {
 		crud.socket.send('createUser', {
 			apiKey: config.apiKey,
 			organization_id: config.organization_Id,
-		// 	db: this.masterDB,
+		// 	mdb: this.masterDB,
 			collection: 'users',
 			data: data,
 			orgDB: org_id
@@ -264,6 +287,14 @@ const CoCreateUser = {
 CoCreateUser.init();
 
 export default CoCreateUser;
+
+action.init({
+	action: "createUserNew",
+	endEvent: "createdUser",
+	callback: (btn, data) => {
+		CoCreateUser.createUser(btn)
+	},
+})
 
 action.init({
 	action: "createUser",
