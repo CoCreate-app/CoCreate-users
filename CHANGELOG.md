@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.1.0...v1.1.1) (2021-07-26)
+
+
+### Bug Fixes
+
+* refactored to newOrg_id convention ([0119f44](https://github.com/CoCreate-app/CoCreate-users/commit/0119f44aaf1fe72180d3f67ea6acc606012c277e))
+
 # [1.1.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.0.19...v1.1.0) (2021-07-23)
 
 
