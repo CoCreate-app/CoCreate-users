@@ -35,7 +35,7 @@ const CoCreateUser = {
   
   requestLogin: function(btn) {
     let form = btn.closest('form')
-    let collection = form.getAttribute('data-collection');
+    let collection = form.getAttribute('collection');
     let loginData = {};
     
     const inputs = form.querySelectorAll('input, textarea');
@@ -46,7 +46,7 @@ const CoCreateUser = {
       if (input.type == 'password') {
         value = btoa(value);
       }
-      collection = input.getAttribute('data-collection') || collection;
+      collection = input.getAttribute('collection') || collection;
       
       if (name) {
         loginData[name] = value;
@@ -56,7 +56,7 @@ const CoCreateUser = {
     crud.socket.send('login', {
       "apiKey": window.config.apiKey,
       "organization_id": window.config.organization_Id,
-      "data-collection": collection,
+      "collection": collection,
       "loginData": loginData
     });
   },
@@ -81,7 +81,7 @@ const CoCreateUser = {
     crud.socket.send('usersCurrentOrg', {
       "apiKey": window.config.apiKey,
       "organization_id": window.config.organization_Id,
-      "data-collection": collection || 'users',
+      "collection": collection || 'users',
       "user_id": user_id,
     });
   },
@@ -122,8 +122,8 @@ const CoCreateUser = {
     for (let i=0; i < orgChangers.length; i++) {
       let orgChanger = orgChangers[i];
       
-      const collection = orgChanger.getAttribute('data-collection') ? orgChanger.getAttribute('data-collection'): 'module_activity';
-      const id = orgChanger.getAttribute('data-document_id');
+      const collection = orgChanger.getAttribute('collection') ? orgChanger.getAttribute('collection'): 'module_activity';
+      const id = orgChanger.getAttribute('document_id');
       
       if (collection == 'users' && id == user_id) {
         orgChanger.addEventListener('selectedValue', function(e) {    
@@ -172,7 +172,7 @@ const CoCreateUser = {
   checkPermissions: (data) => {
     const tags = document.querySelectorAll('.' + CONST_PERMISSION_CLASS);
     tags.forEach((tag) => {
-      let module_id = tag.getAttribute('data-document_id') ? tag.getAttribute('data-document_id'): tag.getAttribute('data-pass_document_id');
+      let module_id = tag.getAttribute('document_id') ? tag.getAttribute('document_id'): tag.getAttribute('data-pass_document_id');
       let data_permission = tag.getAttribute('data-permission');
       let userPermission = data['permission-' + module_id];
 
@@ -206,7 +206,7 @@ const CoCreateUser = {
     if (!data.user_id) {
       return;
     }
-    let statusEls = document.querySelectorAll(`[data-user_status][data-document_id='${data['user_id']}']`)
+    let statusEls = document.querySelectorAll(`[data-user_status][document_id='${data['user_id']}']`)
     
     statusEls.forEach((el) => {
       el.setAttribute('data-user_status', data['status']);
@@ -214,11 +214,11 @@ const CoCreateUser = {
   },
   
 	setDocumentId: function(collection, id) {
-		let orgIdElements = document.querySelectorAll(`[data-collection='${collection}']`);
+		let orgIdElements = document.querySelectorAll(`[collection='${collection}']`);
 		if (orgIdElements && orgIdElements.length > 0) {
 			orgIdElements.forEach((el) => {
-				if (!el.getAttribute('data-document_id')) {
-					el.setAttribute('data-document_id', id);
+				if (!el.getAttribute('document_id')) {
+					el.setAttribute('document_id', id);
 				}
 				if (el.getAttribute('name') == "_id") {
 					el.value = id;
@@ -230,8 +230,8 @@ const CoCreateUser = {
 	createUserNew: function(btn) {
 		let form = btn.closest("form");
 		if (!form) return;
-		let newOrg_id = form.querySelector("input[data-collection='organizations'][name='_id']");
-		let user_id = form.querySelector("input[data-collection='users'][name='_id']");
+		let newOrg_id = form.querySelector("input[collection='organizations'][name='_id']");
+		let user_id = form.querySelector("input[collection='users'][name='_id']");
 		
 		const room = config.organization_Id;
 
@@ -249,8 +249,8 @@ const CoCreateUser = {
 		let form = btn.closest("form");
 		if (!form) return;
 		let org_id = "";
-		let elements = form.querySelectorAll("[data-collection='users'][name]");
-		let orgIdElement = form.querySelector("input[data-collection='organizations'][name='_id']");
+		let elements = form.querySelectorAll("[collection='users'][name]");
+		let orgIdElement = form.querySelector("input[collection='organizations'][name='_id']");
 		
 		if (orgIdElement) {
 			org_id = orgIdElement.value;
