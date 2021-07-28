@@ -71,7 +71,7 @@ const CoCreateUser = {
       this.getCurrentOrg(data['id'], data['collection']);
     } 
     render.data({
-      selector: "[data-template_id='login']", 
+      selector: "[template_id='login']", 
       render: data
     })
 
@@ -172,7 +172,7 @@ const CoCreateUser = {
   checkPermissions: (data) => {
     const tags = document.querySelectorAll('.' + CONST_PERMISSION_CLASS);
     tags.forEach((tag) => {
-      let module_id = tag.getAttribute('document_id') ? tag.getAttribute('document_id'): tag.getAttribute('data-pass_document_id');
+      let module_id = tag.getAttribute('document_id') ? tag.getAttribute('document_id'): tag.getAttribute('pass-document_id');
       let data_permission = tag.getAttribute('data-permission');
       let userPermission = data['permission-' + module_id];
 
