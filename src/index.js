@@ -206,10 +206,10 @@ const CoCreateUser = {
     if (!data.user_id) {
       return;
     }
-    let statusEls = document.querySelectorAll(`[data-user_status][document_id='${data['user_id']}']`)
+    let statusEls = document.querySelectorAll(`[user-status][document_id='${data['user_id']}']`)
     
     statusEls.forEach((el) => {
-      el.setAttribute('data-user_status', data['status']);
+      el.setAttribute('user-status', data['status']);
     })
   },
   
