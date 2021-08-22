@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.4...v1.2.5) (2021-08-22)
+
+
+### Bug Fixes
+
+* bump dependancy package versions ([c05b0a0](https://github.com/CoCreate-app/CoCreate-users/commit/c05b0a06c86beef2aec8438cc0c6641aef568568))
+
 ## [1.2.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.3...v1.2.4) (2021-08-22)
 
 
