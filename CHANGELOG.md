@@ -1,3 +1,10 @@
+## [1.2.15](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.14...v1.2.15) (2021-09-09)
+
+
+### Bug Fixes
+
+* update dependency @cocreate/docs ([2933ea9](https://github.com/CoCreate-app/CoCreate-users/commit/2933ea9366521d0ddbbfbac83de8c8ef0cb0081a))
+
 ## [1.2.14](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.13...v1.2.14) (2021-09-09)
 
 
