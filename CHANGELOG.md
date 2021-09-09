@@ -1,3 +1,10 @@
+## [1.2.12](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.11...v1.2.12) (2021-09-09)
+
+
+### Bug Fixes
+
+* CoCreate.config directory, path, name and  public ([8602718](https://github.com/CoCreate-app/CoCreate-users/commit/8602718829525c09aaf428e1c7ba2bc0e08ff0dc))
+
 ## [1.2.11](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.10...v1.2.11) (2021-09-08)
 
 
