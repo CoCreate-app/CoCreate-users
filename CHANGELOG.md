@@ -1,3 +1,10 @@
+## [1.2.21](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.20...v1.2.21) (2021-09-15)
+
+
+### Bug Fixes
+
+* delete cookie ([437a21c](https://github.com/CoCreate-app/CoCreate-users/commit/437a21cc89310c21c80570195a3b98566eaf5a94))
+
 ## [1.2.20](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.19...v1.2.20) (2021-09-15)
 
 
