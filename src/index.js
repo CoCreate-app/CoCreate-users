@@ -149,7 +149,7 @@ const CoCreateUser = {
     let user_id = window.localStorage.getItem('user_id');
     let token = window.localStorage.getItem('token');
     if (user_id && token) {
-      let redirectTag = document.querySelector('.sessionTrue');
+      let redirectTag = document.querySelector('[session="true"]');
   
       if (redirectTag) {
         let redirectLink = redirectTag.getAttribute('href');
@@ -158,7 +158,7 @@ const CoCreateUser = {
         } 
       }
     } else {
-      let redirectTag = document.querySelector('.sessionFalse');
+      let redirectTag = document.querySelector('[session="false"]');
     
       if (redirectTag) {
         let redirectLink = redirectTag.getAttribute('href');
