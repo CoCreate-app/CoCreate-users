@@ -1,3 +1,10 @@
+## [1.2.22](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.21...v1.2.22) (2021-09-15)
+
+
+### Bug Fixes
+
+* replaced .sessionTrue and .sessionFalse with session="true|false" ([4a1770c](https://github.com/CoCreate-app/CoCreate-users/commit/4a1770c311ed8a42db40b52b396dfc2b38ad508f))
+
 ## [1.2.21](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.20...v1.2.21) (2021-09-15)
 
 
