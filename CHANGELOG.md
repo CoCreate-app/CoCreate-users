@@ -1,3 +1,10 @@
+## [1.2.19](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.18...v1.2.19) (2021-09-15)
+
+
+### Bug Fixes
+
+* check token and userid for redirect ([ccc91e1](https://github.com/CoCreate-app/CoCreate-users/commit/ccc91e144d562bdc95531b8c2d10de2df80985fa))
+
 ## [1.2.18](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.17...v1.2.18) (2021-09-14)
 
 
