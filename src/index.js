@@ -164,7 +164,7 @@ const CoCreateUser = {
         let redirectLink = redirectTag.getAttribute('href');
         if (redirectLink) {
           window.localStorage.clear();
-          this.deleteCookie();
+          // this.deleteCookie();
           document.location.href = redirectLink 
         }
       }
