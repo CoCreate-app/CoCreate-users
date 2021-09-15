@@ -147,7 +147,7 @@ const CoCreateUser = {
   
   checkSession: () => {
     let user_id = window.localStorage.getItem('user_id');
-    let token = window.localStorage.getItem('user_id');
+    let token = window.localStorage.getItem('token');
     if (user_id && token) {
       let redirectTag = document.querySelector('.sessionTrue');
   
