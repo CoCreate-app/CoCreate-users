@@ -62,10 +62,10 @@
   },
   "dependencies": {
     "@cocreate/action": "^1.2.23",
-    "@cocreate/crud-client": "^1.2.29",
-    "@cocreate/docs": "^1.2.26",
-    "@cocreate/form": "^1.2.21",
-    "@cocreate/input": "^1.2.26",
-    "@cocreate/render": "^1.1.21"
+    "@cocreate/crud-client": "^1.2.30",
+    "@cocreate/docs": "^1.2.27",
+    "@cocreate/form": "^1.2.22",
+    "@cocreate/input": "^1.2.27",
+    "@cocreate/render": "^1.1.22"
   }
 }
