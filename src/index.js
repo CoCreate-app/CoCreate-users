@@ -55,7 +55,7 @@ const CoCreateUser = {
 			}
 		});
 
-		crud.socket.send('login', {
+		crud.send('login', {
 			"apiKey": window.config.apiKey,
 			"organization_id": window.config.organization_Id,
 			"collection": collection,
@@ -72,15 +72,20 @@ const CoCreateUser = {
 			document.cookie = `token=${token};path=/`;
 			this.getCurrentOrg(data['id'], data['collection']);
 		}
+
 		render.data({
 			selector: "[template_id='login']",
-			render: data
+			data:  {
+		        type: 'login',
+		        status: 'failed',
+		        message: 'Email or password is incorrect'
+		    }
 		});
 
 	},
 
 	getCurrentOrg: function(user_id, collection) {
-		crud.socket.send('usersCurrentOrg', {
+		crud.send('usersCurrentOrg', {
 			"apiKey": window.config.apiKey,
 			"organization_id": window.config.organization_Id,
 			"collection": collection || 'users',
@@ -240,7 +245,7 @@ const CoCreateUser = {
 
 		const room = config.organization_Id;
 
-		crud.socket.send('createUserNew', {
+		crud.send('createUserNew', {
 			apiKey: config.apiKey,
 			organization_id: config.organization_Id,
 			collection: 'users',
@@ -278,7 +283,7 @@ const CoCreateUser = {
 
 		const room = config.organization_Id;
 
-		crud.socket.send('createUser', {
+		crud.send('createUser', {
 			apiKey: config.apiKey,
 			organization_id: config.organization_Id,
 			// 	mdb: this.masterDB,
