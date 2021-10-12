@@ -1,3 +1,10 @@
+## [1.2.32](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.31...v1.2.32) (2021-10-12)
+
+
+### Bug Fixes
+
+* render object and updte crud.send ([f37abf1](https://github.com/CoCreate-app/CoCreate-users/commit/f37abf17f7e5320462458ab36b005048e17d54ec))
+
 ## [1.2.31](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.30...v1.2.31) (2021-10-06)
 
 
