@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.3.0...v1.3.1) (2021-10-14)
+
+
+### Bug Fixes
+
+* dispatch login endEvent ([5385212](https://github.com/CoCreate-app/CoCreate-users/commit/5385212be9eb2e31d9c4cbe48424231d111489ad))
+
 # [1.3.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.34...v1.3.0) (2021-10-14)
 
 
