@@ -86,6 +86,9 @@ const CoCreateUser = {
 		    }
 		});
 		
+		document.dispatchEvent(new CustomEvent('login', {
+			detail: {}
+		}));
 	},
 
 	getCurrentOrg: function(user_id, collection) {
