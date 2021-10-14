@@ -13,6 +13,18 @@ const CoCreateUser = {
 		this.initSocket();
 		this.initChangeOrg();
 		this.checkSession();
+		this.createUserSocket();
+	},
+
+	createUserSocket: function() {
+		var user_id = window.localStorage.getItem('user_id');
+		if (user_id) {
+			crud.socket.create({
+				namespace: 'users',
+				room: user_id,
+				host: window.config.host
+			})
+		}
 	},
 
 	initSocket: function() {
@@ -45,12 +57,12 @@ const CoCreateUser = {
 		inputs.forEach((input) => {
 			const name = input.getAttribute('name');
 			let value = input.value;
-			if(input.type == 'password') {
+			if (input.type == 'password') {
 				value = btoa(value);
 			}
 			collection = input.getAttribute('collection') || collection;
 
-			if(name) {
+			if (name) {
 				loginData[name] = value;
 			}
 		});
@@ -66,7 +78,7 @@ const CoCreateUser = {
 	loginResult: function(data) {
 		let { success, status, message, token } = data;
 
-		if(success) {
+		if (success) {
 			window.localStorage.setItem('user_id', data['id']);
 			window.localStorage.setItem("token", token);
 			document.cookie = `token=${token};path=/`;
@@ -75,24 +87,19 @@ const CoCreateUser = {
 			document.dispatchEvent(new CustomEvent('login', {
 				detail: {}
 			}));
-
 		}
 		else
 			message = "The email or password you entered is incorrect";
 
 		render.data({
 			selector: "[template_id='login']",
-			data:  {
-		        type: 'login',
-		        status,
-		        message,
-		        success
-		    }
+			data: {
+				type: 'login',
+				status,
+				message,
+				success
+			}
 		});
-		
-		document.dispatchEvent(new CustomEvent('login', {
-			detail: {}
-		}));
 	},
 
 	getCurrentOrg: function(user_id, collection) {
@@ -122,7 +129,7 @@ const CoCreateUser = {
 
 		let allCookies = document.cookie.split(';');
 
-		for(var i = 0; i < allCookies.length; i++)
+		for (var i = 0; i < allCookies.length; i++)
 			document.cookie = allCookies[i] + "=;expires=" +
 			new Date(0).toUTCString();
 
@@ -133,24 +140,24 @@ const CoCreateUser = {
 	initChangeOrg: () => {
 		const user_id = window.localStorage.getItem('user_id');
 
-		if(!user_id) return;
+		if (!user_id) return;
 
 		let orgChangers = document.querySelectorAll('.org-changer');
 
-		for(let i = 0; i < orgChangers.length; i++) {
+		for (let i = 0; i < orgChangers.length; i++) {
 			let orgChanger = orgChangers[i];
 
 			const collection = orgChanger.getAttribute('collection') ? orgChanger.getAttribute('collection') : 'module_activity';
 			const id = orgChanger.getAttribute('document_id');
 
-			if(collection == 'users' && id == user_id) {
+			if (collection == 'users' && id == user_id) {
 				orgChanger.addEventListener('selectedValue', function(e) {
 
 					setTimeout(function() {
 						getCurrentOrg(user_id);
 
 						var timer = setInterval(function() {
-							if(updatedCurrentOrg) {
+							if (updatedCurrentOrg) {
 								window.location.reload();
 
 								clearInterval(timer);
@@ -165,12 +172,12 @@ const CoCreateUser = {
 	checkSession: () => {
 		let user_id = window.localStorage.getItem('user_id');
 		let token = window.localStorage.getItem('token');
-		if(user_id && token) {
+		if (user_id && token) {
 			let redirectTag = document.querySelector('[session="true"]');
 
-			if(redirectTag) {
+			if (redirectTag) {
 				let redirectLink = redirectTag.getAttribute('href');
-				if(redirectLink) {
+				if (redirectLink) {
 					document.location.href = redirectLink;
 				}
 			}
@@ -178,9 +185,9 @@ const CoCreateUser = {
 		else {
 			let redirectTag = document.querySelector('[session="false"]');
 
-			if(redirectTag) {
+			if (redirectTag) {
 				let redirectLink = redirectTag.getAttribute('href');
-				if(redirectLink) {
+				if (redirectLink) {
 					window.localStorage.clear();
 					// this.deleteCookie();
 					document.location.href = redirectLink;
@@ -196,8 +203,8 @@ const CoCreateUser = {
 			let data_permission = tag.getAttribute('data-permission');
 			let userPermission = data['permission-' + module_id];
 
-			if(userPermission.indexOf(data_permission) == -1) {
-				switch(data_permission) {
+			if (userPermission.indexOf(data_permission) == -1) {
+				switch (data_permission) {
 					case 'create':
 						tag.style.display = 'none';
 						break;
@@ -215,7 +222,7 @@ const CoCreateUser = {
 				}
 			}
 			else {
-				switch(data_permission) {
+				switch (data_permission) {
 
 					// code
 				}
@@ -224,7 +231,7 @@ const CoCreateUser = {
 	},
 
 	changedUserStatus: (data) => {
-		if(!data.user_id) {
+		if (!data.user_id) {
 			return;
 		}
 		let statusEls = document.querySelectorAll(`[user-status][document_id='${data['user_id']}']`);
@@ -236,12 +243,12 @@ const CoCreateUser = {
 
 	setDocumentId: function(collection, id) {
 		let orgIdElements = document.querySelectorAll(`[collection='${collection}']`);
-		if(orgIdElements && orgIdElements.length > 0) {
+		if (orgIdElements && orgIdElements.length > 0) {
 			orgIdElements.forEach((el) => {
-				if(!el.getAttribute('document_id')) {
+				if (!el.getAttribute('document_id')) {
 					el.setAttribute('document_id', id);
 				}
-				if(el.getAttribute('name') == "_id") {
+				if (el.getAttribute('name') == "_id") {
 					el.value = id;
 				}
 			});
@@ -250,7 +257,7 @@ const CoCreateUser = {
 
 	createUserNew: function(btn) {
 		let form = btn.closest("form");
-		if(!form) return;
+		if (!form) return;
 		let newOrg_id = form.querySelector("input[collection='organizations'][name='_id']");
 		let user_id = form.querySelector("input[collection='users'][name='_id']");
 
@@ -268,12 +275,12 @@ const CoCreateUser = {
 
 	createUser: function(btn) {
 		let form = btn.closest("form");
-		if(!form) return;
+		if (!form) return;
 		let org_id = "";
 		let elements = form.querySelectorAll("[collection='users'][name]");
 		let orgIdElement = form.querySelector("input[collection='organizations'][name='_id']");
 
-		if(orgIdElement) {
+		if (orgIdElement) {
 			org_id = orgIdElement.value;
 		}
 		let data = {};
@@ -281,9 +288,9 @@ const CoCreateUser = {
 		elements.forEach(el => {
 			let name = el.getAttribute('name');
 			let value = input.getValue(el) || el.getAttribute('value');
-			if(!name || !value) return;
+			if (!name || !value) return;
 
-			if(el.getAttribute('data-type') == 'array') {
+			if (el.getAttribute('data-type') == 'array') {
 				value = [value];
 			}
 			data[name] = value;
