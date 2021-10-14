@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.34...v1.3.0) (2021-10-14)
+
+
+### Features
+
+* render log for success ([24480a0](https://github.com/CoCreate-app/CoCreate-users/commit/24480a036390608b9ad1cf79dd68c995df1991ac))
+
 ## [1.2.34](https://github.com/CoCreate-app/CoCreate-users/compare/v1.2.33...v1.2.34) (2021-10-13)
 
 
