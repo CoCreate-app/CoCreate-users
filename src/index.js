@@ -19,12 +19,12 @@ const CoCreateUser = {
 		const self = this;
 		crud.listen('createUser', function(data) {
 			self.setDocumentId('users', data.document_id);
-			document.dispatchEvent(new CustomEvent('createdUser', {
+			document.dispatchEvent(new CustomEvent('createUser', {
 				detail: data
 			}));
 		});
 		crud.listen('createUserNew', function(data) {
-			document.dispatchEvent(new CustomEvent('createdUser', {
+			document.dispatchEvent(new CustomEvent('createUserNew', {
 				detail: data
 			}));
 		});
@@ -64,24 +64,28 @@ const CoCreateUser = {
 	},
 
 	loginResult: function(data) {
-		const { success, status, message, token } = data;
+		let { success, status, message, token } = data;
 
 		if(success) {
 			window.localStorage.setItem('user_id', data['id']);
 			window.localStorage.setItem("token", token);
 			document.cookie = `token=${token};path=/`;
 			this.getCurrentOrg(data['id'], data['collection']);
+			message = "Succesful Login";
 		}
+		else
+			message = "The email or password you entered is incorrect";
 
 		render.data({
 			selector: "[template_id='login']",
 			data:  {
 		        type: 'login',
-		        status: 'failed',
-		        message: 'Email or password is incorrect'
+		        status,
+		        message,
+		        success
 		    }
 		});
-
+		
 	},
 
 	getCurrentOrg: function(user_id, collection) {
@@ -102,7 +106,7 @@ const CoCreateUser = {
 		window.localStorage.setItem('adminUI_id', data['adminUI_id']);
 		window.localStorage.setItem('builderUI_id', data['builderUI_id']);
 
-		document.dispatchEvent(new CustomEvent('loggedIn'));
+		document.dispatchEvent(new CustomEvent('logIn'));
 	},
 
 	logout: (btn) => {
@@ -116,7 +120,7 @@ const CoCreateUser = {
 			new Date(0).toUTCString();
 
 		// Todo: replace with Custom event system
-		document.dispatchEvent(new CustomEvent('loggedOut'));
+		document.dispatchEvent(new CustomEvent('logout'));
 	},
 
 	initChangeOrg: () => {
@@ -300,7 +304,7 @@ export default CoCreateUser;
 
 action.init({
 	action: "createUserNew",
-	endEvent: "createdUser",
+	endEvent: "createUserNew",
 	callback: (btn, data) => {
 		CoCreateUser.createUser(btn);
 	},
@@ -308,7 +312,7 @@ action.init({
 
 action.init({
 	action: "createUser",
-	endEvent: "createdUser",
+	endEvent: "createUser",
 	callback: (btn, data) => {
 		CoCreateUser.createUser(btn);
 	},
@@ -316,7 +320,7 @@ action.init({
 
 action.init({
 	action: "login",
-	endEvent: "loggedIn",
+	endEvent: "login",
 	callback: (btn, data) => {
 		CoCreateUser.requestLogin(btn, data);
 	},
@@ -324,7 +328,7 @@ action.init({
 
 action.init({
 	action: "logout",
-	endEvent: "loggedOut",
+	endEvent: "logout",
 	callback: (btn, data) => {
 		CoCreateUser.logout(btn, data);
 	},
