@@ -72,6 +72,10 @@ const CoCreateUser = {
 			document.cookie = `token=${token};path=/`;
 			this.getCurrentOrg(data['id'], data['collection']);
 			message = "Succesful Login";
+			document.dispatchEvent(new CustomEvent('login', {
+				detail: {}
+			}));
+
 		}
 		else
 			message = "The email or password you entered is incorrect";
