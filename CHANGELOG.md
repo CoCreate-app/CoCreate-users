@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.3.2...v1.4.0) (2021-10-14)
+
+
+### Features
+
+* opens socket chaner for user Status ([e875c8d](https://github.com/CoCreate-app/CoCreate-users/commit/e875c8d904df36e9136df9484ddac461ce560bb3))
+
 ## [1.3.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.3.1...v1.3.2) (2021-10-14)
 
 
