@@ -1,3 +1,10 @@
+## [1.4.8](https://github.com/CoCreate-app/CoCreate-users/compare/v1.4.7...v1.4.8) (2021-11-02)
+
+
+### Bug Fixes
+
+* removed @cocreate/form ([0e8e3b4](https://github.com/CoCreate-app/CoCreate-users/commit/0e8e3b4a2583a05a0c44f2d800e13684fe19d9b3))
+
 ## [1.4.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.4.6...v1.4.7) (2021-11-01)
 
 
