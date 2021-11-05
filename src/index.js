@@ -1,6 +1,6 @@
 /*globals CustomEvent, btoa*/
 import crud from '@cocreate/crud-client';
-import input from '@cocreate/elements';
+// import input from '@cocreate/elements';
 import action from '@cocreate/action';
 import render from '@cocreate/render';
 
@@ -287,7 +287,7 @@ const CoCreateUser = {
 		//. get form data
 		elements.forEach(el => {
 			let name = el.getAttribute('name');
-			let value = input.getValue(el) || el.getAttribute('value');
+			let value = el.getValue(el) || el.getAttribute('value');
 			if (!name || !value) return;
 
 			if (el.getAttribute('data-type') == 'array') {
