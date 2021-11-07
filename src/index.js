@@ -79,6 +79,9 @@ const CoCreateUser = {
 		let { success, status, message, token } = data;
 
 		if (success) {
+			window.localStorage.setItem('organization_id', window.config.organization_Id);
+			window.localStorage.setItem("apiKey", window.config.apiKey);
+			window.localStorage.setItem("host", window.config.host);
 			window.localStorage.setItem('user_id', data['id']);
 			window.localStorage.setItem("token", token);
 			document.cookie = `token=${token};path=/`;
@@ -312,9 +315,6 @@ const CoCreateUser = {
 	},
 };
 
-CoCreateUser.init();
-
-export default CoCreateUser;
 
 action.init({
 	action: "createUserNew",
@@ -347,3 +347,7 @@ action.init({
 		CoCreateUser.logout(btn, data);
 	},
 });
+
+CoCreateUser.init();
+
+export default CoCreateUser;
