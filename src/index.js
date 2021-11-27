@@ -1,7 +1,7 @@
 /*globals CustomEvent, btoa*/
 import crud from '@cocreate/crud-client';
 // import input from '@cocreate/elements';
-import action from '@cocreate/action';
+import action from '@cocreate/actions';
 import render from '@cocreate/render';
 
 const CONST_PERMISSION_CLASS = 'checkPermission';
