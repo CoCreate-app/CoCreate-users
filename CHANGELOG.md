@@ -1,3 +1,10 @@
+## [1.4.23](https://github.com/CoCreate-app/CoCreate-users/compare/v1.4.22...v1.4.23) (2021-11-27)
+
+
+### Bug Fixes
+
+* update docs api and cocreateJS script ([43e3a93](https://github.com/CoCreate-app/CoCreate-users/commit/43e3a93833e09562e9e0f6bd28164b0d7a56078e))
+
 ## [1.4.22](https://github.com/CoCreate-app/CoCreate-users/compare/v1.4.21...v1.4.22) (2021-11-26)
 
 
