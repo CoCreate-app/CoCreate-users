@@ -1,3 +1,11 @@
+## [1.4.25](https://github.com/CoCreate-app/CoCreate-users/compare/v1.4.24...v1.4.25) (2021-11-27)
+
+
+### Bug Fixes
+
+* actions import typo ([d6abdd2](https://github.com/CoCreate-app/CoCreate-users/commit/d6abdd2b09f7a94ec8ea785fefc7347cd69abf98))
+* update dependencies ([e207b39](https://github.com/CoCreate-app/CoCreate-users/commit/e207b397d1cb045e24c5aa6bb857e4e73ea619ff))
+
 ## [1.4.24](https://github.com/CoCreate-app/CoCreate-users/compare/v1.4.23...v1.4.24) (2021-11-27)
 
 
