@@ -317,7 +317,7 @@ const CoCreateUser = {
 
 
 action.init({
-	action: "createUserNew",
+	name: "createUserNew",
 	endEvent: "createUserNew",
 	callback: (btn, data) => {
 		CoCreateUser.createUser(btn);
@@ -325,7 +325,7 @@ action.init({
 });
 
 action.init({
-	action: "createUser",
+	name: "createUser",
 	endEvent: "createUser",
 	callback: (btn, data) => {
 		CoCreateUser.createUser(btn);
@@ -333,7 +333,7 @@ action.init({
 });
 
 action.init({
-	action: "login",
+	name: "login",
 	endEvent: "login",
 	callback: (btn, data) => {
 		CoCreateUser.requestLogin(btn, data);
@@ -341,7 +341,7 @@ action.init({
 });
 
 action.init({
-	action: "logout",
+	name: "logout",
 	endEvent: "logout",
 	callback: (btn, data) => {
 		CoCreateUser.logout(btn, data);
