@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.4.35...v1.5.0) (2022-03-03)
+
+
+### Features
+
+* manage server and client scripts ([06a8797](https://github.com/CoCreate-app/CoCreate-users/commit/06a87978b99879a83a303dcbc078ebfb27191375))
+
 ## [1.4.35](https://github.com/CoCreate-app/CoCreate-users/compare/v1.4.34...v1.4.35) (2022-02-24)
 
 
