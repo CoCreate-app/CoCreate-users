@@ -9,12 +9,12 @@ class CoCreateUser {
 	
 	init() {
 		if (this.wsManager) {
-			this.wsManager.on('createUserNew',			(socket, data, roomInfo) => this.createUserNew(socket, data));
-			this.wsManager.on('createUser',				(socket, data, roomInfo) => this.createUser(socket, data));
-			this.wsManager.on('login',					(socket, data, roomInfo) => this.login(socket, data, roomInfo))
-			this.wsManager.on('usersCurrentOrg',		(socket, data, roomInfo) => this.usersCurrentOrg(socket, data, roomInfo))
-			this.wsManager.on('fetchUser',				(socket, data, roomInfo) => this.fetchUser(socket, data, roomInfo))
-			this.wsManager.on('userStatus',				(socket, data, roomInfo) => this.setUserStatus(socket, data, roomInfo))
+			this.wsManager.on('createUserNew',			(socket, data, socketInfo) => this.createUserNew(socket, data));
+			this.wsManager.on('createUser',				(socket, data, socketInfo) => this.createUser(socket, data));
+			this.wsManager.on('login',					(socket, data, socketInfo) => this.login(socket, data, socketInfo))
+			this.wsManager.on('usersCurrentOrg',		(socket, data, socketInfo) => this.usersCurrentOrg(socket, data, socketInfo))
+			this.wsManager.on('fetchUser',				(socket, data, socketInfo) => this.fetchUser(socket, data, socketInfo))
+			this.wsManager.on('userStatus',				(socket, data, socketInfo) => this.setUserStatus(socket, data, socketInfo))
 		}
 	}
 
@@ -227,7 +227,7 @@ class CoCreateUser {
 	/**
 	 * status: 'on/off/idle'
 	 */
-	async setUserStatus(socket, req_data, roomInfo) {
+	async setUserStatus(socket, req_data, socketInfo) {
 		const self = this;
 		const {info, status} = req_data;
 
