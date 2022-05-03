@@ -120,8 +120,8 @@ const CoCreateUser = {
 		window.localStorage.setItem('organization_id', data['current_org']);
 		window.localStorage.setItem('host', window.config.host);
 
-		window.localStorage.setItem('adminUI_id', data['adminUI_id']);
-		window.localStorage.setItem('builderUI_id', data['builderUI_id']);
+		// window.localStorage.setItem('adminUI_id', data['adminUI_id']);
+		// window.localStorage.setItem('builderUI_id', data['builderUI_id']);
 
 		document.dispatchEvent(new CustomEvent('logIn'));
 	},
