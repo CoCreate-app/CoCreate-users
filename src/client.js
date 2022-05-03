@@ -214,7 +214,7 @@ const CoCreateUser = {
 					case 'read':
 						tag.style.display = 'none';
 						break;
-					case 'delete':
+					case 'update':
 						tag.style.display = 'none';
 						break;
 					case 'delete':
