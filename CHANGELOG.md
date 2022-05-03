@@ -1,3 +1,11 @@
+## [1.5.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.5.1...v1.5.2) (2022-05-03)
+
+
+### Bug Fixes
+
+* removed localstorage.setItem for admin_ui and builder_ui ([350f289](https://github.com/CoCreate-app/CoCreate-users/commit/350f289f731bf21f535d892b276708044eb662a3))
+* user permission typo contained duplicate delete switch case. renamed one to update ([66f6fc7](https://github.com/CoCreate-app/CoCreate-users/commit/66f6fc72ce3b60facaaa41112246de22358062dd))
+
 ## [1.5.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.5.0...v1.5.1) (2022-03-06)
 
 
