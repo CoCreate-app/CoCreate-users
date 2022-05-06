@@ -7,7 +7,6 @@ import render from '@cocreate/render';
 const CONST_PERMISSION_CLASS = 'checkPermission';
 
 const CoCreateUser = {
-	// masterDB: '5ae0cfac6fb8c4e656fdaf92', // '5ae0cfac6fb8c4e656fdaf92' /** masterDB **/,
 	init: function() {
 		this.updatedCurrentOrg = false;
 		this.initSocket();
@@ -307,7 +306,6 @@ const CoCreateUser = {
 		crud.send('createUser', {
 			apiKey: config.apiKey,
 			organization_id: config.organization_Id,
-			// 	mdb: this.masterDB,
 			collection: 'users',
 			data: data,
 			orgDB: org_id

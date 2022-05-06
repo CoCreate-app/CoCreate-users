@@ -1,4 +1,4 @@
-const {ObjectID} = require("mongodb");
+const {ObjectId} = require("mongodb");
 
 class CoCreateUser {
 	constructor(wsManager, dbClient) {
@@ -28,7 +28,7 @@ class CoCreateUser {
 				const db = this.dbClient.db(req_data['organization_id']);
 				const collection = db.collection(req_data["collection"]);
 					const query = {
-					"_id": new ObjectID(data["user_id"])
+					"_id": new ObjectId(data["user_id"])
 				};
 			
 				collection.find(query).toArray(function(error, result) {
@@ -154,7 +154,7 @@ class CoCreateUser {
 			
 			let query = new Object();
 			
-			query['_id'] = new ObjectID(req_data['user_id']);
+			query['_id'] = new ObjectId(req_data['user_id']);
 
 			collection.find(query).toArray(function(error, result) {
 			
@@ -164,7 +164,7 @@ class CoCreateUser {
 						let org_id = result[0]['current_org'];
 						const orgCollection = self.dbClient.db(selectedDB).collection('organizations');
 						
-						orgCollection.find({"_id": new ObjectID(org_id),}).toArray(function(err, res) {
+						orgCollection.find({"_id": new ObjectId(org_id),}).toArray(function(err, res) {
 							if (!err && res && res.length > 0) {
 								self.wsManager.send(socket, 'usersCurrentOrg', {
 									id: 				req_data['id'],
@@ -211,7 +211,7 @@ class CoCreateUser {
 			const collection = self.dbClient.db(selectedDB).collection(req_data['collection']);
 			const user_id = req_data['user_id'];
 			const query = {
-				"_id": new ObjectID(user_id),
+				"_id": new ObjectId(user_id),
 			}
 			
 			collection.findOne(query, function(error, result) {
@@ -245,7 +245,7 @@ class CoCreateUser {
 			const collection = self.dbClient.db(selectedDB).collection('users');
 			const user_id = items[1];
 			const query = {
-				"_id": new ObjectID(user_id),
+				"_id": new ObjectId(user_id),
 			}
 			collection.update(query, {$set: {status: status}}, function(err, res) {
 				if (!err) {
