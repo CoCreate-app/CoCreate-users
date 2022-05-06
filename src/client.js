@@ -68,7 +68,7 @@ const CoCreateUser = {
 
 		crud.send('login', {
 			"apiKey": window.config.apiKey,
-			"organization_id": window.config.organization_Id,
+			"organization_id": window.config.organization_id,
 			"collection": collection,
 			"loginData": loginData
 		});
@@ -78,7 +78,7 @@ const CoCreateUser = {
 		let { success, status, message, token } = data;
 
 		if (success) {
-			window.localStorage.setItem('organization_id', window.config.organization_Id);
+			window.localStorage.setItem('organization_id', window.config.organization_id);
 			window.localStorage.setItem("apiKey", window.config.apiKey);
 			window.localStorage.setItem("host", window.config.host);
 			window.localStorage.setItem('user_id', data['id']);
@@ -107,7 +107,7 @@ const CoCreateUser = {
 	getCurrentOrg: function(user_id, collection) {
 		crud.send('usersCurrentOrg', {
 			"apiKey": window.config.apiKey,
-			"organization_id": window.config.organization_Id,
+			"organization_id": window.config.organization_id,
 			"collection": collection || 'users',
 			"user_id": user_id,
 		});
@@ -263,11 +263,11 @@ const CoCreateUser = {
 		let newOrg_id = form.querySelector("input[collection='organizations'][name='_id']");
 		let user_id = form.querySelector("input[collection='users'][name='_id']");
 
-		const room = config.organization_Id;
+		const room = config.organization_id;
 
 		crud.send('createUserNew', {
 			apiKey: config.apiKey,
-			organization_id: config.organization_Id,
+			organization_id: config.organization_id,
 			collection: 'users',
 			newOrg_id: org_id,
 			user_id: user_id,
@@ -299,13 +299,13 @@ const CoCreateUser = {
 		});
 		data['current_org'] = org_id;
 		data['connected_orgs'] = [org_id];
-		data['organization_id'] = config.organization_Id;
+		data['organization_id'] = config.organization_id;
 
-		const room = config.organization_Id;
+		const room = config.organization_id;
 
 		crud.send('createUser', {
 			apiKey: config.apiKey,
-			organization_id: config.organization_Id,
+			organization_id: config.organization_id,
 			collection: 'users',
 			data: data,
 			orgDB: org_id
