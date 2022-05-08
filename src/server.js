@@ -114,7 +114,8 @@ class CoCreateUser {
 				if (!error && result && result.length > 0) {
 					let token = null;
 					if (self.wsManager.authInstance) {
-						token = await self.wsManager.authInstance.generateToken({user_id: result[0]['_id']});
+						console.log('login user_id: ', `${result[0]['_id']}`)
+						token = await self.wsManager.authInstance.generateToken({user_id: `${result[0]['_id']}`});
 					}
 
 					response = { ...response,  
@@ -128,7 +129,6 @@ class CoCreateUser {
 						token
 					};
 				} 
-				console.log('before socket', response);
 				self.wsManager.send(socket, 'login', response, req_data['organization_id'])
 				console.log('success socket', req_data['organization_id']);
 			});
