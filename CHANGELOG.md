@@ -1,3 +1,10 @@
+## [1.5.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.5.3...v1.5.4) (2022-05-08)
+
+
+### Bug Fixes
+
+* convert user_id  object_id to string ([bec7113](https://github.com/CoCreate-app/CoCreate-users/commit/bec711359b99594c0a6207ca478a73968dbc0a41))
+
 ## [1.5.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.5.2...v1.5.3) (2022-05-06)
 
 
