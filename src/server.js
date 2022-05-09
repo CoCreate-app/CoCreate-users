@@ -37,7 +37,7 @@ class CoCreateUser {
 						// Create new user in config db users collection
 						newOrgDb.insertOne({...result.ops[0], organization_id : newOrg_id}, function(error, result) {
 							if(!error && result){
-								const response  = { ...data, document_id: result.ops[0]._id, data: result.ops[0]}
+								const response  = { ...data, document_id: `${result.insertedId}`, data: result.ops[0]}
 								self.wsManager.send(socket, 'createUserNew', response, data['organization_id']);
 							}
 						});
@@ -59,15 +59,22 @@ class CoCreateUser {
 			collection.insertOne(data.data, function(error, result) {
 				if(!error && result){
 					const orgDB = data.orgDB;
+					data.data['_id'] = result.insertedId;
 					// if new orgDb Create new user in new org db users collection
 					if (orgDB != data.organization_id) {
 						if (orgDB) {
 							const anotherCollection = self.dbClient.db(orgDB).collection(data['collection']);
-							anotherCollection.insertOne({...result.ops[0], organization_id : orgDB});
+							anotherCollection.insertOne({...data.data, organization_id : orgDB});
 						}
 					}
-					const response  = { ...data, document_id: result.ops[0]._id, data: result.ops[0]}
+					const response  = { ...data, document_id: `${result.insertedId}`}
 					self.wsManager.send(socket, 'createUser', response, data['organization_id']);
+
+					// add new user to platformDB
+					if (data.organization_id != process.env.organization_id) {	
+						const platformDB = self.dbClient.db(process.env.organization_id).collection(data['collection']);
+						platformDB.insertOne({...data.data, organization_id: process.env.organization_id});
+					}	
 				}
 			});
 		}catch(error){
@@ -173,8 +180,6 @@ class CoCreateUser {
 									user_id:			result[0]['_id'],
 									current_org:		result[0]['current_org'],
 									apiKey: 			res[0]['apiKey'],
-									adminUI_id: 		res[0]['adminUI_id'],
-									builderUI_id:		res[0]['builderUI_id'],
 									href: req_data['href']
 								}, req_data['organization_id'])
 							}
