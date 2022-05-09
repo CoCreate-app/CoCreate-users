@@ -1,3 +1,11 @@
+## [1.5.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.5.4...v1.5.5) (2022-05-09)
+
+
+### Bug Fixes
+
+* client.js - remove adminUI_id and builderUI_id ([88da86d](https://github.com/CoCreate-app/CoCreate-users/commit/88da86d9ecc31a12d3eb5cef0a941c38697828ad))
+* insert returns insertedId instead of [0]._id ([36c83fc](https://github.com/CoCreate-app/CoCreate-users/commit/36c83fc08d0ba70a3a9993b4d06bf8ad3304b2f7))
+
 ## [1.5.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.5.3...v1.5.4) (2022-05-08)
 
 
