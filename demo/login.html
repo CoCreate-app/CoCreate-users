@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login | CoCreateJS</title>
+    
+    <link rel="icon" href="https://cdn.cocreate.app/favicon.ico" type="image/ico" sizes="16x16">
+	<link rel="stylesheet" href="../index.css" collection="files" document_id="60e4f9714792bff869f1bde5" name="src" type="text/css"/>
+</head>
+
+	<body style='background-image: url("https://cdn.cocreate.app/background.png");'>
+		<a href="./logout.html" session="true" hidden></a>
+
+		<a href="./signup.html" title="" class="position:relative z-index:1 float:right margin:15px margin-left:auto color:white">Sign Up</a>
+
+		<div class="justify-content:center align-items:center overflow:auto display:flex flex-wrap:wrap position:absolute width:100% height:100%">
+			<div class="flex-grow:1 min-width:300px max-width:400px margin:15px">
+				
+				<form realtime="false" collection="users" id="signin">
+					<div class="overflow:hidden padding:0px_25px background:white">
+						<div class="float:left width:75% padding-top:25px">
+							<h3>Sign In</h3>
+						</div>
+						<div class="float:right width:25% padding-top:5px font-size:70px line-height:100px text-align:right color:very-light-gray">
+							<i class="fas fa-sign-in-alt"></i>
+						</div>
+					</div>
+					<div class="padding:25px background:gainsboro text-align:left">
+						
+						<floating-label>
+							<input type="email" name='email' placeholder="Email" class="floating-label">
+						</floating-label>
+							
+						<floating-label>
+							<input type="password" name='password' placeholder="Password" class="floating-label">
+						</floating-label>
+	                    
+						<button actions="login" href="logout.html" class="outline">Login</button>
+
+						<a show='#forgotpass' hide='#signin'>Forgot Password</a>
+					</div>
+				</form>
+				
+				<form collection="users" hidden id="forgotpass">
+					<div class="overflow:hidden padding:0px_25px background:white">
+						<div class="float:left width:75% padding-top:25px">
+							<h3>Password Recovery</h3>
+						</div>
+						<div class="float:right width:25% padding-top:5px font-size:70px line-height:100px text-align:right color:very-light-gray">
+							<i class="fas fa-key"></i>
+						</div>
+					</div>
+					<div class="padding:25px background:gainsboro text-align:left">
+	                    <floating-label>
+							<input type="email" name='email' id="email" placeholder="Email"  class="floating-label">
+	                    </floating-label>
+	                    
+						<button class="outline">
+							<a>Send Email</a>
+						</button>
+						
+						<a show='#signin' hide='#forgotpass'>login</a>
+					</div>
+				</form> 
+					
+			</div>
+		</div>
+		
+		<div class="position:fixed!important bottom:15px right:15px">
+	        <div template_id="login" class="template card margin:5px padding:10px {{status}}">
+	            <span class="{{type}}">{{message}}</span><a actions="removeElement"> X</a>
+	        </div>
+	        
+	        <div template_id="notification" class="template card position:fixed!important bottom:15px right:15px padding:10px {{status}}">
+	            <span class="{{type}}">{{message}}</span><a actions="removeElement"> X</a>
+	        </div>
+		</div>
+		
+    	<script>
+			var config = {                 
+				apiKey: '2061acef-0451-4545-f754-60cf8160', // Your apiKey can be retrived after signing up at https://cocreate.app              
+				organization_id: '5ff747727005da1c272740ab', // Your organization_id can be retrived after signing up at https://cocreate.app              
+				host: 'server.cocreate.app' // Points to socket server. If not defined it will use the url in web browser by default
+			} 
+		</script>
+
+        <script src="https://cdn.cocreate.app/1.14.5/CoCreate.min.js"></script>
+        <!-- <script src="../../../CoCreateJS/dist/CoCreate.js"></script> -->
+
+    </body>
+</html>

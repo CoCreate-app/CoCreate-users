@@ -34,18 +34,13 @@ const CoCreateUser = {
 				detail: data
 			}));
 		});
-		crud.listen('createUserNew', function(data) {
-			document.dispatchEvent(new CustomEvent('createUserNew', {
-				detail: data
-			}));
-		});
 		crud.listen('fetchedUser', this.checkPermissions);
-		crud.listen('login', (instance) => self.loginResult(instance));
-		crud.listen('changedUserStatus', this.changedUserStatus);
+		crud.listen('login', (instance) => self.loginResponse(instance));
+		crud.listen('updateUserStatus', this.updateUserStatus);
 		crud.listen('usersCurrentOrg', (instance) => self.setCurrentOrg(instance));
 	},
 
-	requestLogin: function(btn) {
+	loginRequest: function(btn) {
 		let form = btn.closest('form');
 		let collection = form.getAttribute('collection');
 		let loginData = {};
@@ -74,17 +69,17 @@ const CoCreateUser = {
 		});
 	},
 
-	loginResult: function(data) {
+	loginResponse: function(data) {
 		let { success, status, message, token } = data;
 
 		if (success) {
 			window.localStorage.setItem('organization_id', window.config.organization_id);
 			window.localStorage.setItem("apiKey", window.config.apiKey);
 			window.localStorage.setItem("host", window.config.host);
-			window.localStorage.setItem('user_id', data['id']);
+			window.localStorage.setItem('user_id', data['document_id']);
 			window.localStorage.setItem("token", token);
 			document.cookie = `token=${token};path=/`;
-			this.getCurrentOrg(data['id'], data['collection']);
+			this.getCurrentOrg(data['document_id'], data['collection']);
 			message = "Succesful Login";
 			document.dispatchEvent(new CustomEvent('login', {
 				detail: {}
@@ -229,7 +224,7 @@ const CoCreateUser = {
 		});
 	},
 
-	changedUserStatus: (data) => {
+	updateUserStatus: (data) => {
 		if (!data.user_id) {
 			return;
 		}
@@ -254,24 +249,6 @@ const CoCreateUser = {
 		}
 	},
 
-	createUserNew: function(btn) {
-		let form = btn.closest("form");
-		if (!form) return;
-		let newOrg_id = form.querySelector("input[collection='organizations'][name='_id']");
-		let user_id = form.querySelector("input[collection='users'][name='_id']");
-
-		const room = config.organization_id;
-
-		crud.send('createUserNew', {
-			apiKey: config.apiKey,
-			organization_id: config.organization_id,
-			collection: 'users',
-			newOrg_id: org_id,
-			user_id: user_id,
-		}, room);
-
-	},
-
 	createUser: function(btn) {
 		let form = btn.closest("form");
 		if (!form) return;
@@ -279,9 +256,11 @@ const CoCreateUser = {
 		let elements = form.querySelectorAll("[collection='users'][name]");
 		let orgIdElement = form.querySelector("input[collection='organizations'][name='_id']");
 
-		if (orgIdElement) {
+		if (orgIdElement)
 			org_id = orgIdElement.value;
-		}
+		else
+			org_id = config.organization_id;
+
 		let data = {};
 		//. get form data
 		elements.forEach(el => {
@@ -312,14 +291,6 @@ const CoCreateUser = {
 
 
 action.init({
-	name: "createUserNew",
-	endEvent: "createUserNew",
-	callback: (btn, data) => {
-		CoCreateUser.createUser(btn);
-	},
-});
-
-action.init({
 	name: "createUser",
 	endEvent: "createUser",
 	callback: (btn, data) => {
@@ -331,7 +302,7 @@ action.init({
 	name: "login",
 	endEvent: "login",
 	callback: (btn, data) => {
-		CoCreateUser.requestLogin(btn, data);
+		CoCreateUser.loginRequest(btn, data);
 	},
 });
 

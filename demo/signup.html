@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Sign up | CoCreate</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.ico">
+        <link rel="stylesheet" href="../index.css" collection="files" document_id="60e4f9714792bff869f1bde5" name="src" type="text/css"/>
+    </head>
+    
+    <style>
+		.speech-bubble:after { content: ''; position: absolute; top: 0; left: 50%; width: 0; height: 0; border: 23px solid transparent; border-bottom-color: #ffffff; border-top: 0; margin-left: -23px; margin-top: -23px;}
+	</style>
+
+    <body style='background: url("https://cdn.cocreate.app/background.png") no-repeat fixed;-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;'>
+		<a href="./index.html" session="true" hidden></a>
+
+		<a href="./signin.html" title="" class="position:relative z-index:1 float:right margin:15px margin-left:auto color:white">Sign In</a>
+
+		<main class="justify-content:center align-items:center overflow:auto display:flex flex-wrap:wrap position:absolute width:100% height:100%">
+			<div class="flex-grow:1 min-width:300px max-width:400px margin:15px">
+               
+                	<form  realtime="false" autocomplete="off">						
+
+						<section>
+	                    	<div class="overflow:hidden padding:0px_25px background:white">
+								<div class="float:left width:75% padding-top:25px">
+									<h3>Sign UP</h3>
+								</div>
+	                    		<div class="float:right width:25% padding-top:5px font-size:70px line-height:100px text-align:right color:very-light-gray">
+									<i class="fa fa-key"></i>
+								</div>
+							</div>
+							<div class="padding:25px background:gainsboro text-align:left">
+								<floating-label>
+	                    			<input type="text" id="name" 
+										collection="users" 
+										document_id="" 
+										name="name"  
+										placeholder="Full Name"  
+										class="floating-label"
+										autocomplete="off"  
+										required>
+	                    		</floating-label>
+								<floating-label>
+									<input type="email" id="email"
+										collection="users"
+										unique
+										document_id="" 
+										name='email'  
+										placeholder="Email" 
+										class="floating-label"
+										required>
+	                    		</floating-label>
+							 	<small id="errorUemail" class="text-danger"></small>
+							
+	                    		<floating-label>
+									<input type="password" id="password"
+										collection="users"
+								    	document_id=""
+								    	name="password" 
+								    	placeholder="Password" 
+								    	class="floating-label">
+	                    		</floating-label>
+							    <small id="errorUpassword" class="text-danger"></small>
+							
+	                    		<floating-label>
+									<input type="password"
+								    	matches="#password" 
+								    	placeholder="Confirm Password" 
+								    	class="floating-label">
+	                    		</floating-label>
+							    <small id="errorUconfirmpassword" class="text-danger"></small>								
+																	
+								<div class="display:flex">
+									<button type="button" class="outline red-white startAnimation" actions="validate, createUser, login" href="logout.html">
+										Sign Up
+									</button>
+								</div>
+								
+							</div>
+						</section>
+					</form>
+		    </div>
+		</main>
+		
+		<div class="position:fixed!important bottom:15px right:15px">
+	        <div template_id="validate" class="template card margin:5px padding:10px {{status}}">
+	            <span class="{{type}}">{{message}}</span><a actions="removeElement"> X</a>
+	        </div>
+	        
+	        <div template_id="notification" class="template card margin:5px padding:10px {{status}}">
+	            <span class="{{type}}">{{message}}</span><a actions="removeElement"> X</a>
+	        </div>
+        </div>
+		
+    	<script>
+			var config = {                 
+				apiKey: '2061acef-0451-4545-f754-60cf8160', // Your apiKey can be retrived after signing up at https://cocreate.app              
+				organization_id: '5ff747727005da1c272740ab', // Your organization_id can be retrived after signing up at https://cocreate.app              
+				host: 'server.cocreate.app' // Points to socket server. If not defined it will use the url in web browser by default
+			} 
+		</script>
+        <script src="https://cdn.cocreate.app/1.14.5/CoCreate.min.js"></script>
+        <!-- <script src="../../../CoCreateJS/dist/CoCreate.js"></script> -->
+        
+	</body>
+</html>
