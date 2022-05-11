@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.5.5...v1.6.0) (2022-05-11)
+
+
+### Features
+
+* store lastlogin datetime in db. Add demos for signup, login, logout ([7df894a](https://github.com/CoCreate-app/CoCreate-users/commit/7df894a85931c4f6c632c70429b0df72acd0867d))
+
 ## [1.5.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.5.4...v1.5.5) (2022-05-09)
 
 
