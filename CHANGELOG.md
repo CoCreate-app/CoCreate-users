@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.6.1...v1.6.2) (2022-05-13)
+
+
+### Bug Fixes
+
+* renamed usersCurrentOrg to userCurrentOrg ([3910c8a](https://github.com/CoCreate-app/CoCreate-users/commit/3910c8ad2e2e8175cc53b032aab25b184fa0492c))
+
 ## [1.6.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.6.0...v1.6.1) (2022-05-11)
 
 
