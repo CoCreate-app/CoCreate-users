@@ -11,7 +11,7 @@ class CoCreateUser {
 		if (this.wsManager) {
 			this.wsManager.on('createUser',				(socket, data, socketInfo) => this.createUser(socket, data, socketInfo));
 			this.wsManager.on('login',					(socket, data, socketInfo) => this.login(socket, data, socketInfo))
-			this.wsManager.on('usersCurrentOrg',		(socket, data, socketInfo) => this.usersCurrentOrg(socket, data, socketInfo))
+			this.wsManager.on('userCurrentOrg',		(socket, data, socketInfo) => this.userCurrentOrg(socket, data, socketInfo))
 			this.wsManager.on('userStatus',				(socket, data, socketInfo) => this.userStatus(socket, data, socketInfo))
 		}
 	}
@@ -121,7 +121,7 @@ class CoCreateUser {
 			href: string
 		}
 	**/		
-	async usersCurrentOrg(socket, data, socketInfo) {
+	async userCurrentOrg(socket, data, socketInfo) {
 		try {
 			const self = this;
 			const {organization_id, db} = data
@@ -142,7 +142,7 @@ class CoCreateUser {
 						
 						orgCollection.find({"_id": new ObjectId(org_id),}).toArray(function(err, res) {
 							if (!err && res && res.length > 0) {
-								self.wsManager.send(socket, 'usersCurrentOrg', {
+								self.wsManager.send(socket, 'userCurrentOrg', {
 									success:			true,
 									user_id:			result[0]['_id'],
 									current_org:		result[0]['current_org'],

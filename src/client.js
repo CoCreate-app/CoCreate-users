@@ -37,7 +37,7 @@ const CoCreateUser = {
 		crud.listen('fetchedUser', this.checkPermissions);
 		crud.listen('login', (instance) => self.loginResponse(instance));
 		crud.listen('updateUserStatus', this.updateUserStatus);
-		crud.listen('usersCurrentOrg', (instance) => self.setCurrentOrg(instance));
+		crud.listen('userCurrentOrg', (instance) => self.setCurrentOrg(instance));
 	},
 
 	loginRequest: function(btn) {
@@ -100,7 +100,7 @@ const CoCreateUser = {
 	},
 
 	getCurrentOrg: function(user_id, collection) {
-		crud.send('usersCurrentOrg', {
+		crud.send('userCurrentOrg', {
 			"apiKey": window.config.apiKey,
 			"organization_id": window.config.organization_id,
 			"collection": collection || 'users',
