@@ -1,3 +1,10 @@
+## [1.7.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.3...v1.7.4) (2022-05-21)
+
+
+### Bug Fixes
+
+* bump cdn version ([5ecd4a4](https://github.com/CoCreate-app/CoCreate-users/commit/5ecd4a478b1bc8802c5cc7f032b084758a6b5c1b))
+
 ## [1.7.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.2...v1.7.3) (2022-05-19)
 
 
