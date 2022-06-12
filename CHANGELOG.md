@@ -1,3 +1,13 @@
+## [1.7.10](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.9...v1.7.10) (2022-06-12)
+
+
+### Bug Fixes
+
+* bump cdn version to 1.15.13 ([1aa11a2](https://github.com/CoCreate-app/CoCreate-users/commit/1aa11a2ba553633370d4062343e9258f7555ae74))
+* update dependencies ([c4f3b8c](https://github.com/CoCreate-app/CoCreate-users/commit/c4f3b8c36c11ed4824628065d91888e697252376))
+* update docs css document_id ([cdb5ca5](https://github.com/CoCreate-app/CoCreate-users/commit/cdb5ca5d38b58839b1e0573ca94de1f2f5be92dc))
+* update modal btn to actions ([f4a7e0a](https://github.com/CoCreate-app/CoCreate-users/commit/f4a7e0a1fe45c208522f571edbd757abb48e115c))
+
 ## [1.7.9](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.8...v1.7.9) (2022-06-02)
 
 
