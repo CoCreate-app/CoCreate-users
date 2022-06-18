@@ -1,3 +1,10 @@
+## [1.7.14](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.13...v1.7.14) (2022-06-18)
+
+
+### Bug Fixes
+
+* update demos ([19bed1a](https://github.com/CoCreate-app/CoCreate-users/commit/19bed1ae846f2895b8491594d83d68b6a6f83f91))
+
 ## [1.7.13](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.12...v1.7.13) (2022-06-18)
 
 
