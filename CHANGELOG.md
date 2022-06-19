@@ -1,3 +1,10 @@
+## [1.7.15](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.14...v1.7.15) (2022-06-19)
+
+
+### Bug Fixes
+
+* update templates to use placeholder ([fe0e43f](https://github.com/CoCreate-app/CoCreate-users/commit/fe0e43f17ddbe085987fba434351fedaa85f704d))
+
 ## [1.7.14](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.13...v1.7.14) (2022-06-18)
 
 
