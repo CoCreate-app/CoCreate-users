@@ -1,3 +1,10 @@
+## [1.7.28](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.27...v1.7.28) (2022-09-01)
+
+
+### Bug Fixes
+
+* bump all of [@cocreate](https://github.com/cocreate) dependencies ([f24987d](https://github.com/CoCreate-app/CoCreate-users/commit/f24987db770ba7c16400d88b53abec7b6c45f1ef))
+
 ## [1.7.27](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.26...v1.7.27) (2022-08-31)
 
 
