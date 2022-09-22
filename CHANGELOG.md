@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.29...v1.8.0) (2022-09-22)
+
+
+### Features
+
+* login works offline ([cd6a36b](https://github.com/CoCreate-app/CoCreate-users/commit/cd6a36ba14b8dd8e7ecc28c48cedfb9d23880653))
+
 ## [1.7.29](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.28...v1.7.29) (2022-09-01)
 
 
