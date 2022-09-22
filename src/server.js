@@ -67,8 +67,8 @@ class CoCreateUser {
 			const collection = self.dbClient.db(selectedDB).collection(data["collection"]);
 			const query = new Object();
 			
-			for (var key in data['loginData']) {
-				query[key] = data['loginData'][key];
+			for (let item of data['loginData']) {
+				query[item.name] = item.value;
 			}
 			
 			collection.findOneAndUpdate(query, {$set: {lastLogin: new Date()}}, async function(error, result) {

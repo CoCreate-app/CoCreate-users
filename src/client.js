@@ -1,6 +1,5 @@
 /*globals CustomEvent, btoa*/
 import crud from '@cocreate/crud-client';
-// import input from '@cocreate/elements';
 import action from '@cocreate/actions';
 import render from '@cocreate/render';
 
@@ -43,9 +42,8 @@ const CoCreateUser = {
 	loginRequest: function(btn) {
 		let form = btn.closest('form');
 		let collection = form.getAttribute('collection');
-		let loginData = {};
+		let query = [];
 
-		// const inputs = form.querySelectorAll('input, textarea');
 		const inputs = form.querySelectorAll('input[name="email"], input[name="password"], input[name="username"]');
 
 		inputs.forEach((input) => {
@@ -56,17 +54,43 @@ const CoCreateUser = {
 			}
 			collection = input.getAttribute('collection') || collection;
 
-			if (name) {
-				loginData[name] = value;
-			}
+			query.push({name, value, operator: '$eq'})
 		});
 
-		crud.send('login', {
-			"apiKey": window.config.apiKey,
-			"organization_id": window.config.organization_id,
-			"collection": collection,
-			"loginData": loginData
-		});
+		let request = {
+			collection,
+			filter: {
+				query
+			}
+		}
+		
+		const socket = crud.socket.getSocket({})
+		if (!socket || !socket.connected || window && !window.navigator.onLine) {
+	
+			crud.readDocuments(request).then((data) => {
+				data.data = data.data[0]
+				data.data['lastLogin'] = new Date().toISOString()
+
+				crud.updateDocument(data).then((response) => {
+					response['success'] = false
+					response['status'] = "Login failed"
+					if (response.data)  {
+						response['success'] = true
+						response['status'] = "success"
+						this.loginResponse(response)
+					} else {
+						this.loginResponse(response)
+					}
+				})
+			})
+		} else {
+			crud.send('login', {
+				"apiKey": window.config.apiKey,
+				"organization_id": window.config.organization_id,
+				"collection": collection,
+				"loginData": query
+			});
+		}
 	},
 
 	loginResponse: function(data) {
