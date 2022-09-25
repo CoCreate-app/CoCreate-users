@@ -11,7 +11,6 @@ class CoCreateUser {
 		if (this.wsManager) {
 			this.wsManager.on('createUser',				(socket, data, socketInfo) => this.createUser(socket, data, socketInfo));
 			this.wsManager.on('login',					(socket, data, socketInfo) => this.login(socket, data, socketInfo))
-			this.wsManager.on('userCurrentOrg',		(socket, data, socketInfo) => this.userCurrentOrg(socket, data, socketInfo))
 			this.wsManager.on('userStatus',				(socket, data, socketInfo) => this.userStatus(socket, data, socketInfo))
 		}
 	}
@@ -89,6 +88,9 @@ class CoCreateUser {
 							success: true,
 							collection: data["collection"],
 							document_id: result.value['_id'],
+							data: {
+								_id: result.value['_id']
+							},
 							current_org: result.value['current_org'],
 							message: "Login successful",
 							status: "success",
@@ -113,58 +115,6 @@ class CoCreateUser {
 		}
 	}
 	
-	/**
-		data = {
-			namespace:				string,	
-			collection:	string,
-			user_id:					string,
-			href: string
-		}
-	**/		
-	async userCurrentOrg(socket, data, socketInfo) {
-		try {
-			const self = this;
-			const {organization_id, db} = data
-			const selectedDB = db || organization_id;
-			const collection = this.dbClient.db(selectedDB).collection(data["collection"]);
-			
-			let query = new Object();
-			
-			query['_id'] = new ObjectId(data['user_id']);
-
-			collection.find(query).toArray(function(error, result) {
-			
-				if (!error && result && result.length > 0) {
-					
-					if (result.length > 0) {
-						let org_id = result[0]['current_org'];
-						const orgCollection = self.dbClient.db(selectedDB).collection('organizations');
-						
-						orgCollection.find({"_id": new ObjectId(org_id),}).toArray(function(err, res) {
-							if (!err && res && res.length > 0) {
-								self.wsManager.send(socket, 'userCurrentOrg', {
-									success:			true,
-									user_id:			result[0]['_id'],
-									current_org:		result[0]['current_org'],
-									apiKey: 			res[0]['apiKey'],
-									href: 				data['href'],
-									uid:				data['uid']
-								}, socketInfo)
-							}
-						});
-
-					}
-				} else {
-					// socket.emit('loginResult', {
-					//   success: false
-					// });
-				}
-			});
-		} catch (error) {
-			
-		}
-	}
-
 	
 	/**
 	 * status: 'on/off/idle'
