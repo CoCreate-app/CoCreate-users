@@ -62,7 +62,7 @@ const CoCreateUser = {
 			}
 		}
 		
-		const socket = crud.socket.getSocket({})
+		const socket = crud.socket.getSocket()
 		if (!socket || !socket.connected || window && !window.navigator.onLine) {
 			
 			// ToDo: can use updateDocument with filter query
@@ -85,8 +85,6 @@ const CoCreateUser = {
 		} else {
 			// ToDo: can be depreciated if we have another means of token generation
 			crud.send('login', {
-				"apiKey": window.config.apiKey,
-				"organization_id": window.config.organization_id,
 				"collection": collection,
 				"loginData": query
 			});
@@ -97,9 +95,9 @@ const CoCreateUser = {
 		let { success, status, message, token } = data;
 
 		if (success) {
-			window.localStorage.setItem('organization_id', window.config.organization_id);
-			window.localStorage.setItem("apiKey", window.config.apiKey);
-			window.localStorage.setItem("host", window.config.host);
+			window.localStorage.setItem('organization_id', crud.socket.config.organization_id);
+			window.localStorage.setItem("apiKey", crud.socket.config.apiKey);
+			window.localStorage.setItem("host", crud.socket.config.host);
 			window.localStorage.setItem('user_id', data.data['_id']);
 			window.localStorage.setItem("token", token);
 			document.cookie = `token=${token};path=/`;
@@ -162,7 +160,7 @@ const CoCreateUser = {
 					}).then((data) => {
 						window.localStorage.setItem('apiKey', data['apiKey']);
 						window.localStorage.setItem('organization_id', data.data['current_org']);
-						window.localStorage.setItem('host', window.config.host);
+						window.localStorage.setItem('host', crud.socket.config.host);
 						
 						document.dispatchEvent(new CustomEvent('logIn'));
 						window.location.reload();
@@ -273,7 +271,7 @@ const CoCreateUser = {
 		if (orgIdElement)
 			org_id = orgIdElement.value;
 		else
-			org_id = window.config.organization_id;
+			org_id = crud.socket.config.organization_id;
 
 		let data = {data: {}};
 		//. get form data
@@ -290,9 +288,8 @@ const CoCreateUser = {
 		data['collection'] = 'users'
 		data.data['current_org'] = org_id;
 		data.data['connected_orgs'] = [org_id];
-		// data.data['organization_id'] = window.config.organization_id;
 
-		const socket = crud.socket.getSocket({})
+		const socket = crud.socket.getSocket()
 		if (!socket || !socket.connected || window && !window.navigator.onLine) {
 			// ToDo: can use updateDocument with filter query
 			crud.createDocument(data).then((response) => {
@@ -308,29 +305,15 @@ const CoCreateUser = {
 					}));
 		
 				})
-				// document.dispatchEvent(new CustomEvent('createUser', {
-				// 	detail: response
-				// }));
-	
 			})
 		} else {
 			// ToDo: creates user in platformdb
 			crud.send('createUser', {
-				apiKey: window.config.apiKey,
-				organization_id: window.config.organization_id,
 				collection: 'users',
 				data: data,
 				orgDB: org_id
 			});
 		}
-
-		// crud.send('createUser', {
-		// 	apiKey: window.config.apiKey,
-		// 	organization_id: window.config.organization_id,
-		// 	collection: 'users',
-		// 	data: data,
-		// 	orgDB: org_id
-		// });
 	},
 };
 

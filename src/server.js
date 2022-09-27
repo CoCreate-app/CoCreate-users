@@ -9,13 +9,13 @@ class CoCreateUser {
 	
 	init() {
 		if (this.wsManager) {
-			this.wsManager.on('createUser',				(socket, data, socketInfo) => this.createUser(socket, data, socketInfo));
-			this.wsManager.on('login',					(socket, data, socketInfo) => this.login(socket, data, socketInfo))
-			this.wsManager.on('userStatus',				(socket, data, socketInfo) => this.userStatus(socket, data, socketInfo))
+			this.wsManager.on('createUser',		(socket, data) => this.createUser(socket, data));
+			this.wsManager.on('login',			(socket, data) => this.login(socket, data))
+			this.wsManager.on('userStatus',		(socket, data) => this.userStatus(socket, data))
 		}
 	}
 
-	async createUser(socket, data, socketInfo) {
+	async createUser(socket, data) {
 		const self = this;
 		if(!data.data) return;
 		
@@ -32,7 +32,7 @@ class CoCreateUser {
 						anotherCollection.insertOne({...data.data, organization_id : orgDB});
 					}
 					const response  = { ...data, document_id: `${result.insertedId}`}
-					self.wsManager.send(socket, 'createUser', response, socketInfo);
+					self.wsManager.send(socket, 'createUser', response);
 
 					// add new user to platformDB
 					if (data.organization_id != process.env.organization_id) {	
@@ -58,7 +58,7 @@ class CoCreateUser {
 			organization_id: string
 		}
 	**/	
-	async login(socket, data, socketInfo) {
+	async login(socket, data) {
 		const self = this;
 		try {
 			const {organization_id} = data
@@ -107,7 +107,7 @@ class CoCreateUser {
 						platformDB.updateOne(query, {$set: {lastLogin: new Date()}})
 					}	
 				} 
-				self.wsManager.send(socket, 'login', response, socketInfo)
+				self.wsManager.send(socket, 'login', response)
 				console.log(`${response.message} user_id: ${result.value['_id']}`)
 			});
 		} catch (error) {
@@ -119,23 +119,23 @@ class CoCreateUser {
 	/**
 	 * status: 'on/off/idle'
 	 */
-	async userStatus(socket, data, socketInfo) {
+	async userStatus(socket, data) {
 		const self = this;
 		const {info, status} = data;
 
 		const items = info.split('/');
 
-		if (items[0] !== 'users') {
+		if (items[1] !== 'users') {
 			return;
 		}
 		
-		if (!items[1]) return;
+		if (!items[2]) return;
 
 		try {
 			const {organization_id, db} = data
 			const selectedDB = db || organization_id;
 			const collection = self.dbClient.db(selectedDB).collection('users');
-			const user_id = items[1];
+			const user_id = items[2];
 			const query = {
 				"_id": new ObjectId(user_id),
 			}
@@ -145,7 +145,7 @@ class CoCreateUser {
 					{
 						user_id,
 						status
-					}, socketInfo)
+					})
 				}
 				else
 					console.log('err', err)
