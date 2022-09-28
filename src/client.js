@@ -11,18 +11,7 @@ const CoCreateUser = {
 		this.initSocket();
 		this.initChangeOrg();
 		this.checkSession();
-		// this.createUserSocket();
 	},
-
-	// createUserSocket: function() {
-	// 	var user_id = window.localStorage.getItem('user_id');
-	// 	if (user_id) {
-	// 		crud.socket.create({
-	// 			namespace: 'users',
-	// 			room: user_id
-	// 		})
-	// 	}
-	// },
 
 	initSocket: function() {
 		const self = this;
