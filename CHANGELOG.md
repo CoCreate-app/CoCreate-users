@@ -1,3 +1,17 @@
+# [1.9.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.8.0...v1.9.0) (2022-09-28)
+
+
+### Bug Fixes
+
+* broadcast params reduced to socket, message, data ([9192a90](https://github.com/CoCreate-app/CoCreate-users/commit/9192a90024ed97a91061bf3af987d5427b64c7e7))
+* remove createUserSocket ([6c6d7a2](https://github.com/CoCreate-app/CoCreate-users/commit/6c6d7a2818ec00fd29fdd8561c915758565c1003))
+
+
+### Features
+
+* config is now accessible from socket.config ([14157aa](https://github.com/CoCreate-app/CoCreate-users/commit/14157aae133a17561e624862dd3024a8ed1d0d68))
+* create new user while offline ([4456e39](https://github.com/CoCreate-app/CoCreate-users/commit/4456e39d810e49a9479431b77b5e9b61445269c0))
+
 # [1.8.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.7.29...v1.8.0) (2022-09-22)
 
 
