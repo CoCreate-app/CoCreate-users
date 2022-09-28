@@ -121,34 +121,21 @@ class CoCreateUser {
 	 */
 	async userStatus(socket, data) {
 		const self = this;
-		const {info, status} = data;
-
-		const items = info.split('/');
-
-		if (items[1] !== 'users') {
-			return;
-		}
-		
-		if (!items[2]) return;
 
 		try {
 			const {organization_id, db} = data
 			const selectedDB = db || organization_id;
 			const collection = self.dbClient.db(selectedDB).collection('users');
-			const user_id = items[2];
+			// const user_id = items[2];
 			const query = {
-				"_id": new ObjectId(user_id),
+				"_id": new ObjectId(data.user_id),
 			}
-			collection.updateOne(query, {$set: {status: status}}, function(err, res) {
+			collection.updateOne(query, {$set: {status: data.status}}, function(err, res) {
 				if (!err) {
-					self.wsManager.broadcast(socket, '', null, 'updateUserStatus', 
-					{
-						user_id,
-						status
-					})
-				}
-				else
+					self.wsManager.broadcast(socket, 'updateUserStatus', data)
+				} else {
 					console.log('err', err)
+				}
 			})
 		} catch (error) {
 			console.log('userStatus error')
