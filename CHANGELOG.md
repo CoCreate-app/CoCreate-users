@@ -1,3 +1,10 @@
+## [1.9.10](https://github.com/CoCreate-app/CoCreate-users/compare/v1.9.9...v1.9.10) (2022-10-01)
+
+
+### Bug Fixes
+
+* bump cdn version to 1.28.4 ([81f9d0e](https://github.com/CoCreate-app/CoCreate-users/commit/81f9d0e02f6ea4fe08d3bfdd742369e44e29a299))
+
 ## [1.9.9](https://github.com/CoCreate-app/CoCreate-users/compare/v1.9.8...v1.9.9) (2022-10-01)
 
 
