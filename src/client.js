@@ -1,7 +1,13 @@
 /*globals CustomEvent, btoa*/
-import crud from '@cocreate/crud-client';
+import CRUD from '@cocreate/crud-client';
 import action from '@cocreate/actions';
 import render from '@cocreate/render';
+
+let crud
+if(CRUD && CRUD.default)
+	crud = CRUD.default
+else
+	crud = CRUD
 
 const CONST_PERMISSION_CLASS = 'checkPermission';
 
@@ -55,7 +61,7 @@ const CoCreateUser = {
 		if (!socket || !socket.connected || window && !window.navigator.onLine) {
 			
 			// ToDo: can use updateDocument with filter query
-			crud.readDocuments(request).then((data) => {
+			crud.readDocument(request).then((data) => {
 				data.data = data.data[0]
 				data.data['lastLogin'] = new Date().toISOString()
 				data.data['current_org'] = data.organization_id
@@ -142,13 +148,12 @@ const CoCreateUser = {
 					// ToDo: can get selected value from event/element, readDocument not required. 
 					crud.readDocument({
 						collection: collection || 'users',
-						document_id: user_id,
 						data: {
 							_id: user_id
 						},
 					}).then((data) => {
 						window.localStorage.setItem('apiKey', data['apiKey']);
-						window.localStorage.setItem('organization_id', data.data['current_org']);
+						window.localStorage.setItem('organization_id', data.data[0]['current_org']);
 						window.localStorage.setItem('host', crud.socket.config.host);
 						
 						document.dispatchEvent(new CustomEvent('logIn'));
