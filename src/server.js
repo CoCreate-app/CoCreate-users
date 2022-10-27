@@ -126,11 +126,10 @@ class CoCreateUser {
 			const {organization_id, db} = data
 			const selectedDB = db || organization_id;
 			const collection = self.dbClient.db(selectedDB).collection('users');
-			// const user_id = items[2];
 			const query = {
 				"_id": new ObjectId(data.user_id),
 			}
-			collection.updateOne(query, {$set: {status: data.status}}, function(err, res) {
+			collection.updateOne(query, {$set: {userStatus: data.userStatus}}, function(err, res) {
 				if (!err) {
 					self.wsManager.broadcast(socket, 'updateUserStatus', data)
 				} else {
