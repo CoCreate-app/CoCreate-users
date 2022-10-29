@@ -62,13 +62,13 @@ const CoCreateUser = {
 			
 			// ToDo: can use updateDocument with filter query
 			crud.readDocument(request).then((data) => {
-				data.data = data.data[0]
-				data.data['lastLogin'] = new Date().toISOString()
-				data.data['current_org'] = data.organization_id
+				data.document = data.document[0]
+				data.document['lastLogin'] = new Date().toISOString()
+				data.document['current_org'] = data.organization_id
 				crud.updateDocument(data).then((response) => {
 					response['success'] = false
 					response['status'] = "Login failed"
-					if (response.data)  {
+					if (response.document)  {
 						response['success'] = true
 						response['status'] = "success"
 						this.loginResponse(response)
@@ -93,7 +93,7 @@ const CoCreateUser = {
 			window.localStorage.setItem('organization_id', crud.socket.config.organization_id);
 			window.localStorage.setItem("apiKey", crud.socket.config.apiKey);
 			window.localStorage.setItem("host", crud.socket.config.host);
-			window.localStorage.setItem('user_id', data.data['_id']);
+			window.localStorage.setItem('user_id', data.document['_id']);
 			window.localStorage.setItem("token", token);
 			document.cookie = `token=${token};path=/`;
 			message = "Succesful Login";
@@ -148,12 +148,12 @@ const CoCreateUser = {
 					// ToDo: can get selected value from event/element, readDocument not required. 
 					crud.readDocument({
 						collection: collection || 'users',
-						data: {
+						document: {
 							_id: user_id
 						},
 					}).then((data) => {
 						window.localStorage.setItem('apiKey', data['apiKey']);
-						window.localStorage.setItem('organization_id', data.data[0]['current_org']);
+						window.localStorage.setItem('organization_id', data.document[0]['current_org']);
 						window.localStorage.setItem('host', crud.socket.config.host);
 						
 						document.dispatchEvent(new CustomEvent('logIn'));
@@ -267,7 +267,7 @@ const CoCreateUser = {
 		else
 			org_id = crud.socket.config.organization_id;
 
-		let data = {data: {}};
+		let data = {document: {}};
 		//. get form data
 		elements.forEach(el => {
 			let name = el.getAttribute('name');
@@ -277,11 +277,11 @@ const CoCreateUser = {
 			if (el.getAttribute('data-type') == 'array') {
 				value = [value];
 			}
-			data.data[name] = value;
+			data.document[name] = value;
 		});
 		data['collection'] = 'users'
-		data.data['current_org'] = org_id;
-		data.data['connected_orgs'] = [org_id];
+		data.document['current_org'] = org_id;
+		data.document['connected_orgs'] = [org_id];
 
 		const socket = crud.socket.getSocket()
 		if (!socket || !socket.connected || window && !window.navigator.onLine) {
@@ -290,7 +290,7 @@ const CoCreateUser = {
 				self.setDocumentId('users', response.document_id);
 				data.database = org_id
 				data.document_id = response.document_id
-				data.data['_id'] = response.document_id
+				data.document['_id'] = response.document_id
 				data.organization_id = org_id
 				crud.createDocument(request).then((response) => {
 					
@@ -304,7 +304,7 @@ const CoCreateUser = {
 			// ToDo: creates user in platformdb
 			crud.send('createUser', {
 				collection: 'users',
-				data: data,
+				data,
 				orgDB: org_id
 			});
 		}
