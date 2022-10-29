@@ -2,6 +2,7 @@
 import CRUD from '@cocreate/crud-client';
 import action from '@cocreate/actions';
 import render from '@cocreate/render';
+import '@cocreate/element-prototype';
 
 let crud
 if(CRUD && CRUD.default)
