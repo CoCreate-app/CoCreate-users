@@ -58,7 +58,7 @@ const CoCreateUser = {
 			}
 		}
 		
-		const socket = crud.socket.getSocket()
+		const socket = crud.socket.getSockets()
 		if (!socket || !socket.connected || window && !window.navigator.onLine) {
 			
 			// ToDo: can use updateDocument with filter query
@@ -284,7 +284,7 @@ const CoCreateUser = {
 		data.document['current_org'] = org_id;
 		data.document['connected_orgs'] = [org_id];
 
-		const socket = crud.socket.getSocket()
+		const socket = crud.socket.getSockets()
 		if (!socket || !socket.connected || window && !window.navigator.onLine) {
 			// ToDo: can use updateDocument with filter query
 			crud.createDocument(data).then((response) => {
