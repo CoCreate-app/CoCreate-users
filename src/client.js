@@ -23,7 +23,7 @@ const CoCreateUser = {
 	initSocket: function() {
 		const self = this;
 		crud.listen('createUser', function(data) {
-			self.setDocumentId('users', data.document_id);
+			self.setDocumentId('users', data.document[0]._id);
 			document.dispatchEvent(new CustomEvent('createUser', {
 				detail: data
 			}));
@@ -53,37 +53,31 @@ const CoCreateUser = {
 
 		let request = {
 			collection,
+			document: {
+				lastLogin: new Date().toISOString(),
+				current_org: crud.socket.config.organization_id
+			},
 			filter: {
 				query
 			}
 		}
 		
 		const socket = crud.socket.getSockets()
-		if (!socket || !socket.connected || window && !window.navigator.onLine) {
-			
-			// ToDo: can use updateDocument with filter query
-			crud.readDocument(request).then((data) => {
-				data.document = data.document[0]
-				data.document['lastLogin'] = new Date().toISOString()
-				data.document['current_org'] = data.organization_id
-				crud.updateDocument(data).then((response) => {
-					response['success'] = false
-					response['status'] = "Login failed"
-					if (response.document)  {
-						response['success'] = true
-						response['status'] = "success"
-						this.loginResponse(response)
-					} else {
-						this.loginResponse(response)
-					}
-				})
+		if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
+			crud.updateDocument(data).then((response) => {
+				response['success'] = false
+				response['status'] = "Login failed"
+				if (response.document)  {
+					response['success'] = true
+					response['status'] = "success"
+					this.loginResponse(response)
+				} else {
+					this.loginResponse(response)
+				}
 			})
 		} else {
 			// ToDo: can be depreciated if we have another means of token generation
-			crud.send('login', {
-				"collection": collection,
-				"loginData": query
-			});
+			crud.socket.send('login', request);
 		}
 	},
 
@@ -94,7 +88,7 @@ const CoCreateUser = {
 			window.localStorage.setItem('organization_id', crud.socket.config.organization_id);
 			window.localStorage.setItem("apiKey", crud.socket.config.apiKey);
 			window.localStorage.setItem("host", crud.socket.config.host);
-			window.localStorage.setItem('user_id', data.document['_id']);
+			window.localStorage.setItem('user_id', data.document[0]['_id']);
 			window.localStorage.setItem("token", token);
 			document.cookie = `token=${token};path=/`;
 			message = "Succesful Login";
@@ -285,7 +279,7 @@ const CoCreateUser = {
 		data.document['connected_orgs'] = [org_id];
 
 		const socket = crud.socket.getSockets()
-		if (!socket || !socket.connected || window && !window.navigator.onLine) {
+		if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
 			// ToDo: can use updateDocument with filter query
 			crud.createDocument(data).then((response) => {
 				self.setDocumentId('users', response.document_id);
@@ -303,9 +297,9 @@ const CoCreateUser = {
 			})
 		} else {
 			// ToDo: creates user in platformdb
-			crud.send('createUser', {
+			crud.socket.send('createUser', {
 				collection: 'users',
-				data,
+				...data,
 				orgDB: org_id
 			});
 		}

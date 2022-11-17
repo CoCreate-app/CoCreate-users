@@ -1,9 +1,7 @@
-const {ObjectId} = require("mongodb");
-
 class CoCreateUser {
-	constructor(wsManager, dbClient) {
+	constructor(wsManager, crud) {
 		this.wsManager = wsManager
-		this.dbClient = dbClient
+		this.crud = crud
 		this.init()
 	}
 	
@@ -17,31 +15,32 @@ class CoCreateUser {
 
 	async createUser(socket, data) {
 		const self = this;
-		if(!data.data) return;
+		if (!data.document) return;
 		
-		try{
-			const collection = this.dbClient.db(data['organization_id']).collection(data['collection']);
+		try {
 			// Create new user in config db users collection
-			collection.insertOne(data.data, function(error, result) {
-				if(!error && result){
+			this.crud.createDocument(data).then((data) => {
+				if (data.document[0] && data.document[0]._id) {
 					const orgDB = data.orgDB;
-					data.data['_id'] = result.insertedId;
+
 					// if new orgDb Create new user in new org db users collection
 					if (orgDB && orgDB != data.organization_id) {
-						const anotherCollection = self.dbClient.db(orgDB).collection(data['collection']);
-						anotherCollection.insertOne({...data.data, organization_id : orgDB});
+						let Data = {...data, organization_id: orgDB}
+						self.crud.createDocument(Data)
 					}
-					const response  = { ...data, document_id: `${result.insertedId}`}
-					self.wsManager.send(socket, 'createUser', response);
+					
+					self.wsManager.send(socket, 'createUser', data);
 
 					// add new user to platformDB
 					if (data.organization_id != process.env.organization_id) {	
-						const platformDB = self.dbClient.db(process.env.organization_id).collection(data['collection']);
-						platformDB.insertOne({...data.data, organization_id: process.env.organization_id});
+						let Data = {...data, organization_id: process.env.organization_id}
+						self.crud.createDocument(Data)
 					}	
 				}
-			});
-		}catch(error){
+
+				// self.wsManager.broadcast(socket, 'updateUserStatus', data)
+			})
+		} catch(error) {
 			console.log('createDocument error', error);
 		}
 	}
@@ -61,55 +60,43 @@ class CoCreateUser {
 	async login(socket, data) {
 		const self = this;
 		try {
-			const {organization_id} = data
-			const selectedDB = organization_id;
-			const collection = self.dbClient.db(selectedDB).collection(data["collection"]);
-			const query = new Object();
-			
-			for (let item of data['loginData']) {
-				query[item.name] = item.value;
-			}
-			
-			collection.findOneAndUpdate(query, {$set: {lastLogin: new Date()}}, async function(error, result) {
+			this.crud.updateDocument(data).then(async (data) => {
 				let response = {
+					...data,
 					success: false,
 					message: "Login failed",
-					status: "failed",
-					uid: data['uid']
+					status: "failed"
 				}
-				if (!error && result && result.value) {
+
+				if (data.document[0] && data.document[0]._id) {
 					let token = null;
 					if (self.wsManager.authInstance) {
-						token = await self.wsManager.authInstance.generateToken({user_id: `${result.value['_id']}`});
+						token = await self.wsManager.authInstance.generateToken({user_id: data.document[0]._id});
 					}
 					
 					if (token && token != 'null')
 						response = { ...response,  
 							success: true,
-							collection: data["collection"],
-							document_id: result.value['_id'],
-							data: {
-								_id: result.value['_id']
-							},
-							current_org: result.value['current_org'],
 							message: "Login successful",
 							status: "success",
+							userStatus: 'on',
 							token
 						};
 
-					let user_id = response.document_id;
-					const query = {
-						"_id": new ObjectId(user_id),
-					}
 
 					if (data.organization_id != process.env.organization_id) {	
-						const platformDB = self.dbClient.db(process.env.organization_id).collection(data['collection']);
-						platformDB.updateOne(query, {$set: {lastLogin: new Date()}})
-					}	
+						let Data = {organization_id: process.env.organization_id}
+						Data.document['_id'] = data.document[0]._id
+						Data.document['lastLogin'] = data.document[0].lastLogin
+						Data.document['organization_id'] = process.env.organization_id
+						crud.updateDocument(Data)
+					}
+
 				} 
 				self.wsManager.send(socket, 'login', response)
-				console.log(`${response.message} user_id: ${result.value['_id']}`)
-			});
+				self.wsManager.broadcast(socket, 'updateUserStatus', data)
+			})
+
 		} catch (error) {
 			console.log('login failed', error);
 		}
@@ -121,21 +108,17 @@ class CoCreateUser {
 	 */
 	async userStatus(socket, data) {
 		const self = this;
-
 		try {
-			const {organization_id, db} = data
-			const selectedDB = db || organization_id;
-			const collection = self.dbClient.db(selectedDB).collection('users');
-			const query = {
-				"_id": new ObjectId(data.user_id),
+			data.collection = 'users'
+			data['document'] = {
+				_id: data.user_id,
+				userStatus: data.userStatus
 			}
-			collection.updateOne(query, {$set: {userStatus: data.userStatus}}, function(err, res) {
-				if (!err) {
-					self.wsManager.broadcast(socket, 'updateUserStatus', data)
-				} else {
-					console.log('err', err)
-				}
+			
+			this.crud.updateDocument(data).then((data) => {
+				self.wsManager.broadcast(socket, 'updateUserStatus', data)
 			})
+
 		} catch (error) {
 			console.log('userStatus error')
 		}
