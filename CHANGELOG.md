@@ -1,3 +1,22 @@
+# [1.10.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.9.13...v1.10.0) (2022-11-21)
+
+
+### Bug Fixes
+
+* bump cdn to 1.28.7 ([a80ebcc](https://github.com/CoCreate-app/CoCreate-users/commit/a80ebcc52c8f82e878241f0dae933039163c5207))
+* bump cdn to 1.28.8 ([a66d8bd](https://github.com/CoCreate-app/CoCreate-users/commit/a66d8bd75045a968755362c05b323768ebee6e16))
+* renamed data.data to data.document ([6aa2257](https://github.com/CoCreate-app/CoCreate-users/commit/6aa2257f3c755fa8cf112f89fe43c8270aa6c729))
+* renamed getSocket to getSockets ([56fd7c9](https://github.com/CoCreate-app/CoCreate-users/commit/56fd7c90f68785e9f654e052bae9a7df5335e2f7))
+* typo data | request ([2ef1f2f](https://github.com/CoCreate-app/CoCreate-users/commit/2ef1f2fb485d3e42159479e5d517476ea3785689))
+* update crud functions to receive an array of objects as the response ([117db56](https://github.com/CoCreate-app/CoCreate-users/commit/117db56540891728946b183c561df56ad5aa23c0))
+* update status to userStatus ([febb7ac](https://github.com/CoCreate-app/CoCreate-users/commit/febb7acb7fa13db900896db069195796a25064b2))
+
+
+### Features
+
+* Add @cocreate/element-prototype ([9c2e8be](https://github.com/CoCreate-app/CoCreate-users/commit/9c2e8be1f7516877ee36074b0dcd1d9a03e3bd4a))
+* updated to use new crud which has the abilty to use multiple databases ([88db3d3](https://github.com/CoCreate-app/CoCreate-users/commit/88db3d328bdc82d97c8e265bfb2e39c10d7383a5))
+
 ## [1.9.13](https://github.com/CoCreate-app/CoCreate-users/compare/v1.9.12...v1.9.13) (2022-10-02)
 
 
