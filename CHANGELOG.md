@@ -1,3 +1,10 @@
+## [1.10.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.6...v1.10.7) (2022-11-22)
+
+
+### Bug Fixes
+
+* workflow docs ([e543da2](https://github.com/CoCreate-app/CoCreate-users/commit/e543da21cc9eeae54db5e0ac97d2ddf3851c3da3))
+
 ## [1.10.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.5...v1.10.6) (2022-11-22)
 
 
