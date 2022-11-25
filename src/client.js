@@ -1,14 +1,8 @@
 /*globals CustomEvent, btoa*/
-import CRUD from '@cocreate/crud-client';
+import crud from '@cocreate/crud-client';
 import action from '@cocreate/actions';
 import render from '@cocreate/render';
 import '@cocreate/element-prototype';
-
-let crud
-if (CRUD && CRUD.default)
-	crud = CRUD.default
-else
-	crud = CRUD
 
 const CONST_PERMISSION_CLASS = 'checkPermission';
 
