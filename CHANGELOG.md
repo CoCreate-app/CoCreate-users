@@ -1,3 +1,10 @@
+## [1.10.11](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.10...v1.10.11) (2022-11-26)
+
+
+### Bug Fixes
+
+* bump dependencies ([f907740](https://github.com/CoCreate-app/CoCreate-users/commit/f9077400d8b7c89a28a5b7ecf60553517a92310e))
+
 ## [1.10.10](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.9...v1.10.10) (2022-11-25)
 
 
