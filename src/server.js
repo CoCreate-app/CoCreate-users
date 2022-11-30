@@ -7,13 +7,13 @@ class CoCreateUser {
 	
 	init() {
 		if (this.wsManager) {
-			this.wsManager.on('createUser',		(socket, data) => this.createUser(socket, data));
-			this.wsManager.on('login',			(socket, data) => this.login(socket, data))
+			this.wsManager.on('signUp',		(socket, data) => this.signUp(socket, data));
+			this.wsManager.on('signIn',			(socket, data) => this.signIn(socket, data))
 			this.wsManager.on('userStatus',		(socket, data) => this.userStatus(socket, data))
 		}
 	}
 
-	async createUser(socket, data) {
+	async signUp(socket, data) {
 		const self = this;
 		if (!data.document) return;
 		
@@ -29,7 +29,7 @@ class CoCreateUser {
 						self.crud.createDocument(Data)
 					}
 					
-					self.wsManager.send(socket, 'createUser', data);
+					self.wsManager.send(socket, 'signUp', data);
 
 					// add new user to platformDB
 					if (data.organization_id != process.env.organization_id) {	
@@ -48,23 +48,22 @@ class CoCreateUser {
 
 	/**
 		data = {
-			namespace:				string,	
+			namespace: string,	
 			collection:	string,
-			loginData:				object,
-			eId:							string,
-
+			data: object,
+			eId: string,
 			apiKey: string,
 			organization_id: string
 		}
 	**/	
-	async login(socket, data) {
+	async signIn(socket, data) {
 		const self = this;
 		try {
 			this.crud.updateDocument(data).then(async (data) => {
 				let response = {
 					...data,
 					success: false,
-					message: "Login failed",
+					message: "signIn failed",
 					status: "failed"
 				}
 
@@ -77,7 +76,7 @@ class CoCreateUser {
 					if (token && token != 'null')
 						response = { ...response,  
 							success: true,
-							message: "Login successful",
+							message: "signIn successful",
 							status: "success",
 							userStatus: 'on',
 							token
@@ -87,18 +86,18 @@ class CoCreateUser {
 					if (data.organization_id != process.env.organization_id) {	
 						let Data = {organization_id: process.env.organization_id}
 						Data.document['_id'] = data.document[0]._id
-						Data.document['lastLogin'] = data.document[0].lastLogin
+						Data.document['lastsignIn'] = data.document[0].lastsignIn
 						Data.document['organization_id'] = process.env.organization_id
 						crud.updateDocument(Data)
 					}
 
 				} 
-				self.wsManager.send(socket, 'login', response)
+				self.wsManager.send(socket, 'signIn', response)
 				self.wsManager.broadcast(socket, 'updateUserStatus', data)
 			})
 
 		} catch (error) {
-			console.log('login failed', error);
+			console.log('signIn failed', error);
 		}
 	}
 	

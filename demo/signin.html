@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Login | CoCreateJS</title>
+    <title>signIn | CoCreateJS</title>
     
     <link rel="icon" href="https://cdn.cocreate.app/favicon.ico" type="image/ico" sizes="16x16">
 	<link rel="stylesheet" href="../index.css" collection="files" document_id="60e4f9714792bff869f1bde5" name="src" type="text/css"/>
 </head>
 
 	<body style='background-image: url("https://cdn.cocreate.app/background.png");'>
-		<a href="./logout.html" session="true" hidden></a>
+		<a href="./signout.html" session="true" hidden></a>
 
 		<a href="./signup.html" title="" class="position:relative z-index:1 float:right margin:15px margin-left:auto color:white">Sign Up</a>
 
@@ -34,7 +34,7 @@
 							<input type="password" name='password' placeholder="Password" class="floating-label">
 						</floating-label>
 	                    
-						<button actions="login" href="logout.html" class="outline">Login</button>
+						<button actions="signIn" href="signout.html" class="outline">Sign In</button>
 
 						<a show='#forgotpass' hide='#signin'>Forgot Password</a>
 					</div>
@@ -58,7 +58,7 @@
 							<a>Send Email</a>
 						</button>
 						
-						<a show='#signin' hide='#forgotpass'>login</a>
+						<a show='#signin' hide='#forgotpass'>Sign In</a>
 					</div>
 				</form> 
 					
@@ -66,7 +66,7 @@
 		</div>
 		
 		<div class="position:fixed!important bottom:15px right:15px">
-	        <div template_id="login" class="template card margin:5px padding:10px {{status}}">
+	        <div template_id="signIn" class="template card margin:5px padding:10px {{status}}">
 	            <span class="{{type}}">{{message}}</span><a actions="removeElement"> X</a>
 	        </div>
 	        

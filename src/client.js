@@ -16,18 +16,18 @@ const CoCreateUser = {
 
 	initSocket: function() {
 		const self = this;
-		crud.listen('createUser', function(data) {
+		crud.listen('signUp', function(data) {
 			self.setDocumentId('users', data.document[0]._id);
-			document.dispatchEvent(new CustomEvent('createUser', {
+			document.dispatchEvent(new CustomEvent('signUp', {
 				detail: data
 			}));
 		});
 		crud.listen('fetchedUser', this.checkPermissions);
-		crud.listen('login', (instance) => self.loginResponse(instance));
+		crud.listen('signIn', (instance) => self.signInResponse(instance));
 		crud.listen('updateUserStatus', this.updateUserStatus);
 	},
 
-	loginRequest: function(btn) {
+	signInRequest: function(btn) {
 		let form = btn.closest('form');
 		let collection = form.getAttribute('collection');
 		let query = [];
@@ -48,7 +48,7 @@ const CoCreateUser = {
 		let request = {
 			collection,
 			document: {
-				lastLogin: new Date().toISOString(),
+				lastSignIn: new Date().toISOString(),
 				current_org: crud.socket.config.organization_id
 			},
 			filter: {
@@ -60,22 +60,23 @@ const CoCreateUser = {
 		if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
 			crud.updateDocument(request).then((response) => {
 				response['success'] = false
-				response['status'] = "Login failed"
+				response['status'] = "signIn failed"
 				if (response.document)  {
 					response['success'] = true
 					response['status'] = "success"
-					this.loginResponse(response)
+					this.signInResponse(response)
 				} else {
-					this.loginResponse(response)
+					this.signInResponse(response)
 				}
 			})
 		} else {
 			// ToDo: can be depreciated if we have another means of token generation
-			crud.socket.send('login', request);
+			request.broadcastBrowser = false
+			crud.socket.send('signIn', request);
 		}
 	},
 
-	loginResponse: function(data) {
+	signInResponse: function(data) {
 		let { success, status, message, token } = data;
 
 		if (success) {
@@ -85,8 +86,8 @@ const CoCreateUser = {
 			window.localStorage.setItem('user_id', data.document[0]['_id']);
 			window.localStorage.setItem("token", token);
 			document.cookie = `token=${token};path=/`;
-			message = "Succesful Login";
-			document.dispatchEvent(new CustomEvent('login', {
+			message = "Succesful signIn";
+			document.dispatchEvent(new CustomEvent('signIn', {
 				detail: {}
 			}));
 		}
@@ -94,9 +95,9 @@ const CoCreateUser = {
 			message = "The email or password you entered is incorrect";
 
 		render.data({
-			selector: "[template_id='login']",
+			selector: "[template_id='signIn']",
 			data: {
-				type: 'login',
+				type: 'signIn',
 				status,
 				message,
 				success
@@ -104,7 +105,7 @@ const CoCreateUser = {
 		});
 	},
 
-	logout: (btn) => {
+	signOut: (btn) => {
 		self = this;
 		window.localStorage.removeItem("user_id");
 		window.localStorage.removeItem("token");
@@ -116,7 +117,7 @@ const CoCreateUser = {
 			new Date(0).toUTCString();
 
 		// Todo: replace with Custom event system
-		document.dispatchEvent(new CustomEvent('logout'));
+		document.dispatchEvent(new CustomEvent('signOut'));
 	},
 
 	initChangeOrg: () => {
@@ -145,7 +146,7 @@ const CoCreateUser = {
 						window.localStorage.setItem('organization_id', data.document[0]['current_org']);
 						window.localStorage.setItem('host', crud.socket.config.host);
 						
-						document.dispatchEvent(new CustomEvent('logIn'));
+						document.dispatchEvent(new CustomEvent('signIn'));
 						window.location.reload();
 
 					})
@@ -244,7 +245,7 @@ const CoCreateUser = {
 		}
 	},
 
-	createUser: function(btn) {
+	signUp: function(btn) {
 		let form = btn.closest("form");
 		if (!form) return;
 		let org_id = "";
@@ -283,7 +284,7 @@ const CoCreateUser = {
 				data.organization_id = org_id
 				crud.createDocument(request).then((response) => {
 					
-					document.dispatchEvent(new CustomEvent('createUser', {
+					document.dispatchEvent(new CustomEvent('signUp', {
 						detail: response
 					}));
 		
@@ -291,10 +292,11 @@ const CoCreateUser = {
 			})
 		} else {
 			// ToDo: creates user in platformdb
-			crud.socket.send('createUser', {
+			crud.socket.send('signUp', {
 				collection: 'users',
 				...data,
-				orgDB: org_id
+				orgDB: org_id,
+				broadcastBrowser: false
 			});
 		}
 	},
@@ -302,26 +304,26 @@ const CoCreateUser = {
 
 
 action.init({
-	name: "createUser",
-	endEvent: "createUser",
+	name: "signUp",
+	endEvent: "signUp",
 	callback: (btn, data) => {
-		CoCreateUser.createUser(btn);
+		CoCreateUser.signUp(btn);
 	},
 });
 
 action.init({
-	name: "login",
-	endEvent: "login",
+	name: "signIn",
+	endEvent: "signIn",
 	callback: (btn, data) => {
-		CoCreateUser.loginRequest(btn, data);
+		CoCreateUser.signInRequest(btn, data);
 	},
 });
 
 action.init({
-	name: "logout",
-	endEvent: "logout",
+	name: "signOut",
+	endEvent: "signOut",
 	callback: (btn, data) => {
-		CoCreateUser.logout(btn, data);
+		CoCreateUser.signOut(btn, data);
 	},
 });
 
