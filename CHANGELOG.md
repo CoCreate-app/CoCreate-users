@@ -1,3 +1,11 @@
+## [1.10.15](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.14...v1.10.15) (2022-12-02)
+
+
+### Bug Fixes
+
+* bump dependencies ([4730a5d](https://github.com/CoCreate-app/CoCreate-users/commit/4730a5d9261d08631547598a5c2125a7de6a8ce3))
+* renamed createUser to signUp, login to signIn and logout to signOut ([9d2ee52](https://github.com/CoCreate-app/CoCreate-users/commit/9d2ee52e795556aef3f947ce97aa63d59173b23d))
+
 ## [1.10.14](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.13...v1.10.14) (2022-11-28)
 
 
