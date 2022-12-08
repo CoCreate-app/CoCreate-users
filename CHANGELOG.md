@@ -1,3 +1,10 @@
+## [1.10.19](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.18...v1.10.19) (2022-12-08)
+
+
+### Bug Fixes
+
+* removed mongodb dependency ([a4034bf](https://github.com/CoCreate-app/CoCreate-users/commit/a4034bfec8799a1119436308aecb8107348957b7))
+
 ## [1.10.18](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.17...v1.10.18) (2022-12-07)
 
 
