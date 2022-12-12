@@ -1,6 +1,6 @@
 {
   "name": "@cocreate/users",
-  "version": "1.10.22",
+  "version": "1.10.23",
   "description": "A simple users component in vanilla javascript. Easily configured using HTML5 attributes and/or JavaScript API.",
   "keywords": [
     "users",
@@ -20,7 +20,9 @@
     "html5-framework",
     "javascript-framework"
   ],
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "npx webpack --config webpack.config.js",
     "build": "NODE_ENV=production npx webpack --config webpack.config.js",
@@ -34,7 +36,9 @@
   },
   "author": "CoCreate LLC",
   "license": "MIT",
-  "bugs": { "url": "https://github.com/CoCreate-app/CoCreate-users/issues" },
+  "bugs": {
+    "url": "https://github.com/CoCreate-app/CoCreate-users/issues"
+  },
   "homepage": "https://cocreate.app/docs/users",
   "funding": {
     "type": "GitHub Sponsors ❤",
