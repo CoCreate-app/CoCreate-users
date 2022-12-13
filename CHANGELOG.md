@@ -1,3 +1,10 @@
+## [1.10.25](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.24...v1.10.25) (2022-12-13)
+
+
+### Bug Fixes
+
+* removed un used devDependencies ([8aabc0d](https://github.com/CoCreate-app/CoCreate-users/commit/8aabc0d51ef49b10ebfd47a20ff79865f8910a90))
+
 ## [1.10.24](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.23...v1.10.24) (2022-12-13)
 
 
