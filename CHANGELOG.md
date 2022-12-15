@@ -1,3 +1,10 @@
+## [1.11.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.11.1...v1.11.2) (2022-12-15)
+
+
+### Bug Fixes
+
+* add index.css file ([a11f28a](https://github.com/CoCreate-app/CoCreate-users/commit/a11f28add4884afdad37f136d79b8add8d452a44))
+
 ## [1.11.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.11.0...v1.11.1) (2022-12-15)
 
 
