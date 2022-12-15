@@ -1,0 +1,9 @@
+[user-status="on"] {
+    background-color:yellowgreen;
+}
+[user-status="off"] {
+    background-color:red;
+}
+[user-status="idle"] {
+    background-color:orange;
+}
