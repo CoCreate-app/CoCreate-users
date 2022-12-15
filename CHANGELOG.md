@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.25...v1.11.0) (2022-12-15)
+
+
+### Features
+
+* index.css for user-status ([ed329c4](https://github.com/CoCreate-app/CoCreate-users/commit/ed329c4470f65ddd3733d3180526eedff959f6ed))
+
 ## [1.10.25](https://github.com/CoCreate-app/CoCreate-users/compare/v1.10.24...v1.10.25) (2022-12-13)
 
 
