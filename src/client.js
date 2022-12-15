@@ -3,6 +3,8 @@ import crud from '@cocreate/crud-client';
 import action from '@cocreate/actions';
 import render from '@cocreate/render';
 import '@cocreate/element-prototype';
+import './index.css';
+
 
 const CONST_PERMISSION_CLASS = 'checkPermission';
 
