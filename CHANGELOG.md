@@ -1,3 +1,10 @@
+## [1.11.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.11.5...v1.11.6) (2022-12-21)
+
+
+### Bug Fixes
+
+* bump cdn to 1.34.3 ([b600548](https://github.com/CoCreate-app/CoCreate-users/commit/b6005481efa91d0a553fce4048b0be4c55bfa707))
+
 ## [1.11.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.11.4...v1.11.5) (2022-12-21)
 
 
