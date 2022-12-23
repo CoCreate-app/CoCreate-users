@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.11.8...v1.12.0) (2022-12-23)
+
+
+### Features
+
+* render signout status message ([fd6ab4a](https://github.com/CoCreate-app/CoCreate-users/commit/fd6ab4a660479527bd2dcdbb3a38745215037b52))
+
 ## [1.11.8](https://github.com/CoCreate-app/CoCreate-users/compare/v1.11.7...v1.11.8) (2022-12-22)
 
 
