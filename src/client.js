@@ -118,6 +118,15 @@ const CoCreateUser = {
 			document.cookie = allCookies[i] + "=;expires=" +
 			new Date(0).toUTCString();
 
+		render.data({
+			selector: "[template_id='signOut']",
+			data: {
+				type: 'signOut',
+				message: 'Succesfully logged out',
+				success: true
+			}
+		});
+	
 		// Todo: replace with Custom event system
 		document.dispatchEvent(new CustomEvent('signOut'));
 	},
