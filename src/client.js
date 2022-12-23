@@ -20,6 +20,16 @@ const CoCreateUser = {
 		const self = this;
 		crud.listen('signUp', function(data) {
 			self.setDocumentId('users', data.document[0]._id);
+			
+			render.data({
+				selector: "[template_id='signUp']",
+				data: {
+					type: 'signUp',
+					message: 'Succesfully Signed Up',
+					success: true
+				}
+			});
+
 			document.dispatchEvent(new CustomEvent('signUp', {
 				detail: data
 			}));
@@ -294,7 +304,15 @@ const CoCreateUser = {
 				data.document['_id'] = response.document_id
 				data.organization_id = org_id
 				crud.createDocument(request).then((response) => {
-					
+					render.data({
+						selector: "[template_id='signUp']",
+						data: {
+							type: 'signUp',
+							message: 'Succesfully Signed Up',
+							success: true
+						}
+					});
+			
 					document.dispatchEvent(new CustomEvent('signUp', {
 						detail: response
 					}));
@@ -310,7 +328,7 @@ const CoCreateUser = {
 				broadcastBrowser: false
 			});
 		}
-	},
+	}
 };
 
 
