@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.12.0...v1.12.1) (2022-12-23)
+
+
+### Bug Fixes
+
+* render signup notification ([d49ef36](https://github.com/CoCreate-app/CoCreate-users/commit/d49ef362b716e0a2952187bc1c6a350ca4d7d052))
+
 # [1.12.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.11.8...v1.12.0) (2022-12-23)
 
 
