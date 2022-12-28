@@ -6,14 +6,10 @@ import '@cocreate/element-prototype';
 import './index.css';
 
 
-const CONST_PERMISSION_CLASS = 'checkPermission';
-
 const CoCreateUser = {
 	init: function() {
-		// this.updatedCurrentOrg = false;
 		this.initSocket();
 		this.initChangeOrg();
-		this.checkSession();
 	},
 
 	initSocket: function() {
@@ -34,9 +30,9 @@ const CoCreateUser = {
 				detail: data
 			}));
 		});
-		crud.listen('fetchedUser', this.checkPermissions);
-		crud.listen('signIn', (instance) => self.signInResponse(instance));
-		crud.listen('updateUserStatus', this.updateUserStatus);
+
+		crud.listen('signIn', (data) => self.signInResponse(data));
+		crud.listen('updateUserStatus', (data) => self.updateUserStatus(data));
 	},
 
 	signInRequest: function(btn) {
@@ -177,78 +173,16 @@ const CoCreateUser = {
 		}
 	},
 
-	checkSession: () => {
-		let user_id = window.localStorage.getItem('user_id');
-		let token = window.localStorage.getItem('token');
-		if (user_id && token) {
-			let redirectTag = document.querySelector('[session="true"]');
+	updateUserStatus: function(data) {
+		this.redirect(data)
+		if (data.user_id) {
+			let statusEls = document.querySelectorAll(`[user-status][document_id='${data['user_id']}']`);
 
-			if (redirectTag) {
-				let redirectLink = redirectTag.getAttribute('href');
-				if (redirectLink) {
-					document.location.href = redirectLink;
-				}
-			}
+			statusEls.forEach((el) => {
+				el.setAttribute('user-status', data['userStatus']);
+			});
 		}
-		else {
-			let redirectTag = document.querySelector('[session="false"]');
 
-			if (redirectTag) {
-				let redirectLink = redirectTag.getAttribute('href');
-				if (redirectLink) {
-					window.localStorage.removeItem("user_id");
-					window.localStorage.removeItem("token");
-			
-					// this.deleteCookie();
-					document.location.href = redirectLink;
-				}
-			}
-		}
-	},
-
-	checkPermissions: (data) => {
-		const tags = document.querySelectorAll('.' + CONST_PERMISSION_CLASS);
-		tags.forEach((tag) => {
-			let module_id = tag.getAttribute('document_id') ? tag.getAttribute('document_id') : tag.getAttribute('pass-document_id');
-			let data_permission = tag.getAttribute('data-permission');
-			let userPermission = data['permission-' + module_id];
-
-			if (userPermission.indexOf(data_permission) == -1) {
-				switch (data_permission) {
-					case 'create':
-						tag.style.display = 'none';
-						break;
-					case 'read':
-						tag.style.display = 'none';
-						break;
-					case 'update':
-						tag.style.display = 'none';
-						break;
-					case 'delete':
-						tag.readOnly = true;
-						break;
-					default:
-						// code
-				}
-			}
-			else {
-				switch (data_permission) {
-
-					// code
-				}
-			}
-		});
-	},
-
-	updateUserStatus: (data) => {
-		if (!data.user_id) {
-			return;
-		}
-		let statusEls = document.querySelectorAll(`[user-status][document_id='${data['user_id']}']`);
-
-		statusEls.forEach((el) => {
-			el.setAttribute('user-status', data['userStatus']);
-		});
 	},
 
 	// ToDo: variations exist in a few components 
@@ -328,6 +262,33 @@ const CoCreateUser = {
 				broadcastBrowser: false
 			});
 		}
+	},
+
+	redirect: (data) => {
+		if (data.userStatus == 'on') {
+			let redirectTag = document.querySelector('[session="true"]');
+
+			if (redirectTag) {
+				let redirectLink = redirectTag.getAttribute('href');
+				if (redirectLink) {
+					document.location.href = redirectLink;
+				}
+			}
+		} else {
+			let redirectTag = document.querySelector('[session="false"]');
+
+			if (redirectTag) {
+				let redirectLink = redirectTag.getAttribute('href');
+				if (redirectLink) {
+					window.localStorage.removeItem("user_id");
+					window.localStorage.removeItem("token");
+			
+					// this.deleteCookie();
+					document.location.href = redirectLink;
+				}
+			}
+		}
+
 	}
 };
 
