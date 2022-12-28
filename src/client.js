@@ -137,69 +137,6 @@ const CoCreateUser = {
 		document.dispatchEvent(new CustomEvent('signOut'));
 	},
 
-	initChangeOrg: () => {
-		const user_id = window.localStorage.getItem('user_id');
-
-		if (!user_id) return;
-
-		let orgChangers = document.querySelectorAll('.org-changer');
-
-		for (let i = 0; i < orgChangers.length; i++) {
-			let orgChanger = orgChangers[i];
-
-			const collection = orgChanger.getAttribute('collection');
-			const id = orgChanger.getAttribute('document_id');
-
-			if (collection == 'users' && id == user_id) {
-				orgChanger.addEventListener('selected', function(e) {
-					// ToDo: can get selected value from event/element, readDocument not required. 
-					crud.readDocument({
-						collection: collection || 'users',
-						document: {
-							_id: user_id
-						},
-					}).then((data) => {
-						window.localStorage.setItem('apiKey', data['apiKey']);
-						window.localStorage.setItem('organization_id', data.document[0]['current_org']);
-						window.localStorage.setItem('host', crud.socket.config.host);
-						
-						document.dispatchEvent(new CustomEvent('signIn'));
-						window.location.reload();
-
-					})
-			
-				});
-			}
-		}
-	},
-
-	updateUserStatus: function(data) {
-		this.redirect(data)
-		if (data.user_id) {
-			let statusEls = document.querySelectorAll(`[user-status][document_id='${data['user_id']}']`);
-
-			statusEls.forEach((el) => {
-				el.setAttribute('user-status', data['userStatus']);
-			});
-		}
-
-	},
-
-	// ToDo: variations exist in a few components 
-	setDocumentId: function(collection, id) {
-		let orgIdElements = document.querySelectorAll(`[collection='${collection}']`);
-		if (orgIdElements && orgIdElements.length > 0) {
-			orgIdElements.forEach((el) => {
-				if (!el.getAttribute('document_id')) {
-					el.setAttribute('document_id', id);
-				}
-				if (el.getAttribute('name') == "_id") {
-					el.value = id;
-				}
-			});
-		}
-	},
-
 	signUp: function(btn) {
 		let form = btn.closest("form");
 		if (!form) return;
@@ -264,6 +201,18 @@ const CoCreateUser = {
 		}
 	},
 
+	updateUserStatus: function(data) {
+		this.redirect(data)
+		if (data.user_id) {
+			let statusEls = document.querySelectorAll(`[user-status][document_id='${data['user_id']}']`);
+
+			statusEls.forEach((el) => {
+				el.setAttribute('user-status', data['userStatus']);
+			});
+		}
+
+	},
+
 	redirect: (data) => {
 		if (data.userStatus == 'on') {
 			let redirectTag = document.querySelector('[session="true"]');
@@ -289,7 +238,59 @@ const CoCreateUser = {
 			}
 		}
 
+	},
+
+	initChangeOrg: () => {
+		const user_id = window.localStorage.getItem('user_id');
+
+		if (!user_id) return;
+
+		let orgChangers = document.querySelectorAll('.org-changer');
+
+		for (let i = 0; i < orgChangers.length; i++) {
+			let orgChanger = orgChangers[i];
+
+			const collection = orgChanger.getAttribute('collection');
+			const id = orgChanger.getAttribute('document_id');
+
+			if (collection == 'users' && id == user_id) {
+				orgChanger.addEventListener('selected', function(e) {
+					// ToDo: can get selected value from event/element, readDocument not required. 
+					crud.readDocument({
+						collection: collection || 'users',
+						document: {
+							_id: user_id
+						},
+					}).then((data) => {
+						window.localStorage.setItem('apiKey', data['apiKey']);
+						window.localStorage.setItem('organization_id', data.document[0]['current_org']);
+						window.localStorage.setItem('host', crud.socket.config.host);
+						
+						document.dispatchEvent(new CustomEvent('signIn'));
+						window.location.reload();
+
+					})
+			
+				});
+			}
+		}
+	},
+
+	// ToDo: variations exist in a few components 
+	setDocumentId: function(collection, id) {
+		let orgIdElements = document.querySelectorAll(`[collection='${collection}']`);
+		if (orgIdElements && orgIdElements.length > 0) {
+			orgIdElements.forEach((el) => {
+				if (!el.getAttribute('document_id')) {
+					el.setAttribute('document_id', id);
+				}
+				if (el.getAttribute('name') == "_id") {
+					el.value = id;
+				}
+			});
+		}
 	}
+	
 };
 
 
