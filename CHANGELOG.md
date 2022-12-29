@@ -1,3 +1,15 @@
+# [1.13.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.12.4...v1.13.0) (2022-12-29)
+
+
+### Bug Fixes
+
+* bump dependencies ([df8da39](https://github.com/CoCreate-app/CoCreate-users/commit/df8da39598a9f0339b2d56f02e45c16a61b2448b))
+
+
+### Features
+
+* if userStatus is off trigger redirect ([afe3a67](https://github.com/CoCreate-app/CoCreate-users/commit/afe3a67890d9328dfdf106a81f9eb427aacf92d4))
+
 ## [1.12.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.12.3...v1.12.4) (2022-12-27)
 
 
