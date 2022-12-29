@@ -276,7 +276,7 @@ const CoCreateUser = {
 		}
 	},
 
-	// ToDo: variations exist in a few components 
+	// ToDo: variations of setDocumentId exists in a few components 
 	setDocumentId: function(collection, id) {
 		let orgIdElements = document.querySelectorAll(`[collection='${collection}']`);
 		if (orgIdElements && orgIdElements.length > 0) {
