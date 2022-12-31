@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.13.2...v1.14.0) (2022-12-31)
+
+
+### Features
+
+* initSession function to sendMessage to server to get userStatus ([24a9493](https://github.com/CoCreate-app/CoCreate-users/commit/24a94937eb5323c0511d78277a23fa873f08d835))
+
 ## [1.13.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.13.1...v1.13.2) (2022-12-31)
 
 
