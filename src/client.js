@@ -9,6 +9,7 @@ import './index.css';
 const CoCreateUser = {
 	init: function() {
 		this.initSocket();
+		this.initSession();
 		this.initChangeOrg();
 	},
 
@@ -236,6 +237,20 @@ const CoCreateUser = {
 					document.location.href = redirectLink;
 				}
 			}
+		}
+
+	},
+
+	initSession: () => {
+		let redirectTag = document.querySelector('[session]');
+
+		if (redirectTag) {
+			crud.socket.send('sendMessage', {
+				message: 'checkSession',
+				broadcast: false,
+				broadcastSender: false,
+				broadcastBrowser: false
+			});
 		}
 
 	},
