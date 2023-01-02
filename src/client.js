@@ -19,7 +19,7 @@ const CoCreateUser = {
 			self.setDocumentId('users', data.document[0]._id);
 			
 			render.data({
-				selector: "[template_id='signUp']",
+				selector: "[template='signUp']",
 				data: {
 					type: 'signUp',
 					message: 'Succesfully Signed Up',
@@ -104,7 +104,7 @@ const CoCreateUser = {
 			message = "The email or password you entered is incorrect";
 
 		render.data({
-			selector: "[template_id='signIn']",
+			selector: "[template='signIn']",
 			data: {
 				type: 'signIn',
 				status,
@@ -126,7 +126,7 @@ const CoCreateUser = {
 			new Date(0).toUTCString();
 
 		render.data({
-			selector: "[template_id='signOut']",
+			selector: "[template='signOut']",
 			data: {
 				type: 'signOut',
 				message: 'Succesfully logged out',
@@ -177,7 +177,7 @@ const CoCreateUser = {
 				data.organization_id = org_id
 				crud.createDocument(request).then((response) => {
 					render.data({
-						selector: "[template_id='signUp']",
+						selector: "[template='signUp']",
 						data: {
 							type: 'signUp',
 							message: 'Succesfully Signed Up',
