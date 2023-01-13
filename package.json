@@ -20,9 +20,7 @@
     "html5-framework",
     "javascript-framework"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
+  "publishConfig": { "access": "public" },
   "scripts": {
     "start": "npx webpack --config webpack.config.js",
     "build": "NODE_ENV=production npx webpack --config webpack.config.js",
@@ -36,9 +34,7 @@
   },
   "author": "CoCreate LLC",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/CoCreate-app/CoCreate-users/issues"
-  },
+  "bugs": { "url": "https://github.com/CoCreate-app/CoCreate-users/issues" },
   "homepage": "https://cocreate.app/docs/users",
   "funding": {
     "type": "GitHub Sponsors ❤",
@@ -60,10 +56,10 @@
     "webpack-log": "^3.0.1"
   },
   "dependencies": {
-    "@cocreate/actions": "^1.5.52",
-    "@cocreate/crud-client": "^1.17.15",
-    "@cocreate/docs": "^1.5.6",
-    "@cocreate/element-prototype": "^1.4.0",
-    "@cocreate/render": "^1.20.0"
+    "@cocreate/actions": "^1.5.53",
+    "@cocreate/crud-client": "^1.17.17",
+    "@cocreate/docs": "^1.5.7",
+    "@cocreate/element-prototype": "^1.4.3",
+    "@cocreate/render": "^1.21.0"
   }
 }
