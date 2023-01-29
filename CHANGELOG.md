@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.15.6...v1.16.0) (2023-01-29)
+
+
+### Features
+
+* import @cocreate/local-storage ([c49ce25](https://github.com/CoCreate-app/CoCreate-users/commit/c49ce2512a673aaec1e3ad6f5c68b6896aa0c1d9))
+
 ## [1.15.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.15.5...v1.15.6) (2023-01-27)
 
 
