@@ -4,7 +4,7 @@ import action from '@cocreate/actions';
 import render from '@cocreate/render';
 import '@cocreate/element-prototype';
 import './index.css';
-
+import localStorage from '@cocreate/local-storage';
 
 const CoCreateUser = {
 	init: function() {
@@ -89,11 +89,11 @@ const CoCreateUser = {
 		let { success, status, message, token } = data;
 
 		if (success) {
-			window.localStorage.setItem('organization_id', crud.socket.config.organization_id);
-			window.localStorage.setItem("apiKey", crud.socket.config.apiKey);
-			window.localStorage.setItem("host", crud.socket.config.host);
-			window.localStorage.setItem('user_id', data.document[0]['_id']);
-			window.localStorage.setItem("token", token);
+			localStorage.setItem('organization_id', crud.socket.config.organization_id);
+			localStorage.setItem("apiKey", crud.socket.config.apiKey);
+			localStorage.setItem("host", crud.socket.config.host);
+			localStorage.setItem('user_id', data.document[0]['_id']);
+			localStorage.setItem("token", token);
 			document.cookie = `token=${token};path=/`;
 			message = "Succesful signIn";
 			document.dispatchEvent(new CustomEvent('signIn', {
@@ -116,8 +116,8 @@ const CoCreateUser = {
 
 	signOut: (btn) => {
 		self = this;
-		window.localStorage.removeItem("user_id");
-		window.localStorage.removeItem("token");
+		localStorage.removeItem("user_id");
+		localStorage.removeItem("token");
 
 		let allCookies = document.cookie.split(';');
 
@@ -230,8 +230,8 @@ const CoCreateUser = {
 			if (redirectTag) {
 				let redirectLink = redirectTag.getAttribute('href');
 				if (redirectLink) {
-					window.localStorage.removeItem("user_id");
-					window.localStorage.removeItem("token");
+					localStorage.removeItem("user_id");
+					localStorage.removeItem("token");
 			
 					// this.deleteCookie();
 					document.location.href = redirectLink;
@@ -256,7 +256,7 @@ const CoCreateUser = {
 	},
 
 	initChangeOrg: () => {
-		const user_id = window.localStorage.getItem('user_id');
+		const user_id = localStorage.getItem('user_id');
 
 		if (!user_id) return;
 
@@ -277,9 +277,9 @@ const CoCreateUser = {
 							_id: user_id
 						},
 					}).then((data) => {
-						window.localStorage.setItem('apiKey', data['apiKey']);
-						window.localStorage.setItem('organization_id', data.document[0]['current_org']);
-						window.localStorage.setItem('host', crud.socket.config.host);
+						localStorage.setItem('apiKey', data['apiKey']);
+						localStorage.setItem('organization_id', data.document[0]['current_org']);
+						localStorage.setItem('host', crud.socket.config.host);
 						
 						document.dispatchEvent(new CustomEvent('signIn'));
 						window.location.reload();
