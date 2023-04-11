@@ -94,7 +94,7 @@ const CoCreateUser = {
 			localStorage.setItem("host", crud.socket.config.host);
 			localStorage.setItem('user_id', data.document[0]['_id']);
 			localStorage.setItem("token", token);
-			document.cookie = `token=${token};path=/`;
+			// document.cookie = `token=${token};path=/`;
 			message = "Succesful signIn";
 			document.dispatchEvent(new CustomEvent('signIn', {
 				detail: {}
@@ -119,11 +119,11 @@ const CoCreateUser = {
 		localStorage.removeItem("user_id");
 		localStorage.removeItem("token");
 
-		let allCookies = document.cookie.split(';');
+		// let allCookies = document.cookie.split(';');
 
-		for (var i = 0; i < allCookies.length; i++)
-			document.cookie = allCookies[i] + "=;expires=" +
-			new Date(0).toUTCString();
+		// for (var i = 0; i < allCookies.length; i++)
+		// 	document.cookie = allCookies[i] + "=;expires=" +
+		// 	new Date(0).toUTCString();
 
 		render.data({
 			selector: "[template='signOut']",
