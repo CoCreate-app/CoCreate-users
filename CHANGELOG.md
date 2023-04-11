@@ -1,3 +1,11 @@
+## [1.17.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.17.3...v1.17.4) (2023-04-11)
+
+
+### Bug Fixes
+
+* comment code that added org as a db in platform ([ff42708](https://github.com/CoCreate-app/CoCreate-users/commit/ff427084dbeb2bbf60c323af17ced6d20ca6f0d6))
+* renamed domans to hosts ([ca9c918](https://github.com/CoCreate-app/CoCreate-users/commit/ca9c91812225464ea582fbf78d06ca871f5d76d4))
+
 ## [1.17.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.17.2...v1.17.3) (2023-03-30)
 
 
