@@ -24,10 +24,10 @@ class CoCreateUser {
 					const orgDB = data.orgDB;
 
 					// if new orgDb Create new user in new org db users collection
-					if (orgDB && orgDB != data.organization_id) {
-						let Data = {...data, organization_id: orgDB}
-						self.crud.createDocument(Data)
-					}
+					// if (orgDB && orgDB != data.organization_id) {
+					// 	let Data = {...data, organization_id: orgDB}
+					// 	self.crud.createDocument(Data)
+					// }
 					
 					self.wsManager.send(socket, 'signUp', data);
 
