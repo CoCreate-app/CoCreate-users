@@ -1,3 +1,10 @@
+## [1.17.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.17.6...v1.17.7) (2023-04-11)
+
+
+### Bug Fixes
+
+* removed adding token as cookie ([44077f7](https://github.com/CoCreate-app/CoCreate-users/commit/44077f7064c6b489d29b278353044b1fe7d6c420))
+
 ## [1.17.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.17.5...v1.17.6) (2023-04-11)
 
 
