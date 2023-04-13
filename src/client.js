@@ -151,15 +151,10 @@ const CoCreateUser = {
 			org_id = crud.socket.config.organization_id;
 
 		let data = {document: {}};
-		//. get form data
 		elements.forEach(el => {
 			let name = el.getAttribute('name');
 			let value = el.getValue();
 			if (!name || !value) return;
-
-			if (el.getAttribute('data-type') == 'array') {
-				value = [value];
-			}
 			data.document[name] = value;
 		});
 		data['collection'] = 'users'
@@ -172,7 +167,6 @@ const CoCreateUser = {
 			crud.createDocument(data).then((response) => {
 				self.setDocumentId('users', response.document_id);
 				data.database = org_id
-				data.document_id = response.document_id
 				data.document['_id'] = response.document_id
 				data.organization_id = org_id
 				crud.createDocument(request).then((response) => {
