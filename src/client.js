@@ -15,22 +15,22 @@ const CoCreateUser = {
 
 	initSocket: function() {
 		const self = this;
-		crud.listen('signUp', function(data) {
-			self.setDocumentId('users', data.document[0]._id);
+		// crud.listen('signUp', function(data) {
+		// 	self.setDocumentId('users', data.document[0]._id);
 			
-			render.data({
-				selector: "[template='signUp']",
-				data: {
-					type: 'signUp',
-					message: 'Succesfully Signed Up',
-					success: true
-				}
-			});
+		// 	render.data({
+		// 		selector: "[template='signUp']",
+		// 		data: {
+		// 			type: 'signUp',
+		// 			message: 'Succesfully Signed Up',
+		// 			success: true
+		// 		}
+		// 	});
 
-			document.dispatchEvent(new CustomEvent('signUp', {
-				detail: data
-			}));
-		});
+		// 	document.dispatchEvent(new CustomEvent('signUp', {
+		// 		detail: data
+		// 	}));
+		// });
 
 		crud.listen('signIn', (data) => self.signInResponse(data));
 		crud.listen('updateUserStatus', (data) => self.updateUserStatus(data));
@@ -161,8 +161,8 @@ const CoCreateUser = {
 		data.document['current_org'] = org_id;
 		data.document['connected_orgs'] = [org_id];
 
-		const socket = crud.socket.getSockets()
-		if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
+		// const socket = crud.socket.getSockets()
+		// if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
 			// ToDo: can use updateDocument with filter query
 			crud.createDocument(data).then((response) => {
 				self.setDocumentId('users', response.document_id);
@@ -185,15 +185,15 @@ const CoCreateUser = {
 		
 				})
 			})
-		} else {
-			// ToDo: creates user in platformdb
-			crud.socket.send('signUp', {
-				collection: 'users',
-				...data,
-				orgDB: org_id,
-				broadcastBrowser: false
-			});
-		}
+		// } else {
+		// 	// ToDo: creates user in platformdb
+		// 	crud.socket.send('signUp', {
+		// 		collection: 'users',
+		// 		...data,
+		// 		orgDB: org_id,
+		// 		broadcastBrowser: false
+		// 	});
+		// }
 	},
 
 	updateUserStatus: function(data) {
