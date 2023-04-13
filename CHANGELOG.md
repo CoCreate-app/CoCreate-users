@@ -1,3 +1,16 @@
+# [1.18.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.17.7...v1.18.0) (2023-04-13)
+
+
+### Bug Fixes
+
+* broadcast new user doc ([244226f](https://github.com/CoCreate-app/CoCreate-users/commit/244226ff818f3f6a2251b0cedd3ab196e02d137e))
+
+
+### Features
+
+* commented code that send signUp to server, instead it uses crud directly ([ef70d2a](https://github.com/CoCreate-app/CoCreate-users/commit/ef70d2a254cc882d12c6fe5257ecef18327ab276))
+* data-type now handeled by getValue value-type ([4715d3e](https://github.com/CoCreate-app/CoCreate-users/commit/4715d3e95f0bd8d71d170b7c5a5cbfe846e7998a))
+
 ## [1.17.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.17.6...v1.17.7) (2023-04-11)
 
 
