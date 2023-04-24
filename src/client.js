@@ -209,7 +209,7 @@ const CoCreateUser = {
 	},
 
 	redirect: (data) => {
-		if (data.user_id && data.user_id !== crud.socket.user_id)
+		if (data.user_id && data.user_id !== crud.socket.config.user_id)
 			return
 		if (!data.user_id && data.clientId !== crud.socket.clientId)
 			return
