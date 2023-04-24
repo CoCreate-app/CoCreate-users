@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.18.0...v1.19.0) (2023-04-24)
+
+
+### Features
+
+* added pwa manifest ([36cae5b](https://github.com/CoCreate-app/CoCreate-users/commit/36cae5bcc5e6240c796f087c8aafb75c47fee466))
+
 # [1.18.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.17.7...v1.18.0) (2023-04-13)
 
 
