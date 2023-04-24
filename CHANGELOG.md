@@ -1,3 +1,11 @@
+## [1.19.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.19.1...v1.19.2) (2023-04-24)
+
+
+### Bug Fixes
+
+* typo ([7e34148](https://github.com/CoCreate-app/CoCreate-users/commit/7e3414843f3bef3cd3dc7fe42f45cb55ade0442f))
+* userStatus redirect conditions ([0d32f10](https://github.com/CoCreate-app/CoCreate-users/commit/0d32f10d60f18d1270ba5fb1702cadc9d9a39934))
+
 ## [1.19.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.19.0...v1.19.1) (2023-04-24)
 
 
