@@ -66,7 +66,8 @@ class CoCreateUser {
 					...data,
 					success: false,
 					message: "signIn failed",
-					status: "failed"
+					status: "failed",
+					userStatus: 'off'
 				}
 
 				if (data.document[0] && data.document[0]._id) {
@@ -95,7 +96,11 @@ class CoCreateUser {
 
 				} 
 				self.wsManager.send(socket, 'signIn', response)
-				self.wsManager.broadcast(socket, 'updateUserStatus', data)
+				self.wsManager.broadcast(socket, 'updateUserStatus', {  
+					user_id: response.user_id,
+					userStatus: response.userStatus,
+					organization_id: response.organization_id
+				})
 			})
 
 		} catch (error) {
@@ -110,6 +115,8 @@ class CoCreateUser {
 	async userStatus(socket, data) {
 		const self = this;
 		try {
+			if (!data.user_id || !data.userStatus)
+				return
 			data.collection = 'users'
 			data['document'] = {
 				_id: data.user_id,
@@ -117,7 +124,13 @@ class CoCreateUser {
 			}
 			
 			this.crud.updateDocument(data).then((data) => {
-				self.wsManager.broadcast(socket, 'updateUserStatus', data)
+				// self.wsManager.broadcast(socket, 'updateUserStatus', data)
+				self.wsManager.broadcast(socket, 'updateUserStatus', {  
+					user_id: data.user_id,
+					userStatus: data.userStatus,
+					organization_id: data.organization_id || socket.config.organization_id
+				})
+
 			})
 
 		} catch (error) {

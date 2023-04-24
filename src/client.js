@@ -209,7 +209,11 @@ const CoCreateUser = {
 	},
 
 	redirect: (data) => {
-		if (data.userStatus == 'on') {
+		if (data.user_id && data.user_id !== crud.socket.user_id)
+			return
+		if (!data.user_id && data.clientId !== crud.socket.clientId)
+			return
+		if (data.userStatus == 'on' || data.userStatus == 'idle') {
 			let redirectTag = document.querySelector('[session="true"]');
 
 			if (redirectTag) {
@@ -218,7 +222,7 @@ const CoCreateUser = {
 					document.location.href = redirectLink;
 				}
 			}
-		} else {
+		} else if (data.userStatus == 'off') {
 			let redirectTag = document.querySelector('[session="false"]');
 
 			if (redirectTag) {
