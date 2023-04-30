@@ -1,6 +1,6 @@
 {
   "name": "@cocreate/users",
-  "version": "1.19.4",
+  "version": "1.19.5",
   "description": "A simple users component in vanilla javascript. Easily configured using HTML5 attributes and/or JavaScript API.",
   "keywords": [
     "users",
