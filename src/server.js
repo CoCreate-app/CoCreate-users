@@ -1,6 +1,6 @@
 class CoCreateUser {
-	constructor(wsManager, crud) {
-		this.wsManager = wsManager
+	constructor(crud) {
+		this.wsManager = crud.wsManager
 		this.crud = crud
 		this.init()
 	}
