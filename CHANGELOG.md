@@ -1,3 +1,10 @@
+## [1.19.8](https://github.com/CoCreate-app/CoCreate-users/compare/v1.19.7...v1.19.8) (2023-05-06)
+
+
+### Bug Fixes
+
+* bump [@cocreate](https://github.com/cocreate) dependencies ([fe717a3](https://github.com/CoCreate-app/CoCreate-users/commit/fe717a368dc272414fa1b3185431db8ad1ac5c58))
+
 ## [1.19.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.19.6...v1.19.7) (2023-05-01)
 
 
