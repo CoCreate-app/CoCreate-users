@@ -66,7 +66,7 @@ const CoCreateUser = {
 		}
 		
 		const socket = crud.socket.getSockets()
-		if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
+		if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine || crud.socket.dbUrl == false || crud.socket.organization == false) {
 			crud.updateDocument(request).then((response) => {
 				response['success'] = false
 				response['status'] = "signIn failed"
