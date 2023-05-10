@@ -70,7 +70,7 @@ const CoCreateUser = {
 
 		if (success) {
 			localStorage.setItem('organization_id', crud.socket.config.organization_id);
-			localStorage.setItem("apiKey", crud.socket.config.apiKey);
+			localStorage.setItem("key", crud.socket.config.key);
 			localStorage.setItem("host", crud.socket.config.host);
 			localStorage.setItem('user_id', data.document[0]['_id']);
 			localStorage.setItem("token", token);
@@ -230,7 +230,7 @@ const CoCreateUser = {
 							_id: user_id
 						},
 					}).then((data) => {
-						localStorage.setItem('apiKey', data['apiKey']);
+						localStorage.setItem('key', data['key']);
 						localStorage.setItem('organization_id', data.document[0]['current_org']);
 						localStorage.setItem('host', crud.socket.config.host);
 						

@@ -54,7 +54,7 @@ class CoCreateUser {
 			collection:	string,
 			data: object,
 			eId: string,
-			apiKey: string,
+			key: string,
 			organization_id: string
 		}
 	**/	
