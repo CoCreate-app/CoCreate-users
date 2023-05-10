@@ -1,3 +1,10 @@
+# [1.20.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.19.9...v1.20.0) (2023-05-10)
+
+
+### Features
+
+* if !dbUrl use indexeddb ([ba86800](https://github.com/CoCreate-app/CoCreate-users/commit/ba8680066b01ffa8df02dfeb260d229d2081fc44))
+
 ## [1.19.9](https://github.com/CoCreate-app/CoCreate-users/compare/v1.19.8...v1.19.9) (2023-05-07)
 
 
