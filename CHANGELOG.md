@@ -1,3 +1,11 @@
+## [1.21.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.0...v1.21.1) (2023-05-10)
+
+
+### Bug Fixes
+
+* apikey renamed to key ([392ec35](https://github.com/CoCreate-app/CoCreate-users/commit/392ec35a1d5b0234a30cd5342ea6b6dfd0d59b05))
+* apikey renamed to key ([f195cc7](https://github.com/CoCreate-app/CoCreate-users/commit/f195cc726e448b45e3e94ec8ee15af105840c9ba))
+
 # [1.21.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.20.0...v1.21.0) (2023-05-10)
 
 
