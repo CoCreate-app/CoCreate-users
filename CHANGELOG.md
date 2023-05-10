@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.20.0...v1.21.0) (2023-05-10)
+
+
+### Features
+
+* added @cocreate/form ([2fb6c2b](https://github.com/CoCreate-app/CoCreate-users/commit/2fb6c2b635f7bb6cc7d527f0d6c439eaa95cf19d))
+
 # [1.20.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.19.9...v1.20.0) (2023-05-10)
 
 
