@@ -1,6 +1,7 @@
 /*globals CustomEvent, btoa*/
 import crud from '@cocreate/crud-client';
 import action from '@cocreate/actions';
+import form from '@cocreate/form';
 import render from '@cocreate/render';
 import '@cocreate/element-prototype';
 import './index.css';
@@ -15,24 +16,6 @@ const CoCreateUser = {
 
 	initSocket: function() {
 		const self = this;
-		// crud.listen('signUp', function(data) {
-		// 	self.setDocumentId('users', data.document[0]._id);
-			
-		// 	render.data({
-		// 		selector: "[template='signUp']",
-		// 		data: {
-		// 			type: 'signUp',
-		// 			message: 'Succesfully Signed Up',
-		// 			success: true
-		// 		}
-		// 	});
-
-		// 	document.dispatchEvent(new CustomEvent('signUp', {
-		// 		detail: data
-		// 	}));
-		// });
-
-		crud.listen('signIn', (data) => self.signInResponse(data));
 		crud.listen('updateUserStatus', (data) => self.updateUserStatus(data));
 	},
 
@@ -45,12 +28,8 @@ const CoCreateUser = {
 
 		inputs.forEach((input) => {
 			const name = input.getAttribute('name');
-			let value = input.value;
-			if (input.type == 'password') {
-				value = btoa(value);
-			}
+			const value = input.getValue();
 			collection = input.getAttribute('collection') || collection;
-
 			query.push({name, value, operator: '$eq'})
 		});
 
@@ -79,9 +58,10 @@ const CoCreateUser = {
 				}
 			})
 		} else {
-			// ToDo: can be depreciated if we have another means of token generation
 			request.broadcastBrowser = false
-			crud.socket.send('signIn', request);
+			crud.socket.send('signIn', request).then((response) => {
+				this.signInResponse(data)
+			})
 		}
 	},
 
@@ -139,61 +119,36 @@ const CoCreateUser = {
 	},
 
 	signUp: function(btn) {
-		let form = btn.closest("form");
-		if (!form) return;
-		let org_id = "";
-		let elements = form.querySelectorAll("[collection='users'][name]");
-		let orgIdElement = form.querySelector("input[collection='organizations'][name='_id']");
+		let formEl = btn.closest("form");
+		if (!formEl) return;
 
-		if (orgIdElement)
-			org_id = orgIdElement.value;
-		else
-			org_id = crud.socket.config.organization_id;
-
-		let data = {document: {}};
-		elements.forEach(el => {
-			let name = el.getAttribute('name');
-			let value = el.getValue();
-			if (!name || !value) return;
-			data.document[name] = value;
-		});
+		let organization_id = crud.socket.config.organization_id;
+		let data = form.getData(formEl, 'users')
 		data['collection'] = 'users'
-		data.document['current_org'] = org_id;
-		data.document['connected_orgs'] = [org_id];
+		data.document['current_org'] = organization_id;
+		data.document['connected_orgs'] = [organization_id];
+		data.organization_id = [organization_id];
 
 		// const socket = crud.socket.getSockets()
 		// if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
-			// ToDo: can use updateDocument with filter query
-			crud.createDocument(data).then((response) => {
-				self.setDocumentId('users', response.document_id);
-				data.database = org_id
-				data.document['_id'] = response.document_id
-				data.organization_id = org_id
-				crud.createDocument(request).then((response) => {
-					render.data({
-						selector: "[template='signUp']",
-						data: {
-							type: 'signUp',
-							message: 'Succesfully Signed Up',
-							success: true
-						}
-					});
+		// ToDo: can use updateDocument with filter query
+		crud.createDocument(data).then((response) => {
+			form.setDocumentId(formEl, response)
+
+			render.data({
+				selector: "[template='signUp']",
+				data: {
+					type: 'signUp',
+					message: 'Succesfully Signed Up',
+					success: true
+				}
+			});
+	
+			document.dispatchEvent(new CustomEvent('signUp', {
+				detail: response
+			}));
 			
-					document.dispatchEvent(new CustomEvent('signUp', {
-						detail: response
-					}));
-		
-				})
-			})
-		// } else {
-		// 	// ToDo: creates user in platformdb
-		// 	crud.socket.send('signUp', {
-		// 		collection: 'users',
-		// 		...data,
-		// 		orgDB: org_id,
-		// 		broadcastBrowser: false
-		// 	});
-		// }
+		})
 	},
 
 	updateUserStatus: function(data) {
@@ -287,23 +242,7 @@ const CoCreateUser = {
 				});
 			}
 		}
-	},
-
-	// ToDo: variations of setDocumentId exists in a few components 
-	setDocumentId: function(collection, id) {
-		let orgIdElements = document.querySelectorAll(`[collection='${collection}']`);
-		if (orgIdElements && orgIdElements.length > 0) {
-			orgIdElements.forEach((el) => {
-				if (!el.getAttribute('document_id')) {
-					el.setAttribute('document_id', id);
-				}
-				if (el.getAttribute('name') == "_id") {
-					el.value = id;
-				}
-			});
-		}
-	}
-	
+	}	
 };
 
 
