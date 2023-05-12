@@ -19,7 +19,7 @@ const CoCreateUser = {
 		crud.listen('updateUserStatus', (data) => self.updateUserStatus(data));
 	},
 
-	signInRequest: function(btn) {
+	signIn: function(btn) {
 		let form = btn.closest('form');
 		let collection = form.getAttribute('collection');
 		let query = [];
@@ -45,11 +45,11 @@ const CoCreateUser = {
 		}
 		
 		const socket = crud.socket.getSockets()
-		if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine || crud.socket.dbUrl == false || crud.socket.organization == false) {
+		if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine || crud.socket.serverOrganization == false) {
 			crud.updateDocument(request).then((response) => {
 				response['success'] = false
 				response['status'] = "signIn failed"
-				if (response.document)  {
+				if (response.document && response.document[0])  {
 					response['success'] = true
 					response['status'] = "success"
 					this.signInResponse(response)
@@ -60,7 +60,7 @@ const CoCreateUser = {
 		} else {
 			request.broadcastBrowser = false
 			crud.socket.send('signIn', request).then((response) => {
-				this.signInResponse(data)
+				this.signInResponse(response)
 			})
 		}
 	},
@@ -258,7 +258,7 @@ action.init({
 	name: "signIn",
 	endEvent: "signIn",
 	callback: (btn, data) => {
-		CoCreateUser.signInRequest(btn, data);
+		CoCreateUser.signIn(btn, data);
 	},
 });
 
