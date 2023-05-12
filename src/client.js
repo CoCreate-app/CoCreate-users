@@ -114,7 +114,7 @@ const CoCreateUser = {
 			}
 		});
 	
-		// Todo: replace with Custom event system
+		// TODO: replace with Custom event system
 		document.dispatchEvent(new CustomEvent('signOut'));
 	},
 
@@ -131,7 +131,7 @@ const CoCreateUser = {
 
 		// const socket = crud.socket.getSockets()
 		// if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
-		// ToDo: can use updateDocument with filter query
+		// TODO: can use updateDocument with filter query
 		crud.createDocument(data).then((response) => {
 			form.setDocumentId(formEl, response)
 
@@ -223,7 +223,7 @@ const CoCreateUser = {
 
 			if (collection == 'users' && id == user_id) {
 				orgChanger.addEventListener('selected', function(e) {
-					// ToDo: can get selected value from event/element, readDocument not required. 
+					// TODO: can get selected value from event/element, readDocument not required. 
 					crud.readDocument({
 						collection: collection || 'users',
 						document: {
