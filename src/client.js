@@ -8,266 +8,266 @@ import './index.css';
 import localStorage from '@cocreate/local-storage';
 
 const CoCreateUser = {
-	init: function() {
-		this.initSocket();
-		this.initSession();
-		this.initChangeOrg();
-	},
+    init: function () {
+        this.initSocket();
+        this.initSession();
+        this.initChangeOrg();
+    },
 
-	initSocket: function() {
-		const self = this;
-		crud.listen('updateUserStatus', (data) => self.updateUserStatus(data));
-	},
+    initSocket: function () {
+        const self = this;
+        crud.listen('updateUserStatus', (data) => self.updateUserStatus(data));
+    },
 
-	signIn: function(btn) {
-		let form = btn.closest('form');
-		let collection = form.getAttribute('collection');
-		let query = [];
+    signIn: function (btn) {
+        let form = btn.closest('form');
+        let collection = form.getAttribute('collection');
+        let query = [];
 
-		const inputs = form.querySelectorAll('input[name="email"], input[name="password"], input[name="username"]');
+        const inputs = form.querySelectorAll('input[name="email"], input[name="password"], input[name="username"]');
 
-		inputs.forEach((input) => {
-			const name = input.getAttribute('name');
-			const value = input.getValue();
-			collection = input.getAttribute('collection') || collection;
-			query.push({name, value, operator: '$eq'})
-		});
+        inputs.forEach((input) => {
+            const name = input.getAttribute('name');
+            const value = input.getValue();
+            collection = input.getAttribute('collection') || collection;
+            query.push({ name, value, operator: '$eq' })
+        });
 
-		let request = {
-			collection,
-			document: {
-				lastSignIn: new Date().toISOString(),
-				current_org: crud.socket.config.organization_id
-			},
-			filter: {
-				query
-			}
-		}
-		
-		const socket = crud.socket.getSockets()
-		if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine || crud.socket.serverOrganization == false) {
-			crud.updateDocument(request).then((response) => {
-				response['success'] = false
-				response['status'] = "signIn failed"
-				if (response.document && response.document[0])  {
-					response['success'] = true
-					response['status'] = "success"
-					this.signInResponse(response)
-				} else {
-					this.signInResponse(response)
-				}
-			})
-		} else {
-			request.broadcastBrowser = false
-			crud.socket.send('signIn', request).then((response) => {
-				this.signInResponse(response)
-			})
-		}
-	},
+        let request = {
+            collection,
+            document: {
+                lastSignIn: new Date().toISOString(),
+                current_org: crud.socket.config.organization_id
+            },
+            filter: {
+                query
+            }
+        }
 
-	signInResponse: function(data) {
-		let { success, status, message, token } = data;
+        const socket = crud.socket.getSockets()
+        if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine || crud.socket.serverOrganization == false) {
+            crud.updateDocument(request).then((response) => {
+                response['success'] = false
+                response['status'] = "signIn failed"
+                if (response.document && response.document[0]) {
+                    response['success'] = true
+                    response['status'] = "success"
+                    this.signInResponse(response)
+                } else {
+                    this.signInResponse(response)
+                }
+            })
+        } else {
+            request.broadcastBrowser = false
+            crud.socket.send('signIn', request).then((response) => {
+                this.signInResponse(response)
+            })
+        }
+    },
 
-		if (success) {
-			localStorage.setItem('organization_id', crud.socket.config.organization_id);
-			localStorage.setItem("key", crud.socket.config.key);
-			localStorage.setItem("host", crud.socket.config.host);
-			localStorage.setItem('user_id', data.document[0]['_id']);
-			localStorage.setItem("token", token);
-			// document.cookie = `token=${token};path=/`;
-			message = "Succesful signIn";
-			document.dispatchEvent(new CustomEvent('signIn', {
-				detail: {}
-			}));
-		}
-		else
-			message = "The email or password you entered is incorrect";
+    signInResponse: function (data) {
+        let { success, status, message, token } = data;
 
-		render.data({
-			selector: "[template='signIn']",
-			data: {
-				type: 'signIn',
-				status,
-				message,
-				success
-			}
-		});
-	},
+        if (success) {
+            localStorage.setItem('organization_id', crud.socket.config.organization_id);
+            localStorage.setItem("key", crud.socket.config.key);
+            localStorage.setItem("host", crud.socket.config.host);
+            localStorage.setItem('user_id', data.document[0]['_id']);
+            localStorage.setItem("token", token);
+            // document.cookie = `token=${token};path=/`;
+            message = "Succesful signIn";
+            document.dispatchEvent(new CustomEvent('signIn', {
+                detail: {}
+            }));
+        }
+        else
+            message = "The email or password you entered is incorrect";
 
-	signOut: (btn) => {
-		self = this;
-		localStorage.removeItem("user_id");
-		localStorage.removeItem("token");
+        render.data({
+            selector: "[template='signIn']",
+            data: {
+                type: 'signIn',
+                status,
+                message,
+                success
+            }
+        });
+    },
 
-		// let allCookies = document.cookie.split(';');
+    signOut: (btn) => {
+        self = this;
+        localStorage.removeItem("user_id");
+        localStorage.removeItem("token");
 
-		// for (var i = 0; i < allCookies.length; i++)
-		// 	document.cookie = allCookies[i] + "=;expires=" +
-		// 	new Date(0).toUTCString();
+        // let allCookies = document.cookie.split(';');
 
-		render.data({
-			selector: "[template='signOut']",
-			data: {
-				type: 'signOut',
-				message: 'Succesfully logged out',
-				success: true
-			}
-		});
-	
-		// TODO: replace with Custom event system
-		document.dispatchEvent(new CustomEvent('signOut'));
-	},
+        // for (var i = 0; i < allCookies.length; i++)
+        // 	document.cookie = allCookies[i] + "=;expires=" +
+        // 	new Date(0).toUTCString();
 
-	signUp: function(btn) {
-		let formEl = btn.closest("form");
-		if (!formEl) return;
+        render.data({
+            selector: "[template='signOut']",
+            data: {
+                type: 'signOut',
+                message: 'Succesfully logged out',
+                success: true
+            }
+        });
 
-		let organization_id = crud.socket.config.organization_id;
-		let data = form.getData(formEl, 'users')
-		data['collection'] = 'users'
-		data.document['current_org'] = organization_id;
-		data.document['connected_orgs'] = [organization_id];
-		data.organization_id = [organization_id];
+        // TODO: replace with Custom event system
+        document.dispatchEvent(new CustomEvent('signOut'));
+    },
 
-		// const socket = crud.socket.getSockets()
-		// if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
-		// TODO: can use updateDocument with filter query
-		crud.createDocument(data).then((response) => {
-			form.setDocumentId(formEl, response)
+    signUp: function (btn) {
+        let formEl = btn.closest("form");
+        if (!formEl) return;
 
-			render.data({
-				selector: "[template='signUp']",
-				data: {
-					type: 'signUp',
-					message: 'Succesfully Signed Up',
-					success: true
-				}
-			});
-	
-			document.dispatchEvent(new CustomEvent('signUp', {
-				detail: response
-			}));
-			
-		})
-	},
+        let organization_id = crud.socket.config.organization_id;
+        let data = form.getData(formEl, 'users')
+        data['collection'] = 'users'
+        // data.document['current_org'] = organization_id;
+        // data.document['connected_orgs'] = [organization_id];
+        data.organization_id = [organization_id];
 
-	updateUserStatus: function(data) {
-		this.redirect(data)
-		if (data.user_id) {
-			let statusEls = document.querySelectorAll(`[user-status][document_id='${data['user_id']}']`);
+        // const socket = crud.socket.getSockets()
+        // if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
+        // TODO: can use updateDocument with filter query
+        crud.createDocument(data).then((response) => {
+            form.setDocumentId(formEl, response)
 
-			statusEls.forEach((el) => {
-				el.setAttribute('user-status', data['userStatus']);
-			});
-		}
+            render.data({
+                selector: "[template='signUp']",
+                data: {
+                    type: 'signUp',
+                    message: 'Succesfully Signed Up',
+                    success: true
+                }
+            });
 
-	},
+            document.dispatchEvent(new CustomEvent('signUp', {
+                detail: response
+            }));
 
-	redirect: (data) => {
-		if (data.user_id && data.user_id !== crud.socket.config.user_id)
-			return
-		if (!data.user_id && data.clientId !== crud.socket.clientId)
-			return
-		if (data.userStatus == 'on' || data.userStatus == 'idle') {
-			let redirectTag = document.querySelector('[session="true"]');
+        })
+    },
 
-			if (redirectTag) {
-				let redirectLink = redirectTag.getAttribute('href');
-				if (redirectLink) {
-					document.location.href = redirectLink;
-				}
-			}
-		} else if (data.userStatus == 'off') {
-			let redirectTag = document.querySelector('[session="false"]');
+    updateUserStatus: function (data) {
+        this.redirect(data)
+        if (data.user_id) {
+            let statusEls = document.querySelectorAll(`[user-status][document_id='${data['user_id']}']`);
 
-			if (redirectTag) {
-				let redirectLink = redirectTag.getAttribute('href');
-				if (redirectLink) {
-					localStorage.removeItem("user_id");
-					localStorage.removeItem("token");
-			
-					// this.deleteCookie();
-					document.location.href = redirectLink;
-				}
-			}
-		}
+            statusEls.forEach((el) => {
+                el.setAttribute('user-status', data['userStatus']);
+            });
+        }
 
-	},
+    },
 
-	initSession: () => {
-		let redirectTag = document.querySelector('[session]');
+    redirect: (data) => {
+        if (data.user_id && data.user_id !== crud.socket.config.user_id)
+            return
+        if (!data.user_id && data.clientId !== crud.socket.clientId)
+            return
+        if (data.userStatus == 'on' || data.userStatus == 'idle') {
+            let redirectTag = document.querySelector('[session="true"]');
 
-		if (redirectTag) {
-			crud.socket.send('sendMessage', {
-				message: 'checkSession',
-				broadcast: false,
-				broadcastSender: false,
-				broadcastBrowser: false
-			});
-		}
+            if (redirectTag) {
+                let redirectLink = redirectTag.getAttribute('href');
+                if (redirectLink) {
+                    document.location.href = redirectLink;
+                }
+            }
+        } else if (data.userStatus == 'off') {
+            let redirectTag = document.querySelector('[session="false"]');
 
-	},
+            if (redirectTag) {
+                let redirectLink = redirectTag.getAttribute('href');
+                if (redirectLink) {
+                    localStorage.removeItem("user_id");
+                    localStorage.removeItem("token");
 
-	initChangeOrg: () => {
-		const user_id = localStorage.getItem('user_id');
+                    // this.deleteCookie();
+                    document.location.href = redirectLink;
+                }
+            }
+        }
 
-		if (!user_id) return;
+    },
 
-		let orgChangers = document.querySelectorAll('.org-changer');
+    initSession: () => {
+        let redirectTag = document.querySelector('[session]');
 
-		for (let i = 0; i < orgChangers.length; i++) {
-			let orgChanger = orgChangers[i];
+        if (redirectTag) {
+            crud.socket.send('sendMessage', {
+                message: 'checkSession',
+                broadcast: false,
+                broadcastSender: false,
+                broadcastBrowser: false
+            });
+        }
 
-			const collection = orgChanger.getAttribute('collection');
-			const id = orgChanger.getAttribute('document_id');
+    },
 
-			if (collection == 'users' && id == user_id) {
-				orgChanger.addEventListener('selected', function(e) {
-					// TODO: can get selected value from event/element, readDocument not required. 
-					crud.readDocument({
-						collection: collection || 'users',
-						document: {
-							_id: user_id
-						},
-					}).then((data) => {
-						localStorage.setItem('key', data['key']);
-						localStorage.setItem('organization_id', data.document[0]['current_org']);
-						localStorage.setItem('host', crud.socket.config.host);
-						
-						document.dispatchEvent(new CustomEvent('signIn'));
-						window.location.reload();
+    initChangeOrg: () => {
+        const user_id = localStorage.getItem('user_id');
 
-					})
-			
-				});
-			}
-		}
-	}	
+        if (!user_id) return;
+
+        let orgChangers = document.querySelectorAll('.org-changer');
+
+        for (let i = 0; i < orgChangers.length; i++) {
+            let orgChanger = orgChangers[i];
+
+            const collection = orgChanger.getAttribute('collection');
+            const id = orgChanger.getAttribute('document_id');
+
+            if (collection == 'users' && id == user_id) {
+                orgChanger.addEventListener('selected', function (e) {
+                    // TODO: can get selected value from event/element, readDocument not required. 
+                    crud.readDocument({
+                        collection: collection || 'users',
+                        document: {
+                            _id: user_id
+                        },
+                    }).then((data) => {
+                        localStorage.setItem('key', data['key']);
+                        localStorage.setItem('organization_id', data.document[0]['current_org']);
+                        localStorage.setItem('host', crud.socket.config.host);
+
+                        document.dispatchEvent(new CustomEvent('signIn'));
+                        window.location.reload();
+
+                    })
+
+                });
+            }
+        }
+    }
 };
 
 
 action.init({
-	name: "signUp",
-	endEvent: "signUp",
-	callback: (btn, data) => {
-		CoCreateUser.signUp(btn);
-	},
+    name: "signUp",
+    endEvent: "signUp",
+    callback: (btn, data) => {
+        CoCreateUser.signUp(btn);
+    },
 });
 
 action.init({
-	name: "signIn",
-	endEvent: "signIn",
-	callback: (btn, data) => {
-		CoCreateUser.signIn(btn, data);
-	},
+    name: "signIn",
+    endEvent: "signIn",
+    callback: (btn, data) => {
+        CoCreateUser.signIn(btn, data);
+    },
 });
 
 action.init({
-	name: "signOut",
-	endEvent: "signOut",
-	callback: (btn, data) => {
-		CoCreateUser.signOut(btn, data);
-	},
+    name: "signOut",
+    endEvent: "signOut",
+    callback: (btn, data) => {
+        CoCreateUser.signOut(btn, data);
+    },
 });
 
 CoCreateUser.init();
