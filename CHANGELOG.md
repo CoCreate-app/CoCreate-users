@@ -1,3 +1,10 @@
+## [1.21.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.2...v1.21.3) (2023-05-18)
+
+
+### Bug Fixes
+
+* Refactored initialization of client and socket, signIn, signUp, signOut and updateUserStatus methods. ([cd98a9a](https://github.com/CoCreate-app/CoCreate-users/commit/cd98a9a30982ee61b31802c0879528d2d86c195d))
+
 ## [1.21.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.1...v1.21.2) (2023-05-12)
 
 
