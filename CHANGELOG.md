@@ -1,3 +1,10 @@
+## [1.21.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.4...v1.21.5) (2023-05-20)
+
+
+### Bug Fixes
+
+* Simplify CoCreateUser class by adding async/await and removing unnecessary commented code. ([bd22d42](https://github.com/CoCreate-app/CoCreate-users/commit/bd22d42c6e73be130c6d208bb8010b1056e0da0a))
+
 ## [1.21.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.3...v1.21.4) (2023-05-19)
 
 
