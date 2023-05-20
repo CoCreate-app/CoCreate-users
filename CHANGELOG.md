@@ -1,3 +1,10 @@
+## [1.21.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.5...v1.21.6) (2023-05-20)
+
+
+### Bug Fixes
+
+* Refactor user sign-in data collection in client.js ([fb899e2](https://github.com/CoCreate-app/CoCreate-users/commit/fb899e2e88c3cb1be0ee6efbdbb468e768fb34e0))
+
 ## [1.21.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.4...v1.21.5) (2023-05-20)
 
 
