@@ -29,15 +29,14 @@ const CoCreateUser = {
         inputs.forEach((input) => {
             const name = input.getAttribute('name');
             const value = input.getValue();
-            collection = input.getAttribute('collection') || collection;
+            collection = 'keys';
             query.push({ name, value, operator: '$eq' })
         });
 
         let request = {
             collection,
             document: {
-                lastSignIn: new Date().toISOString(),
-                current_org: crud.socket.config.organization_id
+                lastSignIn: new Date().toISOString()
             },
             filter: {
                 query
