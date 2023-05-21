@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.7...v1.22.0) (2023-05-21)
+
+
+### Features
+
+* signup create a user and userKey ([67da925](https://github.com/CoCreate-app/CoCreate-users/commit/67da925f23ebdbc4ae0e38452f6a00d020691a62))
+
 ## [1.21.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.6...v1.21.7) (2023-05-20)
 
 
