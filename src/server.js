@@ -15,33 +15,20 @@ class CoCreateUser {
 
     async signUp(socket, data) {
         const self = this;
-        if (!data.document) return;
-
         try {
-            // Create new user in config db users collection
-            this.crud.createDocument(data).then((data) => {
-                if (data.document[0] && data.document[0]._id) {
-                    // const orgDB = data.orgDB;
 
-                    // if new orgDb Create new user in new org db users collection
-                    // if (orgDB && orgDB != data.organization_id) {
-                    // 	let Data = {...data, organization_id: orgDB}
-                    // 	self.crud.createDocument(Data)
-                    // }
+            if (data.user) {
+                const response = await this.crud.createDocument(data.user)
+                this.wsManager.broadcast(socket, 'createDocument', response);
+            }
 
-                    self.wsManager.broadcast(socket, 'updateDocument', data);
-                    self.wsManager.send(socket, 'signUp', data);
+            if (data.userKey) {
+                const response = await this.crud.createDocument(data.userKey)
+                this.wsManager.broadcast(socket, 'createDocument', response);
+            }
 
+            self.wsManager.send(socket, 'signUp', data);
 
-                    // add new user to platformDB
-                    if (data.organization_id != process.env.organization_id) {
-                        let Data = { ...data, organization_id: process.env.organization_id }
-                        self.crud.createDocument(Data)
-                    }
-                }
-
-                // self.wsManager.broadcast(socket, 'updateUserStatus', data)
-            })
         } catch (error) {
             console.log('createDocument error', error);
         }

@@ -19,6 +19,67 @@ const CoCreateUser = {
         crud.listen('updateUserStatus', (data) => self.updateUserStatus(data));
     },
 
+    signUp: async function (btn) {
+        let formEl = btn.closest("form");
+        if (!formEl) return;
+
+        let organization_id = crud.socket.config.organization_id;
+        let collection = form.getAttribute('collection')
+        if (!collection) {
+            for (let el of formEl) {
+                collection = el.getAttribute('collection');
+                if (collection)
+                    break;
+            }
+        }
+
+        let data = form.getData(formEl, collection)
+        data['collection'] = collection
+        data.organization_id = organization_id;
+
+        if (!data.document[0]._id)
+            data.document[0]._id = crud.ObjectId();
+
+        let user = await crud.createDocument(data)
+        form.setDocumentId(formEl, user)
+
+        // const socket = crud.socket.getSockets()
+        // if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
+        let key = {
+            collection: 'keys',
+            document: {
+                type: "user",
+                key: user.document[0]._id,
+                roles: ['user'],
+                email: user.document.email,
+                password: user.document.password || btoa('0000'),
+                user: {
+                    collection
+                }
+            },
+            organization_id
+        }
+
+        let response = await crud.createDocument(key)
+        if (response && response.document && response.document[0]) {
+            crud.socket.send('signUp', { user, userKey })
+
+            render.data({
+                selector: "[template='signUp']",
+                data: {
+                    type: 'signUp',
+                    message: 'Succesfully Signed Up',
+                    success: true
+                }
+            });
+
+            document.dispatchEvent(new CustomEvent('signUp', {
+                detail: response
+            }));
+
+        }
+    },
+
     signIn: function (btn) {
         let form = btn.closest('form');
         let collection = form.getAttribute('collection');
@@ -117,39 +178,6 @@ const CoCreateUser = {
         document.dispatchEvent(new CustomEvent('signOut'));
     },
 
-    signUp: function (btn) {
-        let formEl = btn.closest("form");
-        if (!formEl) return;
-
-        let organization_id = crud.socket.config.organization_id;
-        let data = form.getData(formEl, 'users')
-        data['collection'] = 'users'
-        // data.document['current_org'] = organization_id;
-        // data.document['connected_orgs'] = [organization_id];
-        data.organization_id = [organization_id];
-
-        // const socket = crud.socket.getSockets()
-        // if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
-        // TODO: can use updateDocument with filter query
-        crud.createDocument(data).then((response) => {
-            form.setDocumentId(formEl, response)
-
-            render.data({
-                selector: "[template='signUp']",
-                data: {
-                    type: 'signUp',
-                    message: 'Succesfully Signed Up',
-                    success: true
-                }
-            });
-
-            document.dispatchEvent(new CustomEvent('signUp', {
-                detail: response
-            }));
-
-        })
-    },
-
     updateUserStatus: function (data) {
         this.redirect(data)
         if (data.user_id) {
@@ -207,40 +235,9 @@ const CoCreateUser = {
 
     },
 
-    initChangeOrg: () => {
-        const user_id = localStorage.getItem('user_id');
-
-        if (!user_id) return;
-
-        let orgChangers = document.querySelectorAll('.org-changer');
-
-        for (let i = 0; i < orgChangers.length; i++) {
-            let orgChanger = orgChangers[i];
-
-            const collection = orgChanger.getAttribute('collection');
-            const id = orgChanger.getAttribute('document_id');
-
-            if (collection == 'users' && id == user_id) {
-                orgChanger.addEventListener('selected', function (e) {
-                    // TODO: can get selected value from event/element, readDocument not required. 
-                    crud.readDocument({
-                        collection: collection || 'users',
-                        document: {
-                            _id: user_id
-                        },
-                    }).then((data) => {
-                        localStorage.setItem('key', data['key']);
-                        localStorage.setItem('organization_id', data.document[0]['current_org']);
-                        localStorage.setItem('host', crud.socket.config.host);
-
-                        document.dispatchEvent(new CustomEvent('signIn'));
-                        window.location.reload();
-
-                    })
-
-                });
-            }
-        }
+    // TODO: updatePassword()
+    updatePassword: function (btn) {
+        this.signIn(btn);
     }
 };
 
