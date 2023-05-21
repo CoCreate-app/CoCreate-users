@@ -1,3 +1,10 @@
+## [1.22.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.0...v1.22.1) (2023-05-21)
+
+
+### Bug Fixes
+
+* Remove unused function from client.js ([11fb260](https://github.com/CoCreate-app/CoCreate-users/commit/11fb2601c31e60b56b9463462dd9a44f70a797d2))
+
 # [1.22.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.21.7...v1.22.0) (2023-05-21)
 
 
