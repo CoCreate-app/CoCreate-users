@@ -48,41 +48,36 @@ class CoCreateUser {
     async signIn(socket, data) {
         const self = this;
         try {
-            data.collection = 'keys'
-            this.crud.updateDocument(data).then(async (data) => {
+            this.crud.readDocument(data).then(async (data) => {
                 let response = {
-                    ...data,
                     success: false,
                     message: "signIn failed",
                     status: "failed",
                     userStatus: 'off'
                 }
 
-                if (data.document[0] && data.document[0]._id) {
-                    let token = null;
-                    if (self.wsManager.authInstance) {
-                        token = await self.wsManager.authInstance.generateToken({ user_id: data.document[0]._id });
-                    }
+                if (data.document[0] && data.document[0]._id && self.wsManager.authInstance) {
+                    const user_id = data.document[0].key
+                    const token = await self.wsManager.authInstance.generateToken({ user_id });
 
-                    if (token && token != 'null')
+                    if (token && token != 'null') {
                         response = {
-                            ...response,
                             success: true,
                             message: "signIn successful",
                             status: "success",
                             userStatus: 'on',
+                            user_id,
                             token
                         };
 
-
-                    if (data.organization_id != process.env.organization_id) {
-                        let Data = { organization_id: process.env.organization_id }
-                        Data.document['_id'] = data.document[0]._id
-                        Data.document['lastsignIn'] = data.document[0].lastsignIn
-                        Data.document['organization_id'] = process.env.organization_id
-                        crud.updateDocument(Data)
+                        // if (data.organization_id != process.env.organization_id) {
+                        //     let Data = { organization_id: process.env.organization_id }
+                        //     Data.document['_id'] = data.document[0]._id
+                        //     Data.document['lastsignIn'] = data.document[0].lastsignIn
+                        //     Data.document['organization_id'] = process.env.organization_id
+                        //     crud.updateDocument(Data)
+                        // }
                     }
-
                 }
                 self.wsManager.send(socket, 'signIn', response)
                 self.wsManager.broadcast(socket, 'updateUserStatus', {

@@ -95,9 +95,9 @@ const CoCreateUser = {
 
         let request = {
             collection,
-            document: {
-                lastSignIn: new Date().toISOString()
-            },
+            // document: {
+            //     lastSignIn: new Date().toISOString()
+            // },
             filter: {
                 query
             }
@@ -105,12 +105,13 @@ const CoCreateUser = {
 
         const socket = crud.socket.getSockets()
         if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine || crud.socket.serverOrganization == false) {
-            crud.updateDocument(request).then((response) => {
+            crud.readDocument(request).then((response) => {
                 response['success'] = false
                 response['status'] = "signIn failed"
                 if (response.document && response.document[0]) {
                     response['success'] = true
                     response['status'] = "success"
+                    response['user_id'] = response.document[0].key
                     this.signInResponse(response)
                 } else {
                     this.signInResponse(response)
@@ -125,13 +126,13 @@ const CoCreateUser = {
     },
 
     signInResponse: function (data) {
-        let { success, status, message, token } = data;
+        let { success, status, message, user_id, token } = data;
 
         if (success) {
             localStorage.setItem('organization_id', crud.socket.config.organization_id);
             localStorage.setItem("key", crud.socket.config.key);
             localStorage.setItem("host", crud.socket.config.host);
-            localStorage.setItem('user_id', data.document[0]['_id']);
+            localStorage.setItem('user_id', user_id);
             localStorage.setItem("token", token);
             // document.cookie = `token=${token};path=/`;
             message = "Succesful signIn";
