@@ -1,3 +1,10 @@
+## [1.22.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.3...v1.22.4) (2023-05-21)
+
+
+### Bug Fixes
+
+* Add UID to sign-in and user status response ([33801a9](https://github.com/CoCreate-app/CoCreate-users/commit/33801a93dc5c2a36d3752dbe39abf443b8cc884c))
+
 ## [1.22.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.2...v1.22.3) (2023-05-21)
 
 
