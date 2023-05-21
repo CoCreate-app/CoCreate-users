@@ -53,7 +53,8 @@ class CoCreateUser {
                     success: false,
                     message: "signIn failed",
                     status: "failed",
-                    userStatus: 'off'
+                    userStatus: 'off',
+                    uid: data.uid
                 }
 
                 if (data.document[0] && data.document[0]._id && self.wsManager.authInstance) {
@@ -67,7 +68,8 @@ class CoCreateUser {
                             status: "success",
                             userStatus: 'on',
                             user_id,
-                            token
+                            token,
+                            uid: data.uid
                         };
 
                         // if (data.organization_id != process.env.organization_id) {
