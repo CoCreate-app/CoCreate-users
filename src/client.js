@@ -11,7 +11,6 @@ const CoCreateUser = {
     init: function () {
         this.initSocket();
         this.initSession();
-        this.initChangeOrg();
     },
 
     initSocket: function () {
