@@ -1,3 +1,10 @@
+## [1.22.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.1...v1.22.2) (2023-05-21)
+
+
+### Bug Fixes
+
+* Refactor authentication flow for CoCreateUser ([25bd324](https://github.com/CoCreate-app/CoCreate-users/commit/25bd324bd04d0c196161f4e93b48589c80acee41))
+
 ## [1.22.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.0...v1.22.1) (2023-05-21)
 
 
