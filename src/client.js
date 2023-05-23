@@ -94,6 +94,7 @@ const CoCreateUser = {
         });
 
         let request = {
+            db: 'indexeddb',
             collection,
             // document: {
             //     lastSignIn: new Date().toISOString()
@@ -119,6 +120,7 @@ const CoCreateUser = {
             })
         } else {
             request.broadcastBrowser = false
+            delete request.db
             crud.socket.send('signIn', request).then((response) => {
                 this.signInResponse(response)
             })
