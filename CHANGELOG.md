@@ -1,3 +1,10 @@
+## [1.22.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.4...v1.22.5) (2023-05-23)
+
+
+### Bug Fixes
+
+* Add indexedDB support and remove db property when signing in. ([7979c19](https://github.com/CoCreate-app/CoCreate-users/commit/7979c192bd21905437aa65893b7a9600793e7fbc))
+
 ## [1.22.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.3...v1.22.4) (2023-05-21)
 
 
