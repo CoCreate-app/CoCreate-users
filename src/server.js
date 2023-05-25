@@ -57,9 +57,9 @@ class CoCreateUser {
                     uid: data.uid
                 }
 
-                if (data.document[0] && data.document[0]._id && self.wsManager.authInstance) {
+                if (data.document[0] && data.document[0]._id && self.wsManager.authenticate) {
                     const user_id = data.document[0].key
-                    const token = await self.wsManager.authInstance.generateToken({ user_id });
+                    const token = await self.wsManager.authenticate.generateToken({ user_id });
 
                     if (token && token != 'null') {
                         response = {
