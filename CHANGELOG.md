@@ -1,3 +1,10 @@
+## [1.22.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.5...v1.22.6) (2023-05-25)
+
+
+### Bug Fixes
+
+* renamed authInstance to authenticate ([64554c1](https://github.com/CoCreate-app/CoCreate-users/commit/64554c164582d7950319aca24f3802d7be31325f))
+
 ## [1.22.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.4...v1.22.5) (2023-05-23)
 
 
