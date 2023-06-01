@@ -1,3 +1,10 @@
+## [1.22.8](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.7...v1.22.8) (2023-06-01)
+
+
+### Bug Fixes
+
+* Refactor user creation and remove unnecessary code. ([15bf5c8](https://github.com/CoCreate-app/CoCreate-users/commit/15bf5c87572521471be3aa1a75bbdba37486ac1c))
+
 ## [1.22.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.6...v1.22.7) (2023-05-25)
 
 
