@@ -52,9 +52,7 @@ const CoCreateUser = {
                 roles: ['user'],
                 email: user.document.email,
                 password: user.document.password || btoa('0000'),
-                user: {
-                    collection
-                }
+                collection
             },
             organization_id
         }
@@ -96,9 +94,6 @@ const CoCreateUser = {
         let request = {
             db: 'indexeddb',
             collection,
-            // document: {
-            //     lastSignIn: new Date().toISOString()
-            // },
             filter: {
                 query
             }
