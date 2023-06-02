@@ -1,3 +1,11 @@
+## [1.22.9](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.8...v1.22.9) (2023-06-02)
+
+
+### Bug Fixes
+
+* format demo html ([f35ed1a](https://github.com/CoCreate-app/CoCreate-users/commit/f35ed1a39d546047f58912c39d7a51fc4d28d9ae))
+* Update dependencies versions for [@cocreate](https://github.com/cocreate) libraries ([1cd1125](https://github.com/CoCreate-app/CoCreate-users/commit/1cd1125dee02acd064f1ed500ed7a59ab5a78e8f))
+
 ## [1.22.8](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.7...v1.22.8) (2023-06-01)
 
 
