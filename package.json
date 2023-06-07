@@ -60,12 +60,12 @@
     "webpack-log": "^3.0.1"
   },
   "dependencies": {
-    "@cocreate/actions": "^1.8.14",
-    "@cocreate/crud-client": "^1.21.8",
-    "@cocreate/docs": "^1.7.15",
-    "@cocreate/element-prototype": "^1.8.14",
-    "@cocreate/form": "^1.14.14",
-    "@cocreate/local-storage": "^1.7.5",
-    "@cocreate/render": "^1.24.16"
+    "@cocreate/actions": "^1.8.18",
+    "@cocreate/crud-client": "^1.21.10",
+    "@cocreate/docs": "^1.8.2",
+    "@cocreate/element-prototype": "^1.8.16",
+    "@cocreate/form": "^1.14.16",
+    "@cocreate/local-storage": "^1.7.7",
+    "@cocreate/render": "^1.24.18"
   }
 }
