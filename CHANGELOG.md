@@ -1,3 +1,10 @@
+## [1.22.21](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.20...v1.22.21) (2023-06-11)
+
+
+### Bug Fixes
+
+* testing workflow ([5536307](https://github.com/CoCreate-app/CoCreate-users/commit/55363076ddee54b029f6f6be7c1e74e20d1f9c6d))
+
 ## [1.22.20](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.19...v1.22.20) (2023-06-11)
 
 
