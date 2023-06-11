@@ -1,3 +1,10 @@
+## [1.22.19](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.18...v1.22.19) (2023-06-11)
+
+
+### Bug Fixes
+
+* postintall error ([e54915e](https://github.com/CoCreate-app/CoCreate-users/commit/e54915e1ae7ef21645d48fce920479a771c6de94))
+
 ## [1.22.18](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.17...v1.22.18) (2023-06-11)
 
 
