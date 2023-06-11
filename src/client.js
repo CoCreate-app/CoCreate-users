@@ -115,7 +115,7 @@ const CoCreateUser = {
             })
         } else {
             request.broadcastBrowser = false
-            delete request.db
+            delete request.storage
             crud.socket.send('signIn', request).then((response) => {
                 this.signInResponse(response)
             })
