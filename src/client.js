@@ -242,24 +242,24 @@ const CoCreateUser = {
 action.init({
     name: "signUp",
     endEvent: "signUp",
-    callback: (btn, data) => {
-        CoCreateUser.signUp(btn);
+    callback: (data) => {
+        CoCreateUser.signUp(data.element);
     },
 });
 
 action.init({
     name: "signIn",
     endEvent: "signIn",
-    callback: (btn, data) => {
-        CoCreateUser.signIn(btn, data);
+    callback: (data) => {
+        CoCreateUser.signIn(data.element);
     },
 });
 
 action.init({
     name: "signOut",
     endEvent: "signOut",
-    callback: (btn, data) => {
-        CoCreateUser.signOut(btn, data);
+    callback: (data) => {
+        CoCreateUser.signOut(data.element);
     },
 });
 
