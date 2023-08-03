@@ -18,19 +18,21 @@ class CoCreateUser {
         try {
 
             if (data.user) {
-                const response = await this.crud.createDocument(data.user)
-                this.wsManager.broadcast(socket, 'createDocument', response);
+                data.user.method = 'create.object'
+                const response = await this.crud.send(data.user)
+                this.wsManager.broadcast(socket, response);
             }
 
             if (data.userKey) {
-                const response = await this.crud.createDocument(data.userKey)
-                this.wsManager.broadcast(socket, 'createDocument', response);
+                data.userKey.method = 'create.object'
+                const response = await this.crud.send(data.userKey)
+                this.wsManager.broadcast(socket, response);
             }
 
-            self.wsManager.send(socket, 'signUp', data);
+            self.wsManager.send(socket, data);
 
         } catch (error) {
-            console.log('createDocument error', error);
+            console.log('create.object error', error);
         }
     }
 
@@ -38,7 +40,7 @@ class CoCreateUser {
     /**
         data = {
             namespace: string,	
-            collection:	string,
+            array:	string,
             data: object,
             eId: string,
             key: string,
@@ -48,8 +50,10 @@ class CoCreateUser {
     async signIn(socket, data) {
         const self = this;
         try {
-            this.crud.readDocument(data).then(async (data) => {
+            data.method = 'read.object'
+            this.crud.send(data).then(async (data) => {
                 let response = {
+                    method: 'signIn',
                     success: false,
                     message: "signIn failed",
                     status: "failed",
@@ -57,8 +61,8 @@ class CoCreateUser {
                     uid: data.uid
                 }
 
-                if (data.document[0] && data.document[0]._id && self.wsManager.authenticate) {
-                    const user_id = data.document[0].key
+                if (data.object[0] && data.object[0]._id && self.wsManager.authenticate) {
+                    const user_id = data.object[0].key
                     const token = await self.wsManager.authenticate.generateToken({ user_id });
 
                     if (token && token != 'null') {
@@ -74,15 +78,16 @@ class CoCreateUser {
 
                         // if (data.organization_id != process.env.organization_id) {
                         //     let Data = { organization_id: process.env.organization_id }
-                        //     Data.document['_id'] = data.document[0]._id
-                        //     Data.document['lastsignIn'] = data.document[0].lastsignIn
-                        //     Data.document['organization_id'] = process.env.organization_id
-                        //     crud.updateDocument(Data)
+                        //     Data.object['_id'] = data.object[0]._id
+                        //     Data.object['lastsignIn'] = data.object[0].lastsignIn
+                        //     Data.object['organization_id'] = process.env.organization_id
+                        //     crud.send(Data)
                         // }
                     }
                 }
-                self.wsManager.send(socket, 'signIn', response)
-                self.wsManager.broadcast(socket, 'updateUserStatus', {
+                self.wsManager.send(socket, response)
+                self.wsManager.broadcast(socket, {
+                    method: 'updateUserStatus',
                     user_id: response.user_id,
                     userStatus: response.userStatus,
                     organization_id: response.organization_id
@@ -103,15 +108,16 @@ class CoCreateUser {
         try {
             if (!data.user_id || !data.userStatus)
                 return
-            data.collection = 'users'
-            data['document'] = {
+            data.array = 'users'
+            data['object'] = {
                 _id: data.user_id,
                 userStatus: data.userStatus
             }
 
-            this.crud.updateDocument(data).then((data) => {
-                // self.wsManager.broadcast(socket, 'updateUserStatus', data)
-                self.wsManager.broadcast(socket, 'updateUserStatus', {
+            data.method = 'update.object'
+            this.crud.send(data).then((data) => {
+                self.wsManager.broadcast(socket, {
+                    method: 'updateUserStatus',
                     user_id: data.user_id,
                     userStatus: data.userStatus,
                     organization_id: data.organization_id || socket.config.organization_id

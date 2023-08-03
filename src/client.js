@@ -23,43 +23,45 @@ const CoCreateUser = {
         if (!formEl) return;
 
         let organization_id = crud.socket.config.organization_id;
-        let collection = form.getAttribute('collection')
-        if (!collection) {
+        let array = form.getAttribute('array')
+        if (!array) {
             for (let el of formEl) {
-                collection = el.getAttribute('collection');
-                if (collection)
+                array = el.getAttribute('array');
+                if (array)
                     break;
             }
         }
 
-        let data = form.getData(formEl, collection)
-        data['collection'] = collection
+        let data = form.getData(formEl, array)
+        data.method = 'create.object'
+        data['array'] = array
         data.organization_id = organization_id;
 
-        if (!data.document[0]._id)
-            data.document[0]._id = crud.ObjectId();
+        if (!data.object[0]._id)
+            data.object[0]._id = crud.ObjectId();
 
-        let user = await crud.createDocument(data)
-        form.setDocumentId(formEl, user)
+        let user = await crud.send(data)
+        form.setObjectId(formEl, user)
 
         // const socket = crud.socket.getSockets()
         // if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
         let key = {
-            collection: 'keys',
-            document: {
+            method: 'create.object',
+            array: 'keys',
+            object: {
                 type: "user",
-                key: user.document[0]._id,
+                key: user.object[0]._id,
                 roles: ['user'],
-                email: user.document.email,
-                password: user.document.password || btoa('0000'),
-                collection
+                email: user.object.email,
+                password: user.object.password || btoa('0000'),
+                array
             },
             organization_id
         }
 
-        let response = await crud.createDocument(key)
-        if (response && response.document && response.document[0]) {
-            crud.socket.send('signUp', { user, userKey })
+        let response = await crud.send(key)
+        if (response && response.object && response.object[0]) {
+            crud.socket.send({ method: 'signUp', user, userKey })
 
             render.data({
                 selector: "[template='signUp']",
@@ -79,7 +81,7 @@ const CoCreateUser = {
 
     signIn: function (btn) {
         let form = btn.closest('form');
-        let collection = form.getAttribute('collection');
+        let array = form.getAttribute('array');
         let query = [];
 
         const inputs = form.querySelectorAll('input[name="email"], input[name="password"], input[name="username"]');
@@ -87,13 +89,14 @@ const CoCreateUser = {
         inputs.forEach((input) => {
             const name = input.getAttribute('name');
             const value = input.getValue();
-            collection = 'keys';
+            array = 'keys';
             query.push({ name, value, operator: '$eq' })
         });
 
         let request = {
+            method: 'read.object',
             db: 'indexeddb',
-            collection,
+            array,
             filter: {
                 query
             }
@@ -101,22 +104,23 @@ const CoCreateUser = {
 
         const socket = crud.socket.getSockets()
         if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine || crud.socket.serverOrganization == false) {
-            crud.readDocument(request).then((response) => {
+            crud.send(request).then((response) => {
                 response['success'] = false
                 response['status'] = "signIn failed"
-                if (response.document && response.document[0]) {
+                if (response.object && response.object[0]) {
                     response['success'] = true
                     response['status'] = "success"
-                    response['user_id'] = response.document[0].key
+                    response['user_id'] = response.object[0].key
                     this.signInResponse(response)
                 } else {
                     this.signInResponse(response)
                 }
             })
         } else {
+            request.method = 'signIn'
             request.broadcastBrowser = false
             delete request.storage
-            crud.socket.send('signIn', request).then((response) => {
+            crud.socket.send(request).then((response) => {
                 this.signInResponse(response)
             })
         }
@@ -178,7 +182,7 @@ const CoCreateUser = {
     updateUserStatus: function (data) {
         this.redirect(data)
         if (data.user_id) {
-            let statusEls = document.querySelectorAll(`[user-status][document_id='${data['user_id']}']`);
+            let statusEls = document.querySelectorAll(`[user-status][object='${data['user_id']}']`);
 
             statusEls.forEach((el) => {
                 el.setAttribute('user-status', data['userStatus']);
@@ -222,7 +226,8 @@ const CoCreateUser = {
         let redirectTag = document.querySelector('[session]');
 
         if (redirectTag) {
-            crud.socket.send('sendMessage', {
+            crud.socket.send({
+                method: 'sendMessage',
                 message: 'checkSession',
                 broadcast: false,
                 broadcastSender: false,
