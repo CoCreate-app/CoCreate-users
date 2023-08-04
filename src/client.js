@@ -84,13 +84,13 @@ const CoCreateUser = {
         let array = form.getAttribute('array');
         let query = [];
 
-        const inputs = form.querySelectorAll('input[name="email"], input[name="password"], input[name="username"]');
+        const inputs = form.querySelectorAll('input[key="email"], input[key="password"], input[key="username"]');
 
         inputs.forEach((input) => {
-            const name = input.getAttribute('name');
+            const key = input.getAttribute('key');
             const value = input.getValue();
             array = 'keys';
-            query.push({ name, value, operator: '$eq' })
+            query.push({ key, value, operator: '$eq' })
         });
 
         let request = {
