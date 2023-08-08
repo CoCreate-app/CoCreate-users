@@ -1,7 +1,7 @@
 /*globals CustomEvent, btoa*/
 import Crud from '@cocreate/crud-client';
 import Action from '@cocreate/actions';
-import Form from '@cocreate/form';
+import Elements from '@cocreate/elements';
 import Render from '@cocreate/render';
 import '@cocreate/element-prototype';
 import './index.css';
@@ -32,7 +32,7 @@ const CoCreateUser = {
             }
         }
 
-        let data = Form.getData(formEl, array)
+        let data = Elements.getFormData(formEl, array)
         data.method = 'create.object'
         data['array'] = array
         data.organization_id = organization_id;
@@ -41,7 +41,7 @@ const CoCreateUser = {
             data.object[0]._id = Crud.ObjectId();
 
         let user = await Crud.send(data)
-        Form.setObjectId(formEl, user)
+        Elements.setTypeValue(formEl, user)
 
         // const socket = Crud.socket.getSockets()
         // if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
