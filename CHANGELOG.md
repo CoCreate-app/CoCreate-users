@@ -1,3 +1,21 @@
+# [1.23.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.27...v1.23.0) (2023-08-16)
+
+
+### Bug Fixes
+
+* Change import statements in client.js to use capitalized class names. ([912011b](https://github.com/CoCreate-app/CoCreate-users/commit/912011be5302265af056d775bb5ddd798cb35221))
+* crud attributes renamed ([4be4f0c](https://github.com/CoCreate-app/CoCreate-users/commit/4be4f0cdee84f12e04ba91d2ecfb168c4329bfb0))
+* replace -target -selector ([9cfb2cb](https://github.com/CoCreate-app/CoCreate-users/commit/9cfb2cb22d1814eb8ebf7cc74bcd8b045a917269))
+* updated actions callback data object ([3dd8ed2](https://github.com/CoCreate-app/CoCreate-users/commit/3dd8ed22c595353153362fd9732249ae6f19c2b7))
+* webpack.config and package.json make use of mode=production instead of process.env ([cdf28d5](https://github.com/CoCreate-app/CoCreate-users/commit/cdf28d573c597b7692b1549d47fc676ffefba6a3))
+
+
+### Features
+
+* name attribute and variable renamed to key ([efbf453](https://github.com/CoCreate-app/CoCreate-users/commit/efbf45327b4c9654951f8d947bdd8d655ed8074d))
+* Update package.json and replace "@cocreate/form" with "@cocreate/elements". ([ec00092](https://github.com/CoCreate-app/CoCreate-users/commit/ec0009228942a5ab10cc74d8152ac89afc62b9dc))
+* update template_id to render-selector attribute. update filter attributes to filter selector-attributes ([c782cf7](https://github.com/CoCreate-app/CoCreate-users/commit/c782cf7941f951dcebb89f44457e2fdbb10a6c17))
+
 ## [1.22.27](https://github.com/CoCreate-app/CoCreate-users/compare/v1.22.26...v1.22.27) (2023-06-14)
 
 
