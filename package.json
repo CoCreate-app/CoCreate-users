@@ -58,11 +58,11 @@
     "webpack-log": "^3.0.1"
   },
   "dependencies": {
-    "@cocreate/actions": "^1.8.32",
-    "@cocreate/crud-client": "^1.21.24",
-    "@cocreate/element-prototype": "^1.8.30",
-    "@cocreate/elements": "^1.17.33",
-    "@cocreate/local-storage": "^1.7.21",
-    "@cocreate/render": "^1.24.32"
+    "@cocreate/actions": "^1.9.0",
+    "@cocreate/crud-client": "^1.22.0",
+    "@cocreate/element-prototype": "^1.9.0",
+    "@cocreate/elements": "^1.18.0",
+    "@cocreate/local-storage": "^1.8.0",
+    "@cocreate/render": "^1.25.0"
   }
 }
