@@ -97,7 +97,7 @@ const CoCreateUser = {
             method: 'read.object',
             db: 'indexeddb',
             array,
-            filter: {
+            $filter: {
                 query
             }
         }
