@@ -7,29 +7,29 @@ class CoCreateUser {
 
     init() {
         if (this.wsManager) {
-            this.wsManager.on('signUp', (socket, data) => this.signUp(socket, data));
-            this.wsManager.on('signIn', (socket, data) => this.signIn(socket, data))
-            this.wsManager.on('userStatus', (socket, data) => this.userStatus(socket, data))
+            this.wsManager.on('signUp', (data) => this.signUp(data));
+            this.wsManager.on('signIn', (data) => this.signIn(data))
+            this.wsManager.on('userStatus', (data) => this.userStatus(data))
         }
     }
 
-    async signUp(socket, data) {
+    async signUp(data) {
         const self = this;
         try {
 
             if (data.user) {
                 data.user.method = 'create.object'
                 const response = await this.crud.send(data.user)
-                this.wsManager.broadcast(socket, response);
+                this.wsManager.broadcast(response);
             }
 
             if (data.userKey) {
                 data.userKey.method = 'create.object'
                 const response = await this.crud.send(data.userKey)
-                this.wsManager.broadcast(socket, response);
+                this.wsManager.broadcast(response);
             }
 
-            self.wsManager.send(socket, data);
+            self.wsManager.send(data);
 
         } catch (error) {
             console.log('create.object error', error);
@@ -47,7 +47,7 @@ class CoCreateUser {
             organization_id: string
         }
     **/
-    async signIn(socket, data) {
+    async signIn(data) {
         const self = this;
         try {
             data.method = 'read.object'
@@ -85,8 +85,8 @@ class CoCreateUser {
                         // }
                     }
                 }
-                self.wsManager.send(socket, response)
-                self.wsManager.broadcast(socket, {
+                self.wsManager.send(response)
+                self.wsManager.broadcast({
                     method: 'updateUserStatus',
                     user_id: response.user_id,
                     userStatus: response.userStatus,
@@ -103,7 +103,7 @@ class CoCreateUser {
     /**
      * status: 'on/off/idle'
      */
-    async userStatus(socket, data) {
+    async userStatus(data) {
         const self = this;
         try {
             if (!data.user_id || !data.userStatus)
@@ -116,7 +116,7 @@ class CoCreateUser {
 
             data.method = 'update.object'
             this.crud.send(data).then((data) => {
-                self.wsManager.broadcast(socket, {
+                self.wsManager.broadcast({
                     method: 'updateUserStatus',
                     user_id: data.user_id,
                     userStatus: data.userStatus,
