@@ -20,13 +20,13 @@ class CoCreateUser {
             if (data.user) {
                 data.user.method = 'create.object'
                 const response = await this.crud.send(data.user)
-                this.wsManager.broadcast(response);
+                this.wsManager.send(response);
             }
 
             if (data.userKey) {
                 data.userKey.method = 'create.object'
                 const response = await this.crud.send(data.userKey)
-                this.wsManager.broadcast(response);
+                this.wsManager.send(response);
             }
 
             self.wsManager.send(data);
@@ -86,7 +86,7 @@ class CoCreateUser {
                     }
                 }
                 self.wsManager.send(response)
-                self.wsManager.broadcast({
+                self.wsManager.send({
                     method: 'updateUserStatus',
                     user_id: response.user_id,
                     userStatus: response.userStatus,
@@ -116,11 +116,11 @@ class CoCreateUser {
 
             data.method = 'update.object'
             this.crud.send(data).then((data) => {
-                self.wsManager.broadcast({
+                self.wsManager.send({
                     method: 'updateUserStatus',
                     user_id: data.user_id,
                     userStatus: data.userStatus,
-                    organization_id: data.organization_id || socket.config.organization_id
+                    organization_id: data.organization_id || socket.organization_id
                 })
 
             })
