@@ -8,6 +8,10 @@ import './index.css';
 import localStorage from '@cocreate/local-storage';
 
 const CoCreateUser = {
+    organization_id: async () => {
+        return await Crud.socket.organization_id()
+    },
+
     init: function () {
         this.initSocket();
         this.initSession();
@@ -22,7 +26,6 @@ const CoCreateUser = {
         let formEl = btn.closest("form");
         if (!formEl) return;
 
-        let organization_id = Crud.socket.organization_id;
         let array = formEl.getAttribute('array')
         if (!array) {
             for (let el of formEl) {
@@ -128,9 +131,8 @@ const CoCreateUser = {
 
     signInResponse: function (data) {
         let { success, status, message, user_id, token } = data;
-
         if (success) {
-            localStorage.setItem('organization_id', Crud.socket.organization_id);
+            localStorage.setItem('organization_id', organization_id);
             localStorage.setItem("key", Crud.socket.key);
             localStorage.setItem("host", Crud.socket.host);
             localStorage.setItem('user_id', user_id);
