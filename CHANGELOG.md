@@ -1,3 +1,16 @@
+# [1.27.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.26.0...v1.27.0) (2023-10-09)
+
+
+### Bug Fixes
+
+* socket.config items moved to socket ([2e09599](https://github.com/CoCreate-app/CoCreate-users/commit/2e0959976f83dae168d88533a71628a0d1edea76))
+* update wsManager.broadcast to wsManager.send() ([1f0132b](https://github.com/CoCreate-app/CoCreate-users/commit/1f0132b9ef0710831bd354332f35334fe4fbf29a))
+
+
+### Features
+
+* sawait ocket.organization_id() ([177a173](https://github.com/CoCreate-app/CoCreate-users/commit/177a173f27e8e4bf09c1c1aa72c015b73622b733))
+
 # [1.26.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.25.3...v1.26.0) (2023-09-19)
 
 
