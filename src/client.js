@@ -82,19 +82,18 @@ const CoCreateUser = {
         }
     },
 
-    signIn: function (btn) {
+    signIn: async function (btn) {
         let form = btn.closest('form');
         let array = form.getAttribute('array');
         let query = [];
 
         const inputs = form.querySelectorAll('input[key="email"], input[key="password"], input[key="username"]');
-
-        inputs.forEach((input) => {
-            const key = input.getAttribute('key');
-            const value = input.getValue();
+        for (let i = 0; i < inputs.length; i++) {
+            const key = inputs[i].getAttribute('key');
+            const value = await inputs[i].getValue();
             array = 'keys';
             query.push({ key, value, operator: '$eq' })
-        });
+        }
 
         let request = {
             method: 'read.object',
