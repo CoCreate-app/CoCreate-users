@@ -2,7 +2,7 @@
 import Crud from '@cocreate/crud-client';
 import Action from '@cocreate/actions';
 import Elements from '@cocreate/elements';
-import Render from '@cocreate/render';
+import { render } from '@cocreate/render';
 import '@cocreate/element-prototype';
 import './index.css';
 import localStorage from '@cocreate/local-storage';
@@ -66,7 +66,7 @@ const CoCreateUser = {
         if (response && response.object && response.object[0]) {
             Crud.socket.send({ method: 'signUp', user, userKey })
 
-            Render.data({
+            render({
                 selector: "[template='signUp']",
                 data: {
                     type: 'signUp',
@@ -145,7 +145,7 @@ const CoCreateUser = {
         else
             message = "The email or password you entered is incorrect";
 
-        Render.data({
+        render({
             selector: "[template='signIn']",
             data: {
                 type: 'signIn',
@@ -167,7 +167,7 @@ const CoCreateUser = {
         // 	document.cookie = allCookies[i] + "=;expires=" +
         // 	new Date(0).toUTCString();
 
-        Render.data({
+        render({
             selector: "[template='signOut']",
             data: {
                 type: 'signOut',
