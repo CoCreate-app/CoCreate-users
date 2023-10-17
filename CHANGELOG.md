@@ -1,3 +1,10 @@
+## [1.27.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.27.4...v1.27.5) (2023-10-17)
+
+
+### Bug Fixes
+
+* await getValue() ([fc610fd](https://github.com/CoCreate-app/CoCreate-users/commit/fc610fd8739013a728edcfcabb790ad2fa242dbc))
+
 ## [1.27.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.27.3...v1.27.4) (2023-10-14)
 
 
