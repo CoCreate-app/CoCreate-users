@@ -110,14 +110,15 @@ class CoCreateUser {
                 data.method = 'update.object'
                 data = await this.crud.send(data)
 
-                self.wsManager.send({
-                    socket: data.socket,
-                    method: 'updateUserStatus',
-                    user_id: data.user_id,
-                    userStatus: data.userStatus,
-                    token: data.token,
-                    organization_id: data.organization_id || socket.organization_id
-                })
+                if (data.socket)
+                    self.wsManager.send({
+                        socket: data.socket,
+                        method: 'updateUserStatus',
+                        user_id: data.user_id,
+                        userStatus: data.userStatus,
+                        token: data.token,
+                        organization_id: data.organization_id || socket.organization_id
+                    })
             } else if (data.socket)
                 data.socket.send(JSON.stringify({
                     method: 'updateUserStatus',
