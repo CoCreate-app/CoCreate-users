@@ -104,7 +104,7 @@ const CoCreateUser = {
             }
         }
 
-        const socket = Crud.socket.getSockets()
+        const socket = await Crud.socket.getSockets()
         if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine || Crud.socket.serverOrganization == false) {
             Crud.send(request).then((response) => {
                 response['success'] = false
@@ -129,7 +129,7 @@ const CoCreateUser = {
     },
 
     signInResponse: function (data) {
-        let { success, status, message, user_id, token } = data;
+        let { success, status, message, organization_id, user_id, token } = data;
         if (success) {
             localStorage.setItem('organization_id', organization_id);
             localStorage.setItem("key", Crud.socket.key);
