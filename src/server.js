@@ -51,42 +51,36 @@ class CoCreateUser {
         const self = this;
         try {
             data.method = 'read.object'
+            let socket = data.socket
+            delete data.socket
             this.crud.send(data).then(async (data) => {
                 let response = {
+                    socket,
                     method: 'signIn',
                     success: false,
                     message: "signIn failed",
-                    status: "failed",
                     userStatus: 'off',
+                    organization_id: data.organization_id,
                     uid: data.uid
                 }
 
                 if (data.object[0] && data.object[0]._id && self.wsManager.authenticate) {
                     const user_id = data.object[0].key
-                    const token = await self.wsManager.authenticate.generateToken({ user_id });
+                    const token = await self.wsManager.authenticate.encodeToken({ user_id });
 
                     if (token && token != 'null') {
-                        response = {
-                            success: true,
-                            message: "signIn successful",
-                            status: "success",
-                            userStatus: 'on',
-                            user_id,
-                            token,
-                            uid: data.uid
-                        };
-
-                        // if (data.organization_id != process.env.organization_id) {
-                        //     let Data = { organization_id: process.env.organization_id }
-                        //     Data.object['_id'] = data.object[0]._id
-                        //     Data.object['lastsignIn'] = data.object[0].lastsignIn
-                        //     Data.object['organization_id'] = process.env.organization_id
-                        //     crud.send(Data)
-                        // }
+                        socket.user_id = user_id
+                        response.success = true
+                        response.message = "signIn successful"
+                        response.userStatus = 'on'
+                        response.user_id = user_id
+                        response.token = token
+                        response.userStatus = 'on'
                     }
                 }
                 self.wsManager.send(response)
                 self.wsManager.send({
+                    socket,
                     method: 'updateUserStatus',
                     user_id: response.user_id,
                     userStatus: response.userStatus,
@@ -106,24 +100,33 @@ class CoCreateUser {
     async userStatus(data) {
         const self = this;
         try {
-            if (!data.user_id || !data.userStatus)
-                return
-            data.array = 'users'
-            data['object'] = {
-                _id: data.user_id,
-                userStatus: data.userStatus
-            }
+            if (data.user_id && data.userStatus) {
+                data.array = 'users'
+                data['object'] = {
+                    _id: data.user_id,
+                    userStatus: data.userStatus
+                }
 
-            data.method = 'update.object'
-            this.crud.send(data).then((data) => {
+                data.method = 'update.object'
+                data = await this.crud.send(data)
+
                 self.wsManager.send({
+                    socket: data.socket,
                     method: 'updateUserStatus',
                     user_id: data.user_id,
                     userStatus: data.userStatus,
+                    token: data.token,
                     organization_id: data.organization_id || socket.organization_id
                 })
+            } else if (data.socket)
+                data.socket.send(JSON.stringify({
+                    method: 'updateUserStatus',
+                    user_id: data.user_id,
+                    userStatus: data.userStatus,
+                    token: data.token,
+                    organization_id: data.organization_id || socket.organization_id
+                }))
 
-            })
 
         } catch (error) {
             console.log('userStatus error')
