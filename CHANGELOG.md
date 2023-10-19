@@ -1,3 +1,15 @@
+## [1.27.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.27.5...v1.27.6) (2023-10-19)
+
+
+### Bug Fixes
+
+* data.socket not found ([0b0b1e3](https://github.com/CoCreate-app/CoCreate-users/commit/0b0b1e32546758ef0ec0782817b3d5c94c595ee5))
+* declartion of render functions using object spread ([30f9242](https://github.com/CoCreate-app/CoCreate-users/commit/30f924235a66ce2be22a9f53d92e6425db59708e))
+* missing await and organization_id ([df79036](https://github.com/CoCreate-app/CoCreate-users/commit/df79036e7ba786bf6698c2cad91c5bbd4f3e50b5))
+* replaced message with socket ([5036966](https://github.com/CoCreate-app/CoCreate-users/commit/503696642d5df6c8fba76862fc59db1d010b3dea))
+* signup ([bf716d8](https://github.com/CoCreate-app/CoCreate-users/commit/bf716d8d94cf16641e01cb3ca56f4ecbe41cebef))
+* update to support socket ([3fdd085](https://github.com/CoCreate-app/CoCreate-users/commit/3fdd0853d83ade29069977570dcb9ad67bf17318))
+
 ## [1.27.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.27.4...v1.27.5) (2023-10-17)
 
 
