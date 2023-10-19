@@ -1,10 +1,12 @@
 /*globals CustomEvent, btoa*/
 import Crud from '@cocreate/crud-client';
-import Action from '@cocreate/actions';
+import Actions from '@cocreate/actions';
 import Elements from '@cocreate/elements';
 import { render } from '@cocreate/render';
 import '@cocreate/element-prototype';
 import './index.css';
+
+// TODO: Replace with @cocreate/config
 import localStorage from '@cocreate/local-storage';
 
 const CoCreateUser = {
@@ -22,49 +24,41 @@ const CoCreateUser = {
         Crud.listen('updateUserStatus', (data) => self.updateUserStatus(data));
     },
 
-    signUp: async function (btn) {
-        let formEl = btn.closest("form");
-        if (!formEl) return;
+    signUp: async function (action) {
+        if (!action.form) return;
 
-        let array = formEl.getAttribute('array')
-        if (!array) {
-            for (let el of formEl) {
-                array = el.getAttribute('array');
-                if (array)
-                    break;
-            }
-        }
+        let data = await Elements.save(action.form)
+        let user = data[0]
+        // data.method = 'create.object'
+        // data['array'] = array
 
-        let data = Elements.getFormData(formEl, array)
-        data.method = 'create.object'
-        data['array'] = array
-        data.organization_id = organization_id;
+        // data.organization_id = organization_id;
 
-        if (!data.object[0]._id)
-            data.object[0]._id = Crud.ObjectId();
+        // if (!data.object[0]._id)
+        //     data.object[0]._id = Crud.ObjectId();
 
-        let user = await Crud.send(data)
-        Elements.setTypeValue(formEl, user)
+        // let user = await Crud.send(data)
+        // Elements.setTypeValue(formEl, user)
 
         // const socket = Crud.socket.getSockets()
         // if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
         let key = {
+            status: 'await',
             method: 'create.object',
             array: 'keys',
             object: {
                 type: "user",
                 key: user.object[0]._id,
                 roles: ['user'],
-                email: user.object.email,
-                password: user.object.password || btoa('0000'),
-                array
-            },
-            organization_id
+                email: user.object[0].email,
+                password: user.object[0].password || btoa('0000'),
+                array: data.array
+            }
         }
 
         let response = await Crud.send(key)
         if (response && response.object && response.object[0]) {
-            Crud.socket.send({ method: 'signUp', user, userKey })
+            // Crud.socket.send({ method: 'signUp', user, userKey })
 
             render({
                 selector: "[template='signUp']",
@@ -82,23 +76,20 @@ const CoCreateUser = {
         }
     },
 
-    signIn: async function (btn) {
-        let form = btn.closest('form');
-        let array = form.getAttribute('array');
+    signIn: async function (action) {
+        if (!action.form) return;
         let query = [];
 
-        const inputs = form.querySelectorAll('input[key="email"], input[key="password"], input[key="username"]');
+        const inputs = action.form.querySelectorAll('input[key="email"], input[key="password"], input[key="username"]');
         for (let i = 0; i < inputs.length; i++) {
             const key = inputs[i].getAttribute('key');
             const value = await inputs[i].getValue();
-            array = 'keys';
             query.push({ key, value, operator: '$eq' })
         }
 
         let request = {
             method: 'read.object',
-            db: 'indexeddb',
-            array,
+            array: 'keys',
             $filter: {
                 query
             }
@@ -136,7 +127,6 @@ const CoCreateUser = {
             localStorage.setItem("host", Crud.socket.host);
             localStorage.setItem('user_id', user_id);
             localStorage.setItem("token", token);
-            // document.cookie = `token=${token};path=/`;
             message = "Succesful signIn";
             document.dispatchEvent(new CustomEvent('signIn', {
                 detail: {}
@@ -156,16 +146,10 @@ const CoCreateUser = {
         });
     },
 
-    signOut: (btn) => {
+    signOut: () => {
         self = this;
         localStorage.removeItem("user_id");
         localStorage.removeItem("token");
-
-        // let allCookies = document.cookie.split(';');
-
-        // for (var i = 0; i < allCookies.length; i++)
-        // 	document.cookie = allCookies[i] + "=;expires=" +
-        // 	new Date(0).toUTCString();
 
         render({
             selector: "[template='signOut']",
@@ -214,8 +198,6 @@ const CoCreateUser = {
                 if (redirectLink) {
                     localStorage.removeItem("user_id");
                     localStorage.removeItem("token");
-
-                    // this.deleteCookie();
                     document.location.href = redirectLink;
                 }
             }
@@ -228,8 +210,7 @@ const CoCreateUser = {
 
         if (redirectTag) {
             Crud.socket.send({
-                method: 'sendMessage',
-                message: 'checkSession',
+                method: 'checkSession',
                 broadcast: false,
                 broadcastSender: false,
                 broadcastBrowser: false
@@ -244,30 +225,29 @@ const CoCreateUser = {
     }
 };
 
-
-Action.init({
-    name: "signUp",
-    endEvent: "signUp",
-    callback: (data) => {
-        CoCreateUser.signUp(data.element);
+Actions.init([
+    {
+        name: "signUp",
+        endEvent: "signUp",
+        callback: (action) => {
+            CoCreateUser.signUp(action);
+        }
     },
-});
-
-Action.init({
-    name: "signIn",
-    endEvent: "signIn",
-    callback: (data) => {
-        CoCreateUser.signIn(data.element);
+    {
+        name: "signIn",
+        endEvent: "signIn",
+        callback: (action) => {
+            CoCreateUser.signIn(action);
+        }
     },
-});
-
-Action.init({
-    name: "signOut",
-    endEvent: "signOut",
-    callback: (data) => {
-        CoCreateUser.signOut(data.element);
-    },
-});
+    {
+        name: "signOut",
+        endEvent: "signOut",
+        callback: (action) => {
+            CoCreateUser.signOut(action);
+        }
+    }
+]);
 
 CoCreateUser.init();
 
