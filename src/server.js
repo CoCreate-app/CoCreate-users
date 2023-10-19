@@ -74,7 +74,6 @@ class CoCreateUser {
                         response.userStatus = 'on'
                         response.user_id = user_id
                         response.token = token
-                        response.userStatus = 'on'
                     }
                 }
                 self.wsManager.send(response)
