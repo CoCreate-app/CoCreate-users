@@ -14,9 +14,7 @@ class CoCreateUser {
     }
 
     async signUp(data) {
-        const self = this;
         try {
-
             if (data.user) {
                 data.user.method = 'create.object'
                 const response = await this.crud.send(data.user)
@@ -29,10 +27,10 @@ class CoCreateUser {
                 this.wsManager.send(response);
             }
 
-            self.wsManager.send(data);
+            this.wsManager.send(data);
 
         } catch (error) {
-            console.log('create.object error', error);
+            console.log('signup error', error);
         }
     }
 
@@ -53,6 +51,7 @@ class CoCreateUser {
             data.method = 'read.object'
             let socket = data.socket
             delete data.socket
+
             this.crud.send(data).then(async (data) => {
                 let response = {
                     socket,
