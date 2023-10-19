@@ -165,9 +165,6 @@ const CoCreateUser = {
     },
 
     updateUserStatus: function (data) {
-        if (data.method === 'updateUserStatus' && data.userStatus === 'on')
-            console.log('test')
-
         this.redirect(data)
         if (data.user_id) {
             let statusEls = document.querySelectorAll(`[user-status][object='${data['user_id']}']`);
