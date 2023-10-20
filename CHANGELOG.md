@@ -1,3 +1,12 @@
+## [1.27.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.27.6...v1.27.7) (2023-10-20)
+
+
+### Bug Fixes
+
+* removed console.log ([b0bbf02](https://github.com/CoCreate-app/CoCreate-users/commit/b0bbf024e88c08011388dc0e44d332ece9e9851a))
+* removed console.log ([db03fb5](https://github.com/CoCreate-app/CoCreate-users/commit/db03fb5b8aa486582719f95e97a02b387ccbf530))
+* removed dupilicate variable ([9015f6b](https://github.com/CoCreate-app/CoCreate-users/commit/9015f6bf8898a161daa18b342701e781b076be4b))
+
 ## [1.27.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.27.5...v1.27.6) (2023-10-19)
 
 
