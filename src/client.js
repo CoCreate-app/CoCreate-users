@@ -104,10 +104,8 @@ const CoCreateUser = {
                     response['success'] = true
                     response['status'] = "success"
                     response['user_id'] = response.object[0].key
-                    this.signInResponse(response)
-                } else {
-                    this.signInResponse(response)
                 }
+                this.signInResponse(response)
             })
         } else {
             request.method = 'signIn'
