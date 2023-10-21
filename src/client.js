@@ -127,7 +127,7 @@ const CoCreateUser = {
             localStorage.setItem("host", Crud.socket.host);
             localStorage.setItem('user_id', user_id);
             localStorage.setItem("token", token);
-            message = "Succesful signIn";
+            message = "Successful signIn";
             document.dispatchEvent(new CustomEvent('signIn', {
                 detail: {}
             }));
@@ -139,11 +139,9 @@ const CoCreateUser = {
             selector: "[template*='signIn']",
             data: {
                 type: 'signIn',
-                signIn: {
-                    status,
-                    message,
-                    success
-                }
+                status,
+                message,
+                success
             }
         });
     },
