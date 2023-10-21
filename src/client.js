@@ -2,7 +2,7 @@
 import Crud from '@cocreate/crud-client';
 import Actions from '@cocreate/actions';
 import Elements from '@cocreate/elements';
-import { render } from '@cocreate/render';
+import render from '@cocreate/render';
 import '@cocreate/element-prototype';
 import './index.css';
 
@@ -35,7 +35,7 @@ const CoCreateUser = {
         // data.organization_id = organization_id;
 
         // if (!data.object[0]._id)
-        //     data.object[0]._id = Crud.ObjectId();
+        //     data.object[0]._id = Crud.ObjectId().toString();
 
         // let user = await Crud.send(data)
         // Elements.setTypeValue(formEl, user)
@@ -60,8 +60,8 @@ const CoCreateUser = {
         if (response && response.object && response.object[0]) {
             // Crud.socket.send({ method: 'signUp', user, userKey })
 
-            render({
-                selector: "[template='signUp']",
+            render.render({
+                selector: "[template*='signUp']",
                 data: {
                     type: 'signUp',
                     message: 'Succesfully Signed Up',
@@ -135,13 +135,15 @@ const CoCreateUser = {
         else
             message = "The email or password you entered is incorrect";
 
-        render({
-            selector: "[template='signIn']",
+        render.render({
+            selector: "[template*='signIn']",
             data: {
                 type: 'signIn',
-                status,
-                message,
-                success
+                signIn: {
+                    status,
+                    message,
+                    success
+                }
             }
         });
     },
@@ -151,8 +153,8 @@ const CoCreateUser = {
         localStorage.removeItem("user_id");
         localStorage.removeItem("token");
 
-        render({
-            selector: "[template='signOut']",
+        render.render({
+            selector: "[template*='signOut']",
             data: {
                 type: 'signOut',
                 message: 'Succesfully logged out',
