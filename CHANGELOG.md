@@ -1,3 +1,10 @@
+# [1.28.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.27.7...v1.28.0) (2023-10-22)
+
+
+### Features
+
+* ObjectId() returns an object containg the parts iof the _id along with a toString() function ([2c28ca9](https://github.com/CoCreate-app/CoCreate-users/commit/2c28ca9ec2e48e91c127347052ac1b85f3c86e57))
+
 ## [1.27.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.27.6...v1.27.7) (2023-10-20)
 
 
