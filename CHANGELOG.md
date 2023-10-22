@@ -1,3 +1,10 @@
+## [1.28.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.28.0...v1.28.1) (2023-10-22)
+
+
+### Bug Fixes
+
+* render data ([188ee15](https://github.com/CoCreate-app/CoCreate-users/commit/188ee15005ca619d89dfbb078b5a857c03c31393))
+
 # [1.28.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.27.7...v1.28.0) (2023-10-22)
 
 
