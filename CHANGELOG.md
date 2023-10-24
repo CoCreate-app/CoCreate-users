@@ -1,3 +1,10 @@
+## [1.28.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.28.1...v1.28.2) (2023-10-24)
+
+
+### Bug Fixes
+
+* signin conditionals ([bb58112](https://github.com/CoCreate-app/CoCreate-users/commit/bb581121c7e7a747aed3f085d4498b15382cd9d6))
+
 ## [1.28.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.28.0...v1.28.1) (2023-10-22)
 
 
