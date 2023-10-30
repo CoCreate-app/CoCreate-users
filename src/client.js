@@ -29,7 +29,7 @@ const CoCreateUser = {
 
         let data = await Elements.save(action.form)
         let user = data[0]
-        // data.method = 'create.object'
+        // data.method = 'object.create'
         // data['array'] = array
 
         // data.organization_id = organization_id;
@@ -44,7 +44,7 @@ const CoCreateUser = {
         // if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
         let key = {
             status: 'await',
-            method: 'create.object',
+            method: 'object.create',
             array: 'keys',
             object: {
                 type: "user",
@@ -88,7 +88,7 @@ const CoCreateUser = {
         }
 
         let request = {
-            method: 'read.object',
+            method: 'object.read',
             array: 'keys',
             $filter: {
                 query

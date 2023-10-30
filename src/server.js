@@ -16,13 +16,13 @@ class CoCreateUser {
     async signUp(data) {
         try {
             if (data.user) {
-                data.user.method = 'create.object'
+                data.user.method = 'object.create'
                 const response = await this.crud.send(data.user)
                 this.wsManager.send(response);
             }
 
             if (data.userKey) {
-                data.userKey.method = 'create.object'
+                data.userKey.method = 'object.create'
                 const response = await this.crud.send(data.userKey)
                 this.wsManager.send(response);
             }
@@ -48,7 +48,7 @@ class CoCreateUser {
     async signIn(data) {
         const self = this;
         try {
-            data.method = 'read.object'
+            data.method = 'object.read'
             let socket = data.socket
             delete data.socket
 
@@ -105,7 +105,7 @@ class CoCreateUser {
                     userStatus: data.userStatus
                 }
 
-                data.method = 'update.object'
+                data.method = 'object.update'
                 data = await this.crud.send(data)
 
                 if (data.socket)
