@@ -113,6 +113,7 @@ class CoCreateUser {
                         socket: data.socket,
                         method: 'updateUserStatus',
                         user_id: data.user_id,
+                        clientId: data.clientId,
                         userStatus: data.userStatus,
                         token: data.token,
                         organization_id: data.organization_id || socket.organization_id
@@ -122,6 +123,7 @@ class CoCreateUser {
                     method: 'updateUserStatus',
                     user_id: data.user_id,
                     userStatus: data.userStatus,
+                    clientId: data.clientId,
                     token: data.token,
                     organization_id: data.organization_id || socket.organization_id
                 }))

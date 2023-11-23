@@ -175,10 +175,12 @@ const CoCreateUser = {
     },
 
     redirect: (data) => {
-        if (data.user_id && data.user_id !== Crud.socket.user_id)
+        if (data.user_id !== Crud.socket.user_id || data.clientId !== Crud.socket.clientId)
             return
-        if (!data.user_id && data.clientId !== Crud.socket.clientId)
-            return
+        // if (data.user_id && data.user_id !== Crud.socket.user_id)
+        //     return
+        // if (!data.user_id && data.clientId !== Crud.socket.clientId)
+        //     return
         if (data.userStatus == 'on' || data.userStatus == 'idle') {
             let redirectTag = document.querySelector('[session="true"]');
 
