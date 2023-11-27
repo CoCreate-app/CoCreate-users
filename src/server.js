@@ -65,7 +65,7 @@ class CoCreateUser {
 
                 if (data.object[0] && data.object[0]._id && self.wsManager.authenticate) {
                     const user_id = data.object[0].key
-                    const token = await self.wsManager.authenticate.encodeToken({ user_id });
+                    const token = self.wsManager.authenticate.encodeToken(data.organization_id, user_id, data.clientId);
 
                     if (token && token != 'null') {
                         socket.user_id = user_id
