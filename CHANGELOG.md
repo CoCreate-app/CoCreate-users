@@ -1,3 +1,10 @@
+## [1.31.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.31.0...v1.31.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* removed await as endcodeToken does not require ([78e0ef0](https://github.com/CoCreate-app/CoCreate-users/commit/78e0ef0768444e71ab1ab1bc38ac8ce7693d5a16))
+
 # [1.31.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.30.0...v1.31.0) (2023-11-25)
 
 
