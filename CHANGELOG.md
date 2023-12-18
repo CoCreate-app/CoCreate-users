@@ -1,3 +1,10 @@
+## [1.31.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.31.1...v1.31.2) (2023-12-18)
+
+
+### Bug Fixes
+
+* render import ([d9dfbf1](https://github.com/CoCreate-app/CoCreate-users/commit/d9dfbf15de5ef87693379a3958bb662b56b3eef8))
+
 ## [1.31.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.31.0...v1.31.1) (2023-12-05)
 
 
