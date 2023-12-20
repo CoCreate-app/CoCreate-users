@@ -1,3 +1,10 @@
+## [1.31.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.31.2...v1.31.3) (2023-12-20)
+
+
+### Bug Fixes
+
+* set user_id as key_id ([7627677](https://github.com/CoCreate-app/CoCreate-users/commit/7627677b0260de7d26ba62d6ba7c8d2458d7123f))
+
 ## [1.31.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.31.1...v1.31.2) (2023-12-18)
 
 
