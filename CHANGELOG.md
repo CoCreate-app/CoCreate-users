@@ -1,3 +1,10 @@
+# [1.32.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.31.3...v1.32.0) (2023-12-21)
+
+
+### Features
+
+* support setting user roles ([eb7f0f0](https://github.com/CoCreate-app/CoCreate-users/commit/eb7f0f0096e556a124ed466da9f664d0108f180a))
+
 ## [1.31.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.31.2...v1.31.3) (2023-12-20)
 
 
