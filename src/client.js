@@ -50,10 +50,10 @@ const CoCreateUser = {
                 _id: user.object[0]._id,
                 type: "user",
                 key: user.object[0]._id,
-                roles: ['user'],
+                roles: user.object[0].roles,
                 email: user.object[0].email,
                 password: user.object[0].password || btoa('0000'),
-                array: data.array
+                array: user.array
             }
         }
 
