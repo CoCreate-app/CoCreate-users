@@ -17,12 +17,14 @@ class CoCreateUser {
         try {
             if (data.user) {
                 data.user.method = 'object.create'
+                data.user.host = data.host
                 const response = await this.crud.send(data.user)
                 this.wsManager.send(response);
             }
 
             if (data.userKey) {
                 data.userKey.method = 'object.create'
+                data.userKey.host = data.host
                 const response = await this.crud.send(data.userKey)
                 this.wsManager.send(response);
             }
@@ -55,6 +57,7 @@ class CoCreateUser {
             this.crud.send(data).then(async (data) => {
                 let response = {
                     socket,
+                    host: data.host,
                     method: 'signIn',
                     success: false,
                     message: "signIn failed",
