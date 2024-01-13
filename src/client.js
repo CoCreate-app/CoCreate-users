@@ -79,13 +79,13 @@ const CoCreateUser = {
 
     signIn: async function (action) {
         if (!action.form) return;
-        let query = [];
+        let query = {};
 
         const inputs = action.form.querySelectorAll('input[key="email"], input[key="password"], input[key="username"]');
         for (let i = 0; i < inputs.length; i++) {
             const key = inputs[i].getAttribute('key');
             const value = await inputs[i].getValue();
-            query.push({ key, value, operator: '$eq' })
+            query[key] = value
         }
 
         let request = {
