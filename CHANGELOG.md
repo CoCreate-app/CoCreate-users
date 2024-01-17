@@ -1,3 +1,10 @@
+## [1.33.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.33.0...v1.33.1) (2024-01-17)
+
+
+### Bug Fixes
+
+* update to support new query system ([6e11866](https://github.com/CoCreate-app/CoCreate-users/commit/6e118666cc66c83adaf0a56c029f044305d9d924))
+
 # [1.33.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.32.0...v1.33.0) (2024-01-08)
 
 
