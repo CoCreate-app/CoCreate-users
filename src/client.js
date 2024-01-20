@@ -178,10 +178,7 @@ const CoCreateUser = {
     redirect: (data) => {
         if (data.user_id !== Crud.socket.user_id || data.clientId !== Crud.socket.clientId)
             return
-        // if (data.user_id && data.user_id !== Crud.socket.user_id)
-        //     return
-        // if (!data.user_id && data.clientId !== Crud.socket.clientId)
-        //     return
+
         if (data.userStatus == 'on' || data.userStatus == 'idle') {
             let redirectTag = document.querySelector('[session="true"]');
 
@@ -191,6 +188,7 @@ const CoCreateUser = {
                     document.location.href = redirectLink;
                 }
             }
+
         } else if (data.userStatus == 'off') {
             let redirectTag = document.querySelector('[session="false"]');
 
@@ -204,6 +202,11 @@ const CoCreateUser = {
             }
         }
 
+        if (data.userStatus) {
+            let sessionElements = document.querySelectorAll('[session]:not([href])');
+            for (let i = 0; i < sessionElements.length; i++)
+                sessionElements[i].setAttribute('session', data.userStatus)
+        }
     },
 
     initSession: () => {
