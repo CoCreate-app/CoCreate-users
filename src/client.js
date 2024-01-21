@@ -63,11 +63,11 @@ const CoCreateUser = {
 
             render({
                 selector: "[template*='signUp']",
-                data: {
+                data: [{
                     type: 'signUp',
                     message: 'Succesfully Signed Up',
                     success: true
-                }
+                }]
             });
 
             document.dispatchEvent(new CustomEvent('signUp', {
@@ -138,12 +138,12 @@ const CoCreateUser = {
 
         render({
             selector: "[template*='signIn']",
-            data: {
+            data: [{
                 type: 'signIn',
                 status,
                 message,
                 success
-            }
+            }]
         });
     },
 
@@ -154,11 +154,11 @@ const CoCreateUser = {
 
         render({
             selector: "[template*='signOut']",
-            data: {
+            data: [{
                 type: 'signOut',
                 message: 'Succesfully logged out',
                 success: true
-            }
+            }]
         });
 
         // TODO: replace with Custom event system
