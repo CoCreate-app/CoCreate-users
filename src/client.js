@@ -127,6 +127,8 @@ const CoCreateUser = {
             localStorage.setItem('user_id', user_id);
             localStorage.setItem("token", token);
             message = "Successful signIn";
+            Crud.socket.user_id = user_id
+
             document.dispatchEvent(new CustomEvent('signIn', {
                 detail: {}
             }));
@@ -176,7 +178,7 @@ const CoCreateUser = {
     },
 
     redirect: (data) => {
-        if (data.user_id !== Crud.socket.user_id || data.clientId !== Crud.socket.clientId)
+        if (data.user_id !== Crud.socket.user_id || data.clientId && data.clientId !== Crud.socket.clientId)
             return
 
         if (data.userStatus == 'on' || data.userStatus == 'idle') {
