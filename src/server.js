@@ -1,3 +1,5 @@
+const { organization_id } = require("../../../CoCreateJS/CoCreate.config");
+
 class CoCreateUser {
     constructor(crud) {
         this.wsManager = crud.wsManager
@@ -10,6 +12,8 @@ class CoCreateUser {
             this.wsManager.on('signUp', (data) => this.signUp(data));
             this.wsManager.on('signIn', (data) => this.signIn(data))
             this.wsManager.on('userStatus', (data) => this.userStatus(data))
+            this.wsManager.on('forgotPassword', (data) => this.forgotPassword(data))
+            this.wsManager.on('resetPassword', (data) => this.resetPassword(data))
         }
     }
 
@@ -134,6 +138,130 @@ class CoCreateUser {
 
         } catch (error) {
             console.log('userStatus error')
+        }
+    }
+
+    async forgotPassword(data) {
+        const self = this;
+        try {
+            const recoveryId = this.crud.ObjectId().toString()
+            let socket = data.socket
+            delete data.socket
+
+            data.method = 'object.update'
+            data.array = "keys"
+            data.object = { recoveryId }
+            data.$filter = {
+                query: { email: data.email },
+                limit: 1
+            }
+
+            this.crud.send(data).then(async (data) => {
+                let response = {
+                    socket,
+                    host: data.host,
+                    method: 'forgotPassword',
+                    success: false,
+                    message: "Email does not exist",
+                    organization_id: data.organization_id,
+                    uid: data.uid
+                }
+
+                for (let object of data.object) {
+                    if (object._id) {
+                        // TODO: sendEmail
+                        response.success = true
+                        response.message = "Email Sent"
+                        let htmlBody = `
+<html>
+<head>
+  <title>Reset Your Password</title>
+</head>
+<body>
+  <p>Hello,</p>
+
+  <p>We received a request to reset the password for your account. If you did not make this request, please ignore this email. Otherwise, you can reset your password using the link below.</p>
+
+  <p><a href="${data.origin}/${data.path}?token=${recoveryId}" style="color: #ffffff; background-color: #007bff; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reset My Password</a></p>
+
+  <p>This link will expire in 24 hours for your security.</p>
+
+  <p>If you're having trouble with the button above, copy and paste the URL below into your web browser:</p>
+  <p><a href="${data.origin}/${data.path}?token=${recoveryId}">${data.origin}/${data.path}?token=${recoveryId}</a></p>
+
+  <p>Need more help? Our support team is here for you. Contact us at <a href="mailto:support@${data.hostname}">support@${data.hostname}</a>.</p>
+
+  <p>Thank you for using our services!</p>
+
+  <p>Best regards,<br>
+  The [Your Company] Team</p>
+</body>
+</html>
+`
+                        let email = {
+                            method: 'postmark.sendEmail',
+                            postmark: {
+                                "From": data.from,
+                                "To": data.email,
+                                "Subject": "Reset Your Password Easily",
+                                "HtmlBody": htmlBody,
+                                "TextBody": "Hello, \n\nWe received a request to reset the password for your account.If you did not make this request, please ignore this email.Otherwise, you can reset your password by copying and pasting the following link into your browser: https://example.com/reset-password\n\nThis link will expire in 24 hours for your security.\n\nNeed more help? Our support team is here for you at support@example.com.\n\nThank you for using our services!\n\nBest regards,\nThe [Your Company] Team",
+                                "MessageStream": "outbound"
+                            },
+                            organization_id: data.organization_id
+                        }
+
+                        self.wsManager.emit('postmark', email);
+
+                        break
+                    }
+                }
+
+                self.wsManager.send(response)
+            })
+
+        } catch (error) {
+            console.log('signIn failed', error);
+        }
+    }
+
+    async resetPassword(data) {
+        const self = this;
+        try {
+            if (!data.email || !data.password || !data.token)
+                return
+
+            data.method = 'object.update'
+            data.array = "keys"
+            data.object = { password: data.password }
+            data.$filter = {
+                query: { email: data.email, recoveryId: data.token },
+                limit: 1
+            }
+
+            this.crud.send(data).then(async (data) => {
+                let response = {
+                    socket: data.socket,
+                    host: data.host,
+                    method: 'resetPassword',
+                    success: false,
+                    message: "Token is invalid or has expired",
+                    organization_id: data.organization_id,
+                    uid: data.uid
+                }
+
+                for (let object of data.object) {
+                    if (object._id) {
+                        response.success = true
+                        response.message = "Password reset succesfull"
+                        break
+                    }
+                }
+
+                self.wsManager.send(response)
+            })
+        } catch (error) {
+            console.log("Password reset failed", error);
         }
     }
 }

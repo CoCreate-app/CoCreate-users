@@ -226,8 +226,75 @@ const CoCreateUser = {
     },
 
     // TODO: updatePassword()
-    updatePassword: function (btn) {
-        this.signIn(btn);
+    forgotPassword: async function (action) {
+        let email = action.form.querySelector('input[key="email"]');
+        if (!email)
+            return
+        else
+            email = await email.getValue()
+
+        let from = action.form.querySelector('input[key="from"]');
+        if (from)
+            from = await from.getValue()
+
+        let origin = action.form.querySelector('input[key="origin"]');
+        if (origin)
+            origin = await origin.getValue() || window.location.origin
+
+        let hostname = action.form.querySelector('input[key="origin"]');
+        if (hostname)
+            hostname = await hostname.getValue() || window.location.hostname
+
+        let path = action.form.querySelector('input[key="path"]');
+        if (path)
+            path = await path.getValue()
+
+        let request = {
+            method: 'forgotPassword',
+            email,
+            from,
+            domain
+        }
+
+        Crud.socket.send(request).then((response) => {
+            console.log('forgot password', response)
+        })
+    },
+
+    resetPassword: async function (action) {
+        let data = {
+            method: 'resetPassword',
+            token
+        }
+        let email = action.form.querySelector('input[key="email"]');
+        if (email)
+            data.email = await email.getValue()
+        else return
+
+        let password = action.form.querySelector('input[key="password"]');
+        if (password)
+            data.password = await password.getValue()
+        else return
+
+        let token = action.form.querySelector('input[key="token"]');
+        if (token)
+            data.token = await token.getValue()
+        else return
+
+        Crud.socket.send(data).then((data) => {
+            console.log('reset password', response)
+            if (data.success)
+                document.dispatchEvent(new CustomEvent('resetPassword'));
+            else
+                render({
+                    selector: "[template*='resetPassword']",
+                    data: [{
+                        type: 'resetPassword',
+                        message: data.message,
+                        success: true
+                    }]
+                });
+        })
     }
 };
 
@@ -251,6 +318,20 @@ Actions.init([
         endEvent: "signOut",
         callback: (action) => {
             CoCreateUser.signOut(action);
+        }
+    },
+    {
+        name: "forgotPassword",
+        endEvent: "forgotPassword",
+        callback: (action) => {
+            CoCreateUser.forgotPassword(action);
+        }
+    },
+    {
+        name: "resetPassword",
+        endEvent: "resetPassword",
+        callback: (action) => {
+            CoCreateUser.resetPassword(action);
         }
     }
 ]);
