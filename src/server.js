@@ -1,5 +1,3 @@
-const { organization_id } = require("../../../CoCreateJS/CoCreate.config");
-
 class CoCreateUser {
     constructor(crud) {
         this.wsManager = crud.wsManager
