@@ -143,9 +143,10 @@ class CoCreateUser {
     async checkSession(data) {
         try {
             if (!data.socket.user_id) {
-                await data.socket.send({
-                    method: 'updateUserStatus', clientId: data.clientId, userStatus: 'off', socketId: data.socketId, organization_id
-                })
+                data.method = 'updateUserStatus'
+                data.userStatus = 'off'
+
+                this.wsManager.send(data)
             }
         } catch (error) {
             console.log('checkSession error')
