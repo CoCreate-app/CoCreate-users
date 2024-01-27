@@ -4,6 +4,7 @@ import Actions from '@cocreate/actions';
 import Elements from '@cocreate/elements';
 import { render } from '@cocreate/render';
 import '@cocreate/element-prototype';
+import Observer from '@cocreate/observer'
 import './index.css';
 
 // TODO: Replace with @cocreate/config
@@ -178,7 +179,7 @@ const CoCreateUser = {
     },
 
     redirect: (data) => {
-        if (data.user_id !== Crud.socket.user_id || data.clientId && data.clientId !== Crud.socket.clientId)
+        if (data.user_id && data.user_id !== Crud.socket.user_id || data.clientId && data.clientId !== Crud.socket.clientId)
             return
 
         if (data.userStatus == 'on' || data.userStatus == 'idle') {
@@ -335,6 +336,19 @@ Actions.init([
         }
     }
 ]);
+
+Observer.init({
+    name: 'CoCreateElementsRemovedNodes',
+    observe: ['addedNodes'],
+    target: '[session]',
+    callback: () => {
+        Crud.socket.send({
+            method: 'checkSession',
+            broadcast: false,
+            broadcastBrowser: false
+        });
+    }
+});
 
 CoCreateUser.init();
 

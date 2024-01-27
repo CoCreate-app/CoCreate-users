@@ -10,6 +10,7 @@ class CoCreateUser {
             this.wsManager.on('signUp', (data) => this.signUp(data));
             this.wsManager.on('signIn', (data) => this.signIn(data))
             this.wsManager.on('userStatus', (data) => this.userStatus(data))
+            this.wsManager.on('checkSession', (data) => this.checkSession(data))
             this.wsManager.on('forgotPassword', (data) => this.forgotPassword(data))
             this.wsManager.on('resetPassword', (data) => this.resetPassword(data))
         }
@@ -136,6 +137,18 @@ class CoCreateUser {
 
         } catch (error) {
             console.log('userStatus error')
+        }
+    }
+
+    async checkSession(data) {
+        try {
+            if (!data.socket.user_id) {
+                await data.socket.send({
+                    socket, method: 'updateUserStatus', user_id: socket.user_id, clientId: data.clientId, userStatus: 'off', socketId: data.socketId, organization_id
+                })
+            }
+        } catch (error) {
+            console.log('checkSession error')
         }
     }
 
