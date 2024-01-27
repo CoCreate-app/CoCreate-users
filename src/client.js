@@ -253,7 +253,9 @@ const CoCreateUser = {
             method: 'forgotPassword',
             email,
             from,
-            domain
+            origin,
+            hostname,
+            path
         }
 
         Crud.socket.send(request).then((response) => {
@@ -263,8 +265,7 @@ const CoCreateUser = {
 
     resetPassword: async function (action) {
         let data = {
-            method: 'resetPassword',
-            token
+            method: 'resetPassword'
         }
         let email = action.form.querySelector('input[key="email"]');
         if (email)
@@ -282,7 +283,6 @@ const CoCreateUser = {
         else return
 
         Crud.socket.send(data).then((data) => {
-            console.log('reset password', response)
             if (data.success)
                 document.dispatchEvent(new CustomEvent('resetPassword'));
             else
