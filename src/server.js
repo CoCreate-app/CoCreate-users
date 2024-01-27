@@ -144,7 +144,7 @@ class CoCreateUser {
         try {
             if (!data.socket.user_id) {
                 await data.socket.send({
-                    socket, method: 'updateUserStatus', user_id: socket.user_id, clientId: data.clientId, userStatus: 'off', socketId: data.socketId, organization_id
+                    method: 'updateUserStatus', clientId: data.clientId, userStatus: 'off', socketId: data.socketId, organization_id
                 })
             }
         } catch (error) {
