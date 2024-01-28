@@ -212,6 +212,7 @@ class CoCreateUser {
 `
                         let email = {
                             method: 'postmark.sendEmail',
+                            host: data.host,
                             postmark: {
                                 "From": data.from,
                                 "To": data.email,
