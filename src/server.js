@@ -244,7 +244,7 @@ class CoCreateUser {
 
             data.method = 'object.update'
             data.array = "keys"
-            data.object = { password: data.password }
+            data.object = { password: data.password, recoveryId: "" }
             data.$filter = {
                 query: { email: data.email, recoveryId: data.token },
                 limit: 1
