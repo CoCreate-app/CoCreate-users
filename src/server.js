@@ -194,12 +194,12 @@ class CoCreateUser {
 
   <p>We received a request to reset the password for your account. If you did not make this request, please ignore this email. Otherwise, you can reset your password using the link below.</p>
 
-  <p><a href="${data.origin}/${data.path}?email=${data.email}&token=${recoveryId}&recoveyId=${recoveryId}" style="color: #ffffff; background-color: #007bff; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reset My Password</a></p>
+  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${recoveryId}&recoveyId=${recoveryId}" style="color: #ffffff; background-color: #007bff; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Reset My Password</a></p>
 
   <p>This link will expire in 24 hours for your security.</p>
 
   <p>If you're having trouble with the button above, copy and paste the URL below into your web browser:</p>
-  <p><a href="${data.origin}/${data.path}?email=${data.email}&token=${recoveryId}&recoveyId=${recoveryId}"">${data.origin}/${data.path}?email=${data.email}&token=${recoveryId}&recoveyId=${recoveryId}"</a></p>
+  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${recoveryId}&recoveyId=${recoveryId}"">${data.origin}${data.path}?email=${data.email}&token=${recoveryId}&recoveyId=${recoveryId}"</a></p>
 
   <p>Need more help? Our support team is here for you. Contact us at <a href="mailto:support@${data.hostname}">support@${data.hostname}</a>.</p>
 
