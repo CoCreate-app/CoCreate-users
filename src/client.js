@@ -301,7 +301,7 @@ const CoCreateUser = {
                     data: [{
                         type: 'resetPassword',
                         message: data.message,
-                        success: true
+                        success: data.success,
                     }]
                 });
         })
