@@ -205,8 +205,6 @@ class CoCreateUser {
 
   <p>Thank you for using our services!</p>
 
-  <p>Best regards,<br>
-  The [Your Company] Team</p>
 </body>
 </html>
 `
