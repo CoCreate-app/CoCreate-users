@@ -1,3 +1,27 @@
+# [1.34.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.33.1...v1.34.0) (2024-01-30)
+
+
+### Bug Fixes
+
+* add host when sending email to access environments ([8681adc](https://github.com/CoCreate-app/CoCreate-users/commit/8681adc38970838d0e958d40bc07951ce6edb67c))
+* checkSession ([53bb1a9](https://github.com/CoCreate-app/CoCreate-users/commit/53bb1a9b96da627f52446d7273f3af53f7640e2f))
+* checkSession response ([a254266](https://github.com/CoCreate-app/CoCreate-users/commit/a254266a8ef7cdb97d41a635c971f0330d913ac9))
+* forgotPassword email links ([20fc214](https://github.com/CoCreate-app/CoCreate-users/commit/20fc214db4635a9aaece1169fb1364efb8d0ff73))
+* handling of host, origin and path ([78c8e42](https://github.com/CoCreate-app/CoCreate-users/commit/78c8e42285fb2536e003cd7ba98380055f4152b5))
+* if signin success add user_id to socket ([bc64c10](https://github.com/CoCreate-app/CoCreate-users/commit/bc64c10adabb6ac39157eeb40e98786ca594f70f))
+* remove recoveryId once used ([09e5f66](https://github.com/CoCreate-app/CoCreate-users/commit/09e5f66c1e33f884d84960f199f1f7a47995ef53))
+* removed company name ([a3b97c0](https://github.com/CoCreate-app/CoCreate-users/commit/a3b97c0c7aaf9cc205f9aee160c606b5ddbc660f))
+* render forgotPassword response ([77d6482](https://github.com/CoCreate-app/CoCreate-users/commit/77d64821a0a3ce6684db350c9e9c2a2432d4f00a))
+* typo ([d091f69](https://github.com/CoCreate-app/CoCreate-users/commit/d091f69a4f936919741dc070aa438e7ba5471830))
+* update render data to array ([b78dd53](https://github.com/CoCreate-app/CoCreate-users/commit/b78dd53481ccd0827e03e0af2de1c1e28c9316d1))
+
+
+### Features
+
+* checkSession ([a7b000a](https://github.com/CoCreate-app/CoCreate-users/commit/a7b000a0422cd2980cc9f44eb366103ce346b64c))
+* forgotPassword and resetPasword handling ([d5fcca6](https://github.com/CoCreate-app/CoCreate-users/commit/d5fcca62fa2f0588a8b0799f59362719e230b1d2))
+* handle session attribute ([65bde0e](https://github.com/CoCreate-app/CoCreate-users/commit/65bde0e6fe7a41563b30b4fcd86b60b7fc0acfea))
+
 ## [1.33.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.33.0...v1.33.1) (2024-01-17)
 
 
