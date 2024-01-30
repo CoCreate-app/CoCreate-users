@@ -1,3 +1,10 @@
+## [1.34.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.34.0...v1.34.1) (2024-01-30)
+
+
+### Bug Fixes
+
+* render response ([33054b5](https://github.com/CoCreate-app/CoCreate-users/commit/33054b5164c370c50692a053d4bc789031208828))
+
 # [1.34.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.33.1...v1.34.0) (2024-01-30)
 
 
