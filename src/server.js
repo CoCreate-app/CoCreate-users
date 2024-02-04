@@ -222,6 +222,7 @@ class CoCreateUser {
                             organization_id: data.organization_id
                         }
 
+                        // TODO: wsManager.emit('postmark', email) needs to await response
                         self.wsManager.emit('postmark', email);
 
                         break
