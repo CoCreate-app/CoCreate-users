@@ -242,7 +242,7 @@ const CoCreateUser = {
         if (origin)
             origin = await origin.getValue() || window.location.origin
 
-        let hostname = action.form.querySelector('input[key="origin"]');
+        let hostname = action.form.querySelector('input[key="hostname"]');
         if (hostname)
             hostname = await hostname.getValue() || window.location.hostname
 
