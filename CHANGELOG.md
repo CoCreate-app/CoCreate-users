@@ -1,3 +1,11 @@
+## [1.34.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.34.1...v1.34.2) (2024-02-05)
+
+
+### Bug Fixes
+
+* hostname selector ([3b6d38d](https://github.com/CoCreate-app/CoCreate-users/commit/3b6d38d74a09cf72ff5440e2dc1647c5bc078675))
+* Removed https://cdn.cocreate.app/latest/CoCreate.min.css ([aaa7944](https://github.com/CoCreate-app/CoCreate-users/commit/aaa79444b46077144b81f84c524dd49d9744622f))
+
 ## [1.34.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.34.0...v1.34.1) (2024-01-30)
 
 
