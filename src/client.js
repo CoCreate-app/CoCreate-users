@@ -168,8 +168,12 @@ const CoCreateUser = {
 
     updateUserStatus: function (data) {
         this.redirect(data)
+        let statusEls
         if (data.user_id) {
-            let statusEls = document.querySelectorAll(`[user-status][object='${data['user_id']}']`);
+            if (data.user_id === Crud.socket.user_id)
+                statusEls = document.querySelectorAll(`[user-status][object='${data['user_id']}'], [user-status][object='$user_id']`);
+            else
+                statusEls = document.querySelectorAll(`[user-status][object='${data['user_id']}']`);
 
             statusEls.forEach((el) => {
                 el.setAttribute('user-status', data['userStatus']);
@@ -226,7 +230,51 @@ const CoCreateUser = {
 
     },
 
-    // TODO: updatePassword()
+    inviteUser: async function (action) {
+        let email = action.form.querySelector('input[key="email"]');
+        if (!email)
+            return
+        else
+            email = await email.getValue()
+
+        let from = action.form.querySelector('input[key="from"]');
+        if (from)
+            from = await from.getValue()
+
+        let origin = action.form.querySelector('input[key="origin"]');
+        if (origin)
+            origin = await origin.getValue() || window.location.origin
+
+        let hostname = action.form.querySelector('input[key="hostname"]');
+        if (hostname)
+            hostname = await hostname.getValue() || window.location.hostname
+
+        let path = action.form.querySelector('input[key="path"]');
+        if (path)
+            path = await path.getValue()
+
+        let request = {
+            method: 'inviteUser',
+            email,
+            from,
+            origin,
+            hostname,
+            path
+        }
+
+        Crud.socket.send(request).then((response) => {
+            render({
+                selector: "[template*='inviteUser']",
+                data: [{
+                    type: 'inviteUser',
+                    message: response.message,
+                    success: response.success
+                }]
+            });
+
+        })
+    },
+
     forgotPassword: async function (action) {
         let email = action.form.querySelector('input[key="email"]');
         if (!email)

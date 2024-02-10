@@ -11,6 +11,7 @@ class CoCreateUser {
             this.wsManager.on('signIn', (data) => this.signIn(data))
             this.wsManager.on('userStatus', (data) => this.userStatus(data))
             this.wsManager.on('checkSession', (data) => this.checkSession(data))
+            this.wsManager.on('inviteUser', (data) => this.inviteUser(data))
             this.wsManager.on('forgotPassword', (data) => this.forgotPassword(data))
             this.wsManager.on('resetPassword', (data) => this.resetPassword(data))
         }
@@ -153,6 +154,70 @@ class CoCreateUser {
         }
     }
 
+    async inviteUser(data) {
+        try {
+            let htmlBody = `
+<html>
+<head>
+  <title>Welcome to Yellow Oracle!</title>
+</head>
+<body>
+  <p>Hello,</p>
+
+  <p>You have been invited to join the ${data.organization} account on Yellow Oracle. This invitation is a gateway to a suite of tools and resources tailored for our organization's members. By joining, you'll be able to collaborate, access shared resources, and contribute to our collective goals.</p>
+
+  <p><a href="${data.origin}${data.path}?email=${data.email}&invitationId=${data.invitationId}" style="color: #ffffff; background-color: #FFD700; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Accept Your Invitation</a></p>
+
+  <p>Please note, this invitation link will expire in 48 hours. We encourage you to accept it soon to begin your journey with ${organization} on Yellow Oracle.</p>
+
+  <p>If the button above doesn't work, you can copy and paste the following URL into your web browser:</p>
+  <p><a href="${data.origin}${data.path}?email=${data.email}&invitationId=${data.invitationId}">${data.origin}${data.path}?email=${data.email}&invitationId=${data.invitationId}</a></p>
+
+  <p>If you received this invitation by mistake or have any questions, please don't hesitate to get in touch with our support team at <a href="mailto:support@${data.hostname}">support@${data.hostname}</a>.</p>
+
+  <p>We look forward to welcoming you to ${data.organization}'s Yellow Oracle account!</p>
+
+</body>
+</html>                                                                             
+`;
+
+            let email = {
+                method: 'postmark.sendEmail',
+                host: data.host,
+                postmark: {
+                    "From": data.from,
+                    "To": data.email,
+                    "Subject": "Reset Your Password Easily",
+                    "HtmlBody": htmlBody,
+                    "TextBody": "Hello, \n\nWe received a request to reset the password for your account.If you did not make this request, please ignore this email.Otherwise, you can reset your password by copying and pasting the following link into your browser: https://example.com/reset-password\n\nThis link will expire in 24 hours for your security.\n\nNeed more help? Our support team is here for you at support@example.com.\n\nThank you for using our services!\n\nBest regards,\nThe [Your Company] Team",
+                    "MessageStream": "outbound"
+                },
+                organization_id: data.organization_id
+            }
+
+            // TODO: wsManager.emit('postmark', email) needs to await response
+            this.wsManager.emit('postmark', email);
+
+            let response = {
+                socket,
+                host: data.host,
+                method: 'inviteUser',
+                success: true,
+                message: "Succesfully sent invite",
+                organization_id: data.organization_id,
+                uid: data.uid
+            }
+
+            this.wsManager.send(response)
+
+        } catch (error) {
+            data.error = error
+            this.wsManager.send(data)
+
+            console.log('Invite User failed', error);
+        }
+    }
+
     async forgotPassword(data) {
         const self = this;
         try {
@@ -233,7 +298,7 @@ class CoCreateUser {
             })
 
         } catch (error) {
-            console.log('signIn failed', error);
+            console.log('Forgot Password failed', error);
         }
     }
 
