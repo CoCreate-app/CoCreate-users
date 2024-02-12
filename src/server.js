@@ -156,6 +156,16 @@ class CoCreateUser {
 
     async inviteUser(data) {
         try {
+            const inviteId = this.crud.ObjectId().toString()
+            let socket = data.socket
+            delete data.socket
+
+            data.method = 'object.update'
+            data.array = "users"
+            data.object = { _id: data.user_id, 'invitations[]': inviteId }
+
+            data = await crud.send(data)
+
             let htmlBody = `
 <html>
 <head>
@@ -164,14 +174,14 @@ class CoCreateUser {
 <body>
   <p>Hello,</p>
 
-  <p>You have been invited to join the ${data.organization} account on Yellow Oracle. This invitation is a gateway to a suite of tools and resources tailored for our organization's members. By joining, you'll be able to collaborate, access shared resources, and contribute to our collective goals.</p>
+  <p>You have been invited to join the ${data.name} account on Yellow Oracle. This invitation is a gateway to a suite of tools and resources tailored for our organization's members. By joining, you'll be able to collaborate, access shared resources, and contribute to our collective goals.</p>
 
-  <p><a href="${data.origin}${data.path}?email=${data.email}&invitationId=${data.invitationId}" style="color: #ffffff; background-color: #FFD700; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Accept Your Invitation</a></p>
+  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${data.inviteId}&user_id=${data.user_id}&name=${data.name}" style="color: #ffffff; background-color: #FFD700; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Accept Your Invitation</a></p>
 
   <p>Please note, this invitation link will expire in 48 hours. We encourage you to accept it soon to begin your journey with ${organization} on Yellow Oracle.</p>
 
   <p>If the button above doesn't work, you can copy and paste the following URL into your web browser:</p>
-  <p><a href="${data.origin}${data.path}?email=${data.email}&invitationId=${data.invitationId}">${data.origin}${data.path}?email=${data.email}&invitationId=${data.invitationId}</a></p>
+  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${data.inviteId}&user_id=${data.user_id}&name=${data.name}">${data.origin}${data.path}?email=${data.email}&token=${data.inviteId}&user_id=${data.user_id}&name=${data.name}</a></p>
 
   <p>If you received this invitation by mistake or have any questions, please don't hesitate to get in touch with our support team at <a href="mailto:support@${data.hostname}">support@${data.hostname}</a>.</p>
 
@@ -187,7 +197,7 @@ class CoCreateUser {
                 postmark: {
                     "From": data.from,
                     "To": data.email,
-                    "Subject": "Reset Your Password Easily",
+                    "Subject": `${data.organization} has invited you to join them on Yellow Oracle`,
                     "HtmlBody": htmlBody,
                     "TextBody": "Hello, \n\nWe received a request to reset the password for your account.If you did not make this request, please ignore this email.Otherwise, you can reset your password by copying and pasting the following link into your browser: https://example.com/reset-password\n\nThis link will expire in 24 hours for your security.\n\nNeed more help? Our support team is here for you at support@example.com.\n\nThank you for using our services!\n\nBest regards,\nThe [Your Company] Team",
                     "MessageStream": "outbound"
@@ -217,6 +227,50 @@ class CoCreateUser {
             console.log('Invite User failed', error);
         }
     }
+
+    async acceptInvite(data) {
+        const self = this;
+        try {
+            if (!data.token || !data.user_id) {
+                // TODO: handle error
+                return
+            }
+
+            data.method = 'object.update'
+            data.array = "users"
+            data.object = { 'members[]': data.user_id }
+            data.$filter = {
+                query: { invitations: { $in: [data.token] } },
+                limit: 1
+            }
+
+            data = await crud.send(data)
+
+            let response = {
+                socket: data.socket,
+                host: data.host,
+                method: 'acceptInvite',
+                success: false,
+                message: "Token is invalid or has expired",
+                organization_id: data.organization_id,
+                uid: data.uid
+            }
+
+            for (let object of data.object) {
+                if (object._id) {
+                    response.success = true
+                    response.message = "Invite Accepted"
+                    break
+                }
+            }
+
+            self.wsManager.send(response)
+
+        } catch (error) {
+            console.log("Password reset failed", error);
+        }
+    }
+
 
     async forgotPassword(data) {
         const self = this;

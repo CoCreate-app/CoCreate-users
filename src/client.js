@@ -275,6 +275,39 @@ const CoCreateUser = {
         })
     },
 
+    acceptInvite: async function (action) {
+        let data = {
+            method: 'acceptInvite',
+            success: false
+        }
+
+        let token = action.form.querySelector('input[key="token"]');
+        if (token)
+            data.token = await token.getValue()
+        let user_id = action.form.querySelector('input[key="_id"]');
+        if (user_id)
+            data.user_id = await user_id.getValue()
+
+        if (data.token && data.user_id) {
+            data = await Crud.socket.send(data)
+        } else {
+            data.message = 'Invitation failed'
+        }
+
+        if (data.success)
+            document.dispatchEvent(new CustomEvent('acceptInvite'));
+        else
+            render({
+                selector: "[template*='acceptInvite']",
+                data: [{
+                    type: 'acceptInvite',
+                    message: data.message,
+                    success: data.success,
+                }]
+            });
+    },
+
+
     forgotPassword: async function (action) {
         let email = action.form.querySelector('input[key="email"]');
         if (!email)
