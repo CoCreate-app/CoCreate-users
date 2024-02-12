@@ -237,6 +237,10 @@ const CoCreateUser = {
         else
             email = await email.getValue()
 
+        let name = action.form.querySelector('input[key="name"]');
+        if (name)
+            name = await name.getValue()
+
         let from = action.form.querySelector('input[key="from"]');
         if (from)
             from = await from.getValue()
@@ -255,6 +259,7 @@ const CoCreateUser = {
 
         let request = {
             method: 'inviteUser',
+            name,
             email,
             from,
             origin,
@@ -287,6 +292,9 @@ const CoCreateUser = {
         let user_id = action.form.querySelector('input[key="_id"]');
         if (user_id)
             data.user_id = await user_id.getValue()
+        let email = action.form.querySelector('input[key="email"]');
+        if (email)
+            data.email = await email.getValue()
 
         if (data.token && data.user_id) {
             data = await Crud.socket.send(data)
@@ -409,6 +417,20 @@ Actions.init([
         endEvent: "signOut",
         callback: (action) => {
             CoCreateUser.signOut(action);
+        }
+    },
+    {
+        name: "inviteUser",
+        endEvent: "inviteUser",
+        callback: (action) => {
+            CoCreateUser.inviteUser(action);
+        }
+    },
+    {
+        name: "acceptInvite",
+        endEvent: "acceptInvite",
+        callback: (action) => {
+            CoCreateUser.acceptInvite(action);
         }
     },
     {

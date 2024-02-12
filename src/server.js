@@ -12,6 +12,7 @@ class CoCreateUser {
             this.wsManager.on('userStatus', (data) => this.userStatus(data))
             this.wsManager.on('checkSession', (data) => this.checkSession(data))
             this.wsManager.on('inviteUser', (data) => this.inviteUser(data))
+            this.wsManager.on('acceptInvite', (data) => this.acceptInvite(data))
             this.wsManager.on('forgotPassword', (data) => this.forgotPassword(data))
             this.wsManager.on('resetPassword', (data) => this.resetPassword(data))
         }
@@ -162,9 +163,9 @@ class CoCreateUser {
 
             data.method = 'object.update'
             data.array = "users"
-            data.object = { _id: data.user_id, 'invitations[]': inviteId }
+            data.object = { _id: data.user_id, '$addToSet.invitations': inviteId, '$addToSet.members': data.email }
 
-            data = await crud.send(data)
+            data = await this.crud.send(data)
 
             let htmlBody = `
 <html>
@@ -174,18 +175,18 @@ class CoCreateUser {
 <body>
   <p>Hello,</p>
 
-  <p>You have been invited to join the ${data.name} account on Yellow Oracle. This invitation is a gateway to a suite of tools and resources tailored for our organization's members. By joining, you'll be able to collaborate, access shared resources, and contribute to our collective goals.</p>
+  <p>You have been invited to join ${data.name} on Yellow Oracle.</p>
 
-  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${data.inviteId}&user_id=${data.user_id}&name=${data.name}" style="color: #ffffff; background-color: #FFD700; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Accept Your Invitation</a></p>
+  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${inviteId}&user_id=${data.user_id}&name=${data.name}" style="color: #ffffff; background-color: #FFD700; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Accept Your Invitation</a></p>
 
-  <p>Please note, this invitation link will expire in 48 hours. We encourage you to accept it soon to begin your journey with ${organization} on Yellow Oracle.</p>
+  <p>Please note, this invitation link will expire in 48 hours. We encourage you to accept it soon to begin your journey with ${data.name} on Yellow Oracle.</p>
 
   <p>If the button above doesn't work, you can copy and paste the following URL into your web browser:</p>
-  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${data.inviteId}&user_id=${data.user_id}&name=${data.name}">${data.origin}${data.path}?email=${data.email}&token=${data.inviteId}&user_id=${data.user_id}&name=${data.name}</a></p>
+  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${inviteId}&user_id=${data.user_id}&name=${data.name}">${data.origin}${data.path}?email=${data.email}&token=${inviteId}&user_id=${data.user_id}&name=${data.name}</a></p>
 
   <p>If you received this invitation by mistake or have any questions, please don't hesitate to get in touch with our support team at <a href="mailto:support@${data.hostname}">support@${data.hostname}</a>.</p>
 
-  <p>We look forward to welcoming you to ${data.organization}'s Yellow Oracle account!</p>
+  <p>We look forward to welcoming you to ${data.name}'s Yellow Oracle account!</p>
 
 </body>
 </html>                                                                             
@@ -197,7 +198,7 @@ class CoCreateUser {
                 postmark: {
                     "From": data.from,
                     "To": data.email,
-                    "Subject": `${data.organization} has invited you to join them on Yellow Oracle`,
+                    "Subject": `${data.name} has invited you to join them on Yellow Oracle`,
                     "HtmlBody": htmlBody,
                     "TextBody": "Hello, \n\nWe received a request to reset the password for your account.If you did not make this request, please ignore this email.Otherwise, you can reset your password by copying and pasting the following link into your browser: https://example.com/reset-password\n\nThis link will expire in 24 hours for your security.\n\nNeed more help? Our support team is here for you at support@example.com.\n\nThank you for using our services!\n\nBest regards,\nThe [Your Company] Team",
                     "MessageStream": "outbound"
@@ -238,13 +239,13 @@ class CoCreateUser {
 
             data.method = 'object.update'
             data.array = "users"
-            data.object = { 'members[]': data.user_id }
+            data.object = { '$pull.invitations': data.token, '$pull.members': data.email }
             data.$filter = {
-                query: { invitations: { $in: [data.token] } },
+                query: { invitations: { $in: [data.token] }, members: { $in: [data.email] } },
                 limit: 1
             }
 
-            data = await crud.send(data)
+            data = await this.crud.send(data)
 
             let response = {
                 socket: data.socket,
@@ -258,6 +259,10 @@ class CoCreateUser {
 
             for (let object of data.object) {
                 if (object._id) {
+                    delete data.$filter
+                    data.object = { _id: object._id, '$addToSet.members': data.user_id }
+                    data = await this.crud.send(data)
+
                     response.success = true
                     response.message = "Invite Accepted"
                     break
