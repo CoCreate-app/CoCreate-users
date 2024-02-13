@@ -1,3 +1,12 @@
+# [1.35.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.34.2...v1.35.0) (2024-02-13)
+
+
+### Features
+
+* acceptInvite ([4b3db33](https://github.com/CoCreate-app/CoCreate-users/commit/4b3db33c2057968f8b37b9f618de7120a4b6f36d))
+* acceptUser ([45c6869](https://github.com/CoCreate-app/CoCreate-users/commit/45c68699f5d978f02b6f9d550a04b853da2d64f5))
+* inviteUser function ([593d9ad](https://github.com/CoCreate-app/CoCreate-users/commit/593d9add42568a0fa87060595daffdbee662212f))
+
 ## [1.34.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.34.1...v1.34.2) (2024-02-05)
 
 
