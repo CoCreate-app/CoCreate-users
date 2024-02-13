@@ -158,8 +158,8 @@ class CoCreateUser {
     async inviteUser(data) {
         try {
             const inviteId = this.crud.ObjectId().toString()
-            let socket = data.socket
-            delete data.socket
+            let uid = data.uid
+            delete data.uid
 
             data.method = 'object.update'
             data.array = "users"
@@ -210,13 +210,13 @@ class CoCreateUser {
             this.wsManager.emit('postmark', email);
 
             let response = {
-                socket,
+                socket: data.socket,
                 host: data.host,
                 method: 'inviteUser',
                 success: true,
                 message: "Succesfully sent invite",
                 organization_id: data.organization_id,
-                uid: data.uid
+                uid
             }
 
             this.wsManager.send(response)
@@ -237,6 +237,11 @@ class CoCreateUser {
                 return
             }
 
+            let socket = data.socket
+            delete data.socket
+            let uid = data.uid
+            delete data.uid
+
             data.method = 'object.update'
             data.array = "users"
             data.object = { '$pull.invitations': data.token, '$pull.members': data.email }
@@ -248,21 +253,22 @@ class CoCreateUser {
             data = await this.crud.send(data)
 
             let response = {
-                socket: data.socket,
+                socket,
                 host: data.host,
                 method: 'acceptInvite',
                 success: false,
                 message: "Token is invalid or has expired",
                 organization_id: data.organization_id,
-                uid: data.uid
+                uid
             }
 
             for (let object of data.object) {
                 if (object._id) {
                     delete data.$filter
+                    data.socket = socket
                     data.object = { _id: object._id, '$addToSet.members': data.user_id }
                     data = await this.crud.send(data)
-
+                    this.crud.send({ method: 'object.update', array: 'users', object: { _id: data.user_id, memberAccount: object._id, subscription: '6571fe530c48ef6970900a82' } })
                     response.success = true
                     response.message = "Invite Accepted"
                     break
