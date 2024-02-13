@@ -268,6 +268,9 @@ const CoCreateUser = {
         }
 
         Crud.socket.send(request).then((response) => {
+            if (response.success)
+                document.dispatchEvent(new CustomEvent('inviteUser'));
+
             render({
                 selector: "[template*='inviteUser']",
                 data: [{
@@ -304,15 +307,14 @@ const CoCreateUser = {
 
         if (data.success)
             document.dispatchEvent(new CustomEvent('acceptInvite'));
-        else
-            render({
-                selector: "[template*='acceptInvite']",
-                data: [{
-                    type: 'acceptInvite',
-                    message: data.message,
-                    success: data.success,
-                }]
-            });
+        render({
+            selector: "[template*='acceptInvite']",
+            data: [{
+                type: 'acceptInvite',
+                message: data.message,
+                success: data.success,
+            }]
+        });
     },
 
 
