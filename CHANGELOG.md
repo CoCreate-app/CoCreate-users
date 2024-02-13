@@ -1,3 +1,11 @@
+## [1.35.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.35.0...v1.35.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* dispatch userInvite event if succesful ([17510a4](https://github.com/CoCreate-app/CoCreate-users/commit/17510a450d145b2f9f36ba7c418963aa58c47875))
+* updating users ([5e25fcb](https://github.com/CoCreate-app/CoCreate-users/commit/5e25fcbab8992854758109c786730097b65251c5))
+
 # [1.35.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.34.2...v1.35.0) (2024-02-13)
 
 
