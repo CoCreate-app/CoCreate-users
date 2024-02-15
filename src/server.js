@@ -158,8 +158,6 @@ class CoCreateUser {
     async inviteUser(data) {
         try {
             const inviteId = this.crud.ObjectId().toString()
-            let socket = data.socket
-            delete data.socket
             let uid = data.uid
             delete data.uid
 
@@ -228,7 +226,7 @@ class CoCreateUser {
             this.wsManager.emit('postmark', email);
 
             let response = {
-                socket,
+                socket: data.socket,
                 host: data.host,
                 method: 'inviteUser',
                 success: true,
@@ -255,8 +253,6 @@ class CoCreateUser {
                 return
             }
 
-            let socket = data.socket
-            delete data.socket
             let uid = data.uid
             delete data.uid
 
@@ -264,14 +260,17 @@ class CoCreateUser {
             data.array = "users"
             data.object = { '$pull.invitations': data.token, '$pull.members': data.email }
             data.$filter = {
-                query: { invitations: { $in: [data.token] }, members: { $in: [data.email] } },
-                limit: 1
+                query: {
+                    // invites: { $in: [data.token] },
+                    members: { $in: [data.email] },
+                    limit: 1
+                }
             }
 
             data = await this.crud.send(data)
 
             let response = {
-                socket,
+                socket: data.socket,
                 host: data.host,
                 method: 'acceptInvite',
                 success: false,
