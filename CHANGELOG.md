@@ -1,3 +1,10 @@
+## [1.36.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.1...v1.36.2) (2024-02-15)
+
+
+### Bug Fixes
+
+* removed invite token from query ([92ccf7c](https://github.com/CoCreate-app/CoCreate-users/commit/92ccf7c18653af774c4138e09a21e03965d340da))
+
 ## [1.36.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.0...v1.36.1) (2024-02-15)
 
 
