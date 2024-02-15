@@ -1,3 +1,10 @@
+# [1.36.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.35.1...v1.36.0) (2024-02-15)
+
+
+### Features
+
+* get _id of invitee ([0d92cd9](https://github.com/CoCreate-app/CoCreate-users/commit/0d92cd920189bb80de7dffcf7778340540c5f12e))
+
 ## [1.35.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.35.0...v1.35.1) (2024-02-13)
 
 
