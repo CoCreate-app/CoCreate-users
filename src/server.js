@@ -171,6 +171,7 @@ class CoCreateUser {
 
             let invitee = await this.crud.send({
                 method: 'object.read',
+                host: data.host,
                 array: 'users',
                 $filter: {
                     query: { email: data.email },
@@ -285,7 +286,7 @@ class CoCreateUser {
                     data.socket = socket
                     data.object = { _id: object._id, '$addToSet.members': data.user_id }
                     data = await this.crud.send(data)
-                    this.crud.send({ method: 'object.update', array: 'users', object: { _id: data.user_id, memberAccount: object._id, subscription: '6571fe530c48ef6970900a82' } })
+                    this.crud.send({ method: 'object.update', host: data.host, array: 'users', object: { _id: data.user_id, memberAccount: object._id, subscription: '6571fe530c48ef6970900a82' } })
                     response.success = true
                     response.message = "Invite Accepted"
                     break
