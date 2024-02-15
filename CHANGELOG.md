@@ -1,3 +1,10 @@
+## [1.36.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.0...v1.36.1) (2024-02-15)
+
+
+### Bug Fixes
+
+* missing host ([a3f4e02](https://github.com/CoCreate-app/CoCreate-users/commit/a3f4e02f4a52e0f03ddd890484a6c6a838f8945b))
+
 # [1.36.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.35.1...v1.36.0) (2024-02-15)
 
 
