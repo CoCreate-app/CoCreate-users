@@ -159,13 +159,14 @@ class CoCreateUser {
         try {
             const inviteId = this.crud.ObjectId().toString()
             let uid = data.uid
-            delete data.uid
+            data.uid = data.uid + '-inv'
 
             data.method = 'object.update'
             data.array = "users"
-            data.object = { _id: data.user_id, '$addToSet.invitations': inviteId, '$addToSet.members': data.email }
-
+            data.object = { _id: data.user_id, '$push.invitations': inviteId, '$addToSet.members': data.email }
+            data.updateDB = true
             data = await this.crud.send(data)
+            data.database = data.organization_id
 
             let invitee = await this.crud.send({
                 method: 'object.read',
@@ -261,7 +262,7 @@ class CoCreateUser {
             data.object = { '$pull.invitations': data.token, '$pull.members': data.email }
             data.$filter = {
                 query: {
-                    // invitations: { $in: [data.token] },
+                    invitations: { $in: [data.token] },
                     members: { $in: [data.email] },
                     limit: 2
                 }
@@ -294,7 +295,7 @@ class CoCreateUser {
             self.wsManager.send(response)
 
         } catch (error) {
-            console.log("Password reset failed", error);
+            console.log("Accept invite failed", error);
         }
     }
 
