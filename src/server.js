@@ -261,9 +261,9 @@ class CoCreateUser {
             data.object = { '$pull.invitations': data.token, '$pull.members': data.email }
             data.$filter = {
                 query: {
-                    // invites: { $in: [data.token] },
+                    // invitations: { $in: [data.token] },
                     members: { $in: [data.email] },
-                    limit: 1
+                    limit: 2
                 }
             }
 
@@ -282,7 +282,6 @@ class CoCreateUser {
             for (let object of data.object) {
                 if (object._id) {
                     delete data.$filter
-                    data.socket = socket
                     data.object = { _id: object._id, '$addToSet.members': data.user_id }
                     data = await this.crud.send(data)
                     this.crud.send({ method: 'object.update', host: data.host, array: 'users', object: { _id: data.user_id, memberAccount: object._id, subscription: '6571fe530c48ef6970900a82' } })
