@@ -158,6 +158,8 @@ class CoCreateUser {
     async inviteUser(data) {
         try {
             const inviteId = this.crud.ObjectId().toString()
+            let socket = data.socket
+            delete data.socket
             let uid = data.uid
             delete data.uid
 
@@ -166,6 +168,21 @@ class CoCreateUser {
             data.object = { _id: data.user_id, '$addToSet.invitations': inviteId, '$addToSet.members': data.email }
 
             data = await this.crud.send(data)
+
+            let invitee = await this.crud.send({
+                method: 'object.read',
+                array: 'users',
+                $filter: {
+                    query: { email: data.email },
+                    limit: 1
+                },
+                organization_id: data.organization_id
+            })
+
+            if (invitee.object[0]) {
+                invitee = invitee.object[0]._id
+            } else
+                invitee = ''
 
             let htmlBody = `
 <html>
@@ -177,12 +194,12 @@ class CoCreateUser {
 
   <p>You have been invited to join ${data.name} on Yellow Oracle.</p>
 
-  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${inviteId}&user_id=${data.user_id}&name=${data.name}" style="color: #ffffff; background-color: #FFD700; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Accept Your Invitation</a></p>
+  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${inviteId}&user_id=${invitee}&name=${data.name}" style="color: #ffffff; background-color: #FFD700; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Accept Your Invitation</a></p>
 
   <p>Please note, this invitation link will expire in 48 hours. We encourage you to accept it soon to begin your journey with ${data.name} on Yellow Oracle.</p>
 
   <p>If the button above doesn't work, you can copy and paste the following URL into your web browser:</p>
-  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${inviteId}&user_id=${data.user_id}&name=${data.name}">${data.origin}${data.path}?email=${data.email}&token=${inviteId}&user_id=${data.user_id}&name=${data.name}</a></p>
+  <p><a href="${data.origin}${data.path}?email=${data.email}&token=${inviteId}&user_id=${invitee}&name=${data.name}">${data.origin}${data.path}?email=${data.email}&token=${inviteId}&user_id=${invitee}&name=${data.name}</a></p>
 
   <p>If you received this invitation by mistake or have any questions, please don't hesitate to get in touch with our support team at <a href="mailto:support@${data.hostname}">support@${data.hostname}</a>.</p>
 
@@ -210,7 +227,7 @@ class CoCreateUser {
             this.wsManager.emit('postmark', email);
 
             let response = {
-                socket: data.socket,
+                socket,
                 host: data.host,
                 method: 'inviteUser',
                 success: true,
