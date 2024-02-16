@@ -164,9 +164,12 @@ class CoCreateUser {
             data.method = 'object.update'
             data.array = "users"
             data.object = { _id: data.user_id, '$push.invitations': inviteId, '$addToSet.members': data.email }
+
+            // TODO: upodateDB is a temp solution to by pass crud.sync clientId as all crud methods are ignored fro same clientid except for read 
             data.updateDB = true
+
             data = await this.crud.send(data)
-            data.database = data.organization_id
+
 
             let invitee = await this.crud.send({
                 method: 'object.read',
@@ -263,10 +266,13 @@ class CoCreateUser {
             data.$filter = {
                 query: {
                     invitations: { $in: [data.token] },
-                    members: { $in: [data.email] },
-                    limit: 2
-                }
+                    members: { $in: [data.email] }
+                },
+                limit: 2
             }
+
+            // TODO: upodateDB is a temp solution to by pass crud.sync clientId as all crud methods are ignored fro same clientid except for read 
+            data.updateDB = true
 
             data = await this.crud.send(data)
 
