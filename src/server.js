@@ -159,7 +159,7 @@ class CoCreateUser {
         try {
             const inviteId = this.crud.ObjectId().toString()
             let uid = data.uid
-            data.uid = data.uid + '-inv'
+            delete data.uid
 
             data.method = 'object.update'
             data.array = "users"
