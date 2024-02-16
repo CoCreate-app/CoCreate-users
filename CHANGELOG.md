@@ -1,3 +1,10 @@
+## [1.36.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.2...v1.36.3) (2024-02-16)
+
+
+### Bug Fixes
+
+* socket and limit handling ([b700208](https://github.com/CoCreate-app/CoCreate-users/commit/b700208286629b4f5bef0b7e4a14d7767f69eb21))
+
 ## [1.36.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.1...v1.36.2) (2024-02-15)
 
 
