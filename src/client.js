@@ -351,7 +351,8 @@ const CoCreateUser = {
         }
 
         Crud.socket.send(request).then((response) => {
-            console.log('forgot password', response)
+            if (response.success)
+                document.dispatchEvent(new CustomEvent('forgotPassword'));
             render({
                 selector: "[template*='forgotPassword']",
                 data: [{
