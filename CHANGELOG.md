@@ -1,3 +1,10 @@
+## [1.36.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.3...v1.36.4) (2024-02-16)
+
+
+### Bug Fixes
+
+* temp path for sending data to client db ([f2bddae](https://github.com/CoCreate-app/CoCreate-users/commit/f2bddae22bbe183d9fb64fe175d8abd3a4d70082))
+
 ## [1.36.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.2...v1.36.3) (2024-02-16)
 
 
