@@ -1,3 +1,10 @@
+## [1.36.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.4...v1.36.5) (2024-02-16)
+
+
+### Bug Fixes
+
+* temp updateDB solution ([40d3db1](https://github.com/CoCreate-app/CoCreate-users/commit/40d3db15c02655bb0908375ec0f32436d793b36c))
+
 ## [1.36.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.3...v1.36.4) (2024-02-16)
 
 
