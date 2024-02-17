@@ -1,3 +1,11 @@
+## [1.36.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.5...v1.36.6) (2024-02-17)
+
+
+### Bug Fixes
+
+* forgot pasword dispatch success event ([9ed6ddf](https://github.com/CoCreate-app/CoCreate-users/commit/9ed6ddf6402eba3d793174ddfd5b01037f2f97ab))
+* handling of uid ([5690f38](https://github.com/CoCreate-app/CoCreate-users/commit/5690f38fef046a0e24b21aea851f024861d631e0))
+
 ## [1.36.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.4...v1.36.5) (2024-02-16)
 
 
