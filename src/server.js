@@ -87,6 +87,7 @@ class CoCreateUser {
                 self.wsManager.send(response)
                 self.wsManager.send({
                     socket,
+                    host: data.host,
                     method: 'updateUserStatus',
                     user_id: response.user_id,
                     userStatus: response.userStatus,
@@ -120,6 +121,7 @@ class CoCreateUser {
                     self.wsManager.send({
                         socket: data.socket,
                         method: 'updateUserStatus',
+                        host: data.host,
                         user_id: data.user_id,
                         clientId: data.clientId,
                         userStatus: data.userStatus,
@@ -129,6 +131,7 @@ class CoCreateUser {
             } else if (data.socket)
                 data.socket.send(JSON.stringify({
                     method: 'updateUserStatus',
+                    host: data.host,
                     user_id: data.user_id,
                     userStatus: data.userStatus,
                     clientId: data.clientId,
