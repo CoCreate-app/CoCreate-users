@@ -281,7 +281,7 @@ class CoCreateUser {
                 host: data.host,
                 method: 'acceptInvite',
                 success: false,
-                message: "Token is invalid or has expired",
+                message: "The token is invalid or has expired. However, you can still access your account. Please request a new invite to proceed, and feel free to explore the available features while you wait.",
                 organization_id: data.organization_id,
                 uid
             }
