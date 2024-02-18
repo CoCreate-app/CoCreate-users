@@ -1,3 +1,10 @@
+## [1.36.8](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.7...v1.36.8) (2024-02-18)
+
+
+### Bug Fixes
+
+* add host ([f6f6343](https://github.com/CoCreate-app/CoCreate-users/commit/f6f634305aef8ffbbe539366574c1b5949692816))
+
 ## [1.36.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.6...v1.36.7) (2024-02-18)
 
 
