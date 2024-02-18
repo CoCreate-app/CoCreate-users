@@ -1,3 +1,10 @@
+## [1.36.7](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.6...v1.36.7) (2024-02-18)
+
+
+### Bug Fixes
+
+* update accept invite error message ([65f0ac0](https://github.com/CoCreate-app/CoCreate-users/commit/65f0ac07fe9232997bd0bac4b8f5aec188601802))
+
 ## [1.36.6](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.5...v1.36.6) (2024-02-17)
 
 
