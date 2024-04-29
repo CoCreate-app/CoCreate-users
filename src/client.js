@@ -186,27 +186,31 @@ const CoCreateUser = {
         if (data.user_id && data.user_id !== Crud.socket.user_id || data.clientId && data.clientId !== Crud.socket.clientId)
             return
 
+        let redirectTag
         if (data.userStatus == 'on' || data.userStatus == 'idle') {
-            let redirectTag = document.querySelector('[session="true"]');
-
-            if (redirectTag) {
-                let redirectLink = redirectTag.getAttribute('href');
-                if (redirectLink) {
-                    document.location.href = redirectLink;
-                }
-            }
-
+            redirectTag = document.querySelector('[session="true"]');
         } else if (data.userStatus == 'off') {
-            let redirectTag = document.querySelector('[session="false"]');
+            redirectTag = document.querySelector('[session="false"]');
+        }
 
-            if (redirectTag) {
-                let redirectLink = redirectTag.getAttribute('href');
-                if (redirectLink) {
+        if (redirectTag) {
+            let redirectLink = redirectTag.getAttribute('href');
+            if (redirectLink) {
+                if (data.userStatus == 'off') {
                     localStorage.removeItem("user_id");
                     localStorage.removeItem("token");
-                    document.location.href = redirectLink;
                 }
+
+                // Normalize both URLs to compare paths in a uniform way
+                const currentPath = new URL(location.href).pathname.replace('/index.html', '/');
+                const targetPath = new URL(redirectLink, location.href).pathname.replace('/index.html', '/');
+
+                if (currentPath !== targetPath) {
+                    location.href = redirectLink;
+                }
+
             }
+
         }
 
         if (data.userStatus) {
