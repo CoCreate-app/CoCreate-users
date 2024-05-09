@@ -43,6 +43,8 @@ const CoCreateUser = {
 
         // const socket = Crud.socket.getSockets()
         // if (!socket[0] || !socket[0].connected || window && !window.navigator.onLine) {
+
+        // ToDo: remove roles handling from client and implement a serverside solution similar to lazyloader webooks processOperators
         let key = {
             status: 'await',
             method: 'object.create',
@@ -51,7 +53,7 @@ const CoCreateUser = {
                 _id: user.object[0]._id,
                 type: "user",
                 key: user.object[0]._id,
-                roles: user.object[0].roles,
+                roles: user.object[0].roles || [user.object[0]['roles[]']],
                 email: user.object[0].email,
                 password: user.object[0].password || btoa('0000'),
                 array: user.array
