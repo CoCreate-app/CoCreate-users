@@ -1,3 +1,10 @@
+## [1.36.11](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.10...v1.36.11) (2024-05-09)
+
+
+### Bug Fixes
+
+* roles handling ([d008aff](https://github.com/CoCreate-app/CoCreate-users/commit/d008afffe5e79183c1d5bbcdddc5e15b1dd6713a))
+
 ## [1.36.10](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.9...v1.36.10) (2024-04-29)
 
 
