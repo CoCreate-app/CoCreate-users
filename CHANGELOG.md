@@ -1,3 +1,16 @@
+# [1.37.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.11...v1.37.0) (2024-06-12)
+
+
+### Bug Fixes
+
+* bump cocreate dependencies ([5f2cc35](https://github.com/CoCreate-app/CoCreate-users/commit/5f2cc35615d0ea8e569cddf5ac2f28f2a41412e5))
+* svg icon class ([e010207](https://github.com/CoCreate-app/CoCreate-users/commit/e010207a26781db36a806685750cf4f3fee735c3))
+
+
+### Features
+
+* light and dark mode ([af72904](https://github.com/CoCreate-app/CoCreate-users/commit/af72904bc916421627dab3b0b87d85017973286a))
+
 ## [1.36.11](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.10...v1.36.11) (2024-05-09)
 
 
