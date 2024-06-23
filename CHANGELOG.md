@@ -1,3 +1,10 @@
+## [1.37.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.37.0...v1.37.1) (2024-06-23)
+
+
+### Bug Fixes
+
+* update dependencies ([ae584f0](https://github.com/CoCreate-app/CoCreate-users/commit/ae584f0f8347d616b033ed56dfa3a51ed07f5d5b))
+
 # [1.37.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.36.11...v1.37.0) (2024-06-12)
 
 
