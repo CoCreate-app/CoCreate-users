@@ -458,34 +458,24 @@ Actions.init([
     }
 ]);
 
-// Debounce function
-function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), wait);
-    };
+let checkSessionTimeout
+function checkSession() {
+    clearTimeout(checkSessionTimeout);
+    checkSessionTimeout = setTimeout(function () {
+        Crud.socket.send({
+            method: 'checkSession',
+            broadcast: false,
+            broadcastBrowser: false
+        });
+    }, 500);
 }
 
-// Function to send socket request
-function sendCheckSession() {
-    Crud.socket.send({
-        method: 'checkSession',
-        broadcast: false,
-        broadcastBrowser: false
-    });
-}
-
-// Create a debounced version of the sendCheckSession function
-const debouncedSendCheckSession = debounce(sendCheckSession, 500); // Adjust the delay (in milliseconds) as needed
-
-// Initialize the observer
 Observer.init({
     name: 'CoCreateUserSessionAddedNodes',
     observe: ['addedNodes'],
     target: '[session]',
     callback: () => {
-        debouncedSendCheckSession();
+        checkSession();
     }
 });
 
