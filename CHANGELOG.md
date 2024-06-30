@@ -1,3 +1,11 @@
+## [1.37.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.37.2...v1.37.3) (2024-06-30)
+
+
+### Bug Fixes
+
+* checkSession debounce function ([6229d80](https://github.com/CoCreate-app/CoCreate-users/commit/6229d8089e0a509d0c171f6e329cd3fcce495356))
+* debounce check session ([2a31537](https://github.com/CoCreate-app/CoCreate-users/commit/2a315373bbebae765d91392118aee92216b6456a))
+
 ## [1.37.2](https://github.com/CoCreate-app/CoCreate-users/compare/v1.37.1...v1.37.2) (2024-06-23)
 
 
