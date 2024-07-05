@@ -1,3 +1,10 @@
+## [1.37.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.37.3...v1.37.4) (2024-07-05)
+
+
+### Bug Fixes
+
+* checkSession send ([2b3810f](https://github.com/CoCreate-app/CoCreate-users/commit/2b3810fd31bbd1e4fbd8f7072f5e36c8b13abac4))
+
 ## [1.37.3](https://github.com/CoCreate-app/CoCreate-users/compare/v1.37.2...v1.37.3) (2024-06-30)
 
 
