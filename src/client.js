@@ -216,7 +216,7 @@ const CoCreateUser = {
         }
 
         if (data.userStatus) {
-            let sessionElements = document.querySelectorAll('[session]:not([href])');
+            let sessionElements = document.querySelectorAll('[session]:not([session="true"], [session="false"])');
             for (let i = 0; i < sessionElements.length; i++)
                 sessionElements[i].setAttribute('session', data.userStatus)
         }
