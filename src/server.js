@@ -160,6 +160,7 @@ class CoCreateUser {
         }
     }
 
+    // TODO: email or phone param refrencing the object to execute via api 
     async inviteUser(data) {
         try {
             const inviteId = this.crud.ObjectId().toString()
@@ -310,7 +311,7 @@ class CoCreateUser {
         }
     }
 
-
+    // TODO: email or phone param refrencing the object to execute via api 
     async forgotPassword(data) {
         const self = this;
         try {
@@ -374,7 +375,7 @@ class CoCreateUser {
                                 "To": data.email,
                                 "Subject": "Reset Your Password Easily",
                                 "HtmlBody": htmlBody,
-                                "TextBody": "Hello, \n\nWe received a request to reset the password for your account.If you did not make this request, please ignore this email.Otherwise, you can reset your password by copying and pasting the following link into your browser: https://example.com/reset-password\n\nThis link will expire in 24 hours for your security.\n\nNeed more help? Our support team is here for you at support@example.com.\n\nThank you for using our services!\n\nBest regards,\nThe [Your Company] Team",
+                                "TextBody": "Hello, \n\nWe received a request to reset the password for your account. If you did not make this request, please ignore this email. Otherwise, you can reset your password by copying and pasting the following link into your browser: https://example.com/reset-password\n\nThis link will expire in 24 hours for your security.\n\nNeed more help? Our support team is here for you at support@example.com.\n\nThank you for using our services!\n\nBest regards,\nThe [Your Company] Team",
                                 "MessageStream": "outbound"
                             },
                             organization_id: data.organization_id
