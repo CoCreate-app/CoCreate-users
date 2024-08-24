@@ -1,3 +1,10 @@
+## [1.37.5](https://github.com/CoCreate-app/CoCreate-users/compare/v1.37.4...v1.37.5) (2024-08-24)
+
+
+### Bug Fixes
+
+* handling session not true or false ([e4991be](https://github.com/CoCreate-app/CoCreate-users/commit/e4991beeaa3832ed9b76ecd664669da3cb0a21a3))
+
 ## [1.37.4](https://github.com/CoCreate-app/CoCreate-users/compare/v1.37.3...v1.37.4) (2024-07-05)
 
 
