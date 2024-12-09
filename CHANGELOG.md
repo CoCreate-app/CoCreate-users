@@ -1,3 +1,10 @@
+## [1.38.1](https://github.com/CoCreate-app/CoCreate-users/compare/v1.38.0...v1.38.1) (2024-12-09)
+
+
+### Bug Fixes
+
+* formating ([81c52d7](https://github.com/CoCreate-app/CoCreate-users/commit/81c52d71e7b724b4ddd916d18b96ff4259d5ebea))
+
 # [1.38.0](https://github.com/CoCreate-app/CoCreate-users/compare/v1.37.6...v1.38.0) (2024-11-04)
 
 
