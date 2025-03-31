@@ -488,7 +488,7 @@ function checkSession() {
 
 Observer.init({
 	name: "CoCreateUserSessionAddedNodes",
-	observe: ["addedNodes"],
+	types: ["addedNodes"],
 	selector: "[session]",
 	callback: () => {
 		checkSession();
